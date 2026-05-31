@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bharatfit_ai/data/app_models.dart';
+import 'package:drape_ai/data/app_models.dart';
 
 void main() {
   group('WardrobeItem', () {

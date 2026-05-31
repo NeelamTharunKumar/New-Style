@@ -32,7 +32,7 @@ from app.services.taxonomy import TAXONOMY
 from app.storage_factory import create_store
 
 settings = get_settings()
-logger = logging.getLogger("bharatfit.api")
+logger = logging.getLogger("drape.api")
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
@@ -79,7 +79,7 @@ async def request_security_middleware(request: Request, call_next):
 async def health():
     return {
         "status": "ok",
-        "product": "BharatFit AI",
+        "product": "Drape AI",
         "environment": settings.app_env,
         "store_backend": settings.store_backend,
         "api_key_mode": "enabled" if settings.api_key else "open_dev",

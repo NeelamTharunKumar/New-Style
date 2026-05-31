@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'core/branding.dart';
 import 'core/design_tokens.dart';
-import 'data/bharatfit_api_client.dart';
+import 'data/drape_api_client.dart';
 import 'data/firebase_login_service.dart';
 import 'data/local_store.dart';
 import 'data/secure_auth_store.dart';
@@ -10,11 +10,11 @@ import 'presentation/screens/onboarding_screen.dart';
 import 'state/app_state.dart';
 
 void main() {
-  runApp(BharatFitApp(appState: AppState(BharatFitApiClient(), LocalStore(), SecureAuthStore(), FirebaseLoginService())));
+  runApp(DrapeApp(appState: AppState(DrapeApiClient(), LocalStore(), SecureAuthStore(), FirebaseLoginService())));
 }
 
-class BharatFitApp extends StatelessWidget {
-  const BharatFitApp({super.key, required this.appState});
+class DrapeApp extends StatelessWidget {
+  const DrapeApp({super.key, required this.appState});
 
   final AppState appState;
 

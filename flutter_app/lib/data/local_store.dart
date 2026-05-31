@@ -5,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app_models.dart';
 
 class LocalStore {
-  static const _profileKey = 'bharatfit.profile.v1';
-  static const _wardrobeKey = 'bharatfit.wardrobe.v1';
-  static const _outfitsKey = 'bharatfit.outfits.v1';
-  static const _baseUrlKey = 'bharatfit.apiBaseUrl.v1';
-  static const _onboardingKey = 'bharatfit.onboarding.completed.v1';
+  static const _profileKey = 'drape.profile.v1';
+  static const _wardrobeKey = 'drape.wardrobe.v1';
+  static const _outfitsKey = 'drape.outfits.v1';
+  static const _baseUrlKey = 'drape.apiBaseUrl.v1';
+  static const _onboardingKey = 'drape.onboarding.completed.v1';
 
   Future<UserProfile?> loadProfile() async {
     final prefs = await SharedPreferences.getInstance();

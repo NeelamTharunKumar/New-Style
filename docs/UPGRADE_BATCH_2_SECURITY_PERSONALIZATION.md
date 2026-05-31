@@ -74,7 +74,7 @@ LLM explanation layer now has:
 Env:
 
 ```text
-BHARATFIT_LLM_DAILY_LIMIT_PER_USER=50
+DRAPE_LLM_DAILY_LIMIT_PER_USER=50
 ```
 
 ## Personalization

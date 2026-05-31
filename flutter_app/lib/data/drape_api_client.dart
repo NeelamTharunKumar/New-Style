@@ -4,18 +4,18 @@ import 'package:http/http.dart' as http;
 
 import 'app_models.dart';
 
-class BharatFitApiClient {
-  BharatFitApiClient({String? baseUrl, String? apiKey, String? authToken})
+class DrapeApiClient {
+  DrapeApiClient({String? baseUrl, String? apiKey, String? authToken})
       : baseUrl = baseUrl ?? defaultBaseUrl,
         apiKey = apiKey ?? defaultApiKey,
         authToken = authToken ?? defaultAuthToken;
 
   static const String defaultBaseUrl = String.fromEnvironment(
-    'BHARATFIT_API_BASE_URL',
+    'DRAPE_API_BASE_URL',
     defaultValue: 'http://10.0.2.2:8000',
   );
-  static const String defaultApiKey = String.fromEnvironment('BHARATFIT_API_KEY', defaultValue: '');
-  static const String defaultAuthToken = String.fromEnvironment('BHARATFIT_AUTH_TOKEN', defaultValue: '');
+  static const String defaultApiKey = String.fromEnvironment('DRAPE_API_KEY', defaultValue: '');
+  static const String defaultAuthToken = String.fromEnvironment('DRAPE_AUTH_TOKEN', defaultValue: '');
 
   String baseUrl;
   String apiKey;

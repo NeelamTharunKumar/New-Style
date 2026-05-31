@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bharatfit_ai/presentation/widgets/app_components.dart';
-import 'package:bharatfit_ai/presentation/widgets/brand_mark.dart';
+import 'package:drape_ai/presentation/widgets/app_components.dart';
+import 'package:drape_ai/presentation/widgets/brand_mark.dart';
 
 void main() {
   testWidgets('PrivacyBadge communicates local-photo privacy', (tester) async {

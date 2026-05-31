@@ -10,14 +10,14 @@ Phase 8 introduces a user identity dependency and checks that authenticated user
 
 ## Auth layers
 
-BharatFit now has two separate protection layers:
+Drape now has two separate protection layers:
 
 ### 1. Optional API key
 
 Configured by:
 
 ```bash
-export BHARATFIT_API_KEY=your-service-key
+export DRAPE_API_KEY=your-service-key
 ```
 
 Clients send:
@@ -33,7 +33,7 @@ This is useful for environment/service protection, but it is not user identity.
 Configured by:
 
 ```bash
-export BHARATFIT_AUTH_MODE=...
+export DRAPE_AUTH_MODE=...
 ```
 
 Supported values:
@@ -51,7 +51,7 @@ firebase       reserved placeholder, not implemented yet
 Useful for local testing:
 
 ```bash
-export BHARATFIT_AUTH_MODE=dev_bearer
+export DRAPE_AUTH_MODE=dev_bearer
 ```
 
 Request:
@@ -67,8 +67,8 @@ Then `alice` can access only `user_id=alice` resources.
 Useful for staging demos:
 
 ```bash
-export BHARATFIT_AUTH_MODE=static_bearer
-export BHARATFIT_USER_TOKENS=token-alice:alice,token-bob:bob
+export DRAPE_AUTH_MODE=static_bearer
+export DRAPE_USER_TOKENS=token-alice:alice,token-bob:bob
 ```
 
 Request:
@@ -104,16 +104,16 @@ For `/outfits/generate`, the backend checks:
 Flutter API client supports:
 
 ```bash
---dart-define=BHARATFIT_API_KEY=your-service-key
---dart-define=BHARATFIT_AUTH_TOKEN=dev:demo_user
+--dart-define=DRAPE_API_KEY=your-service-key
+--dart-define=DRAPE_AUTH_TOKEN=dev:demo_user
 ```
 
 Example:
 
 ```bash
 flutter run \
-  --dart-define=BHARATFIT_API_BASE_URL=http://localhost:8000 \
-  --dart-define=BHARATFIT_AUTH_TOKEN=dev:demo_user
+  --dart-define=DRAPE_API_BASE_URL=http://localhost:8000 \
+  --dart-define=DRAPE_AUTH_TOKEN=dev:demo_user
 ```
 
 ## Production recommendation

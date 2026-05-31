@@ -23,7 +23,7 @@ flutter build apk --debug
 You can set the backend URL:
 
 ```bash
-BHARATFIT_API_BASE_URL=https://api.yourdomain.com ./scripts/verify_flutter_local.sh
+DRAPE_API_BASE_URL=https://api.yourdomain.com ./scripts/verify_flutter_local.sh
 ```
 
 ## Full local verification

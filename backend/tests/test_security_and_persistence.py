@@ -10,7 +10,7 @@ client = TestClient(app)
 
 def test_optional_api_key_guard(monkeypatch):
     store.clear()
-    monkeypatch.setenv("BHARATFIT_API_KEY", "secret")
+    monkeypatch.setenv("DRAPE_API_KEY", "secret")
     get_settings.cache_clear()
     try:
         missing = client.post("/users/profile", json={"user_id": "secure_user", "style_mode": "mixed"})
@@ -23,12 +23,12 @@ def test_optional_api_key_guard(monkeypatch):
         )
         assert ok.status_code == 200
     finally:
-        monkeypatch.delenv("BHARATFIT_API_KEY", raising=False)
+        monkeypatch.delenv("DRAPE_API_KEY", raising=False)
         get_settings.cache_clear()
 
 
 def test_persistent_store_roundtrip(tmp_path):
-    db_path = tmp_path / "bharatfit_test.db"
+    db_path = tmp_path / "drape_test.db"
     persistent = PersistentStore(f"sqlite:///{db_path}")
 
     profile = UserProfile(user_id="u1", style_mode="menswear", skin_tone="medium warm")
@@ -52,7 +52,7 @@ def test_persistent_store_roundtrip(tmp_path):
 
 def test_dev_bearer_user_isolation(monkeypatch):
     store.clear()
-    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    monkeypatch.setenv("DRAPE_AUTH_MODE", "dev_bearer")
     get_settings.cache_clear()
     try:
         missing = client.post("/users/profile", json={"user_id": "alice", "style_mode": "mixed"})
@@ -72,14 +72,14 @@ def test_dev_bearer_user_isolation(monkeypatch):
         )
         assert cross_user.status_code == 403
     finally:
-        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        monkeypatch.delenv("DRAPE_AUTH_MODE", raising=False)
         get_settings.cache_clear()
 
 
 def test_static_bearer_token_mapping(monkeypatch):
     store.clear()
-    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "static_bearer")
-    monkeypatch.setenv("BHARATFIT_USER_TOKENS", "token-alice:alice")
+    monkeypatch.setenv("DRAPE_AUTH_MODE", "static_bearer")
+    monkeypatch.setenv("DRAPE_USER_TOKENS", "token-alice:alice")
     get_settings.cache_clear()
     try:
         ok = client.post(
@@ -92,8 +92,8 @@ def test_static_bearer_token_mapping(monkeypatch):
         forbidden = client.get("/wardrobe/items/bob", headers={"Authorization": "Bearer token-alice"})
         assert forbidden.status_code == 403
     finally:
-        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
-        monkeypatch.delenv("BHARATFIT_USER_TOKENS", raising=False)
+        monkeypatch.delenv("DRAPE_AUTH_MODE", raising=False)
+        monkeypatch.delenv("DRAPE_USER_TOKENS", raising=False)
         get_settings.cache_clear()
 
 
@@ -135,7 +135,7 @@ def test_user_export_and_delete_data_lifecycle():
 
 def test_user_delete_respects_auth_isolation(monkeypatch):
     store.clear()
-    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    monkeypatch.setenv("DRAPE_AUTH_MODE", "dev_bearer")
     get_settings.cache_clear()
     try:
         create = client.post(
@@ -151,12 +151,12 @@ def test_user_delete_respects_auth_isolation(monkeypatch):
         ok = client.delete("/users/alice", headers={"Authorization": "Bearer dev:alice"})
         assert ok.status_code == 200
     finally:
-        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        monkeypatch.delenv("DRAPE_AUTH_MODE", raising=False)
         get_settings.cache_clear()
 
 
 def test_auth_session_endpoint(monkeypatch):
-    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    monkeypatch.setenv("DRAPE_AUTH_MODE", "dev_bearer")
     get_settings.cache_clear()
     try:
         response = client.get("/auth/session", headers={"Authorization": "Bearer dev:session_user"})
@@ -166,13 +166,13 @@ def test_auth_session_endpoint(monkeypatch):
         assert body["auth_mode"] == "dev_bearer"
         assert body["user_id"] == "session_user"
     finally:
-        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        monkeypatch.delenv("DRAPE_AUTH_MODE", raising=False)
         get_settings.cache_clear()
 
 
 def test_firebase_auth_mode_uses_verified_uid(monkeypatch):
     store.clear()
-    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "firebase")
+    monkeypatch.setenv("DRAPE_AUTH_MODE", "firebase")
     get_settings.cache_clear()
 
     def fake_verify(token: str):
@@ -194,7 +194,7 @@ def test_firebase_auth_mode_uses_verified_uid(monkeypatch):
         )
         assert blocked.status_code == 403
     finally:
-        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        monkeypatch.delenv("DRAPE_AUTH_MODE", raising=False)
         get_settings.cache_clear()
 
 

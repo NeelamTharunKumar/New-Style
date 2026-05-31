@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Text(
-                        'Firebase mode requires replacing flutter_app/lib/firebase_options.dart with FlutterFire config and backend BHARATFIT_AUTH_MODE=firebase.',
+                        'Firebase mode requires replacing flutter_app/lib/firebase_options.dart with FlutterFire config and backend DRAPE_AUTH_MODE=firebase.',
                         style: TextStyle(color: Colors.orange.shade200),
                       ),
                     ),
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Bearer token',
-                      helperText: 'For backend BHARATFIT_AUTH_MODE=static_bearer',
+                      helperText: 'For backend DRAPE_AUTH_MODE=static_bearer',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'API key (optional)',
-                    helperText: 'Only needed if backend BHARATFIT_API_KEY is set',
+                    helperText: 'Only needed if backend DRAPE_API_KEY is set',
                     border: OutlineInputBorder(),
                   ),
                 ),

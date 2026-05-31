@@ -26,12 +26,13 @@ class LLMOrchestrator:
     """
 
     def __init__(self) -> None:
-        self.enabled = os.getenv("BHARATFIT_LLM_ENABLED", "false").lower() in {"1", "true", "yes"}
-        self.api_key = os.getenv("OPENAI_API_KEY") or os.getenv("BHARATFIT_LLM_API_KEY")
-        self.base_url = os.getenv("BHARATFIT_LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
-        self.model = os.getenv("BHARATFIT_LLM_MODEL", "gpt-4o-mini")
-        self.timeout = float(os.getenv("BHARATFIT_LLM_TIMEOUT_SECONDS", "20"))
-        self.daily_limit_per_user = int(os.getenv("BHARATFIT_LLM_DAILY_LIMIT_PER_USER", "50"))
+        enabled_value = os.getenv("DRAPE_LLM_ENABLED") or os.getenv("BHARATFIT_LLM_ENABLED", "false")
+        self.enabled = enabled_value.lower() in {"1", "true", "yes"}
+        self.api_key = os.getenv("OPENAI_API_KEY") or os.getenv("DRAPE_LLM_API_KEY") or os.getenv("BHARATFIT_LLM_API_KEY")
+        self.base_url = os.getenv("DRAPE_LLM_BASE_URL") or os.getenv("BHARATFIT_LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
+        self.model = os.getenv("DRAPE_LLM_MODEL") or os.getenv("BHARATFIT_LLM_MODEL", "gpt-4o-mini")
+        self.timeout = float(os.getenv("DRAPE_LLM_TIMEOUT_SECONDS") or os.getenv("BHARATFIT_LLM_TIMEOUT_SECONDS", "20"))
+        self.daily_limit_per_user = int(os.getenv("DRAPE_LLM_DAILY_LIMIT_PER_USER") or os.getenv("BHARATFIT_LLM_DAILY_LIMIT_PER_USER", "50"))
         self._cache: dict[str, Mapping[str, Any]] = {}
         self._calls_by_user_day: dict[tuple[str, str], int] = defaultdict(int)
 

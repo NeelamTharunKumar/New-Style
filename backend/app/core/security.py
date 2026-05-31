@@ -10,7 +10,7 @@ from app.core.config import get_settings
 async def require_api_key(x_api_key: Annotated[str | None, Header(alias="X-API-Key")] = None) -> None:
     """Optional API-key guard.
 
-    If BHARATFIT_API_KEY is unset, local/dev calls are allowed.
+    If DRAPE_API_KEY is unset, local/dev calls are allowed.
     If set, clients must send X-API-Key with the configured value.
     """
     settings = get_settings()

@@ -1,4 +1,4 @@
-package com.bharatfit.ai
+package com.drape.ai
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +11,7 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class MainActivity : FlutterActivity() {
-    private val channelName = "bharatfit/native_ml"
+    private val channelName = "drape/native_ml"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

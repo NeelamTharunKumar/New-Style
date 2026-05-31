@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 class NativeMlBridge {
-  NativeMlBridge({MethodChannel? channel}) : _channel = channel ?? const MethodChannel('bharatfit/native_ml');
+  NativeMlBridge({MethodChannel? channel}) : _channel = channel ?? const MethodChannel('drape/native_ml');
 
   final MethodChannel _channel;
 

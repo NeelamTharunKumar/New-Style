@@ -68,16 +68,16 @@ By default, the LLM adapter is disabled.
 Enable with:
 
 ```bash
-export BHARATFIT_LLM_ENABLED=true
+export DRAPE_LLM_ENABLED=true
 export OPENAI_API_KEY=your_key_here
 ```
 
 Optional:
 
 ```bash
-export BHARATFIT_LLM_MODEL=gpt-4o-mini
-export BHARATFIT_LLM_BASE_URL=https://api.openai.com/v1/chat/completions
-export BHARATFIT_LLM_TIMEOUT_SECONDS=20
+export DRAPE_LLM_MODEL=gpt-4o-mini
+export DRAPE_LLM_BASE_URL=https://api.openai.com/v1/chat/completions
+export DRAPE_LLM_TIMEOUT_SECONDS=20
 ```
 
 The adapter is OpenAI-compatible because it calls a chat-completions-style endpoint.

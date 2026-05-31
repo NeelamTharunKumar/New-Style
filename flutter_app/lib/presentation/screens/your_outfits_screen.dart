@@ -81,7 +81,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeader(title: 'What are you dressing for?', subtitle: 'Pick an occasion and BharatFit will build visual outfits from your own clothes.'),
+                const SectionHeader(title: 'What are you dressing for?', subtitle: 'Pick an occasion and Drape will build visual outfits from your own clothes.'),
                 const SizedBox(height: 16),
                 Wrap(
                   spacing: 8,
@@ -163,7 +163,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                   const EmptyState(
                     icon: Icons.auto_awesome_outlined,
                     title: 'No generated outfits yet',
-                    subtitle: 'Add wardrobe items, choose an occasion, and BharatFit will compose looks from your own clothes.',
+                    subtitle: 'Add wardrobe items, choose an occasion, and Drape will compose looks from your own clothes.',
                   )
                 else
                   ...state.outfits.map((outfit) => _OutfitCard(outfit: outfit, state: state)),

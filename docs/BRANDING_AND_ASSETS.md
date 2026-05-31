@@ -5,12 +5,12 @@ Phase 13 finalizes the current working brand package and adds source assets.
 ## Working brand
 
 ```text
-App name: BharatFit AI
-Short name: BharatFit
+App name: Drape AI
+Short name: Drape
 Tagline: Outfits from your own wardrobe
 Positioning: India-first wardrobe assistant
-Android application ID: com.bharatfit.ai
-Default iOS bundle ID: com.bharatfit.ai
+Android application ID: com.drape.ai
+Default iOS bundle ID: com.drape.ai
 ```
 
 > Before public launch, confirm that the app name, domain and package IDs are legally available.
@@ -58,9 +58,9 @@ Generated Flutter platform folders are not committed. After generating them, app
 or directly:
 
 ```bash
-ANDROID_APP_ID=com.bharatfit.ai \
-IOS_BUNDLE_ID=com.bharatfit.ai \
-APP_DISPLAY_NAME="BharatFit AI" \
+ANDROID_APP_ID=com.drape.ai \
+IOS_BUNDLE_ID=com.drape.ai \
+APP_DISPLAY_NAME="Drape AI" \
 ./scripts/apply_branding.sh
 ```
 

@@ -2,7 +2,7 @@
 
 ## App name
 
-BharatFit AI
+Drape AI
 
 ## Subtitle
 
@@ -14,7 +14,7 @@ India-first AI wardrobe assistant for college, office, dates, weddings and daily
 
 ## Description
 
-BharatFit AI helps Indian users create outfit combinations from clothes they already own. Add wardrobe items, choose an occasion, and get outfit ideas with explanations for why each combination works.
+Drape AI helps Indian users create outfit combinations from clothes they already own. Add wardrobe items, choose an occasion, and get outfit ideas with explanations for why each combination works.
 
 Designed for ethnic + western wardrobes, men's practical styling, Indian weather and events like Haldi, Sangeet, pooja, festivals and wedding guest looks.
 

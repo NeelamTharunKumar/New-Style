@@ -15,7 +15,7 @@ The Flutter UI stays shared. Device-specific ML/image work can run in native cod
 
 ```text
 Flutter UI
-  ↓ MethodChannel("bharatfit/native_ml")
+  ↓ MethodChannel("drape/native_ml")
 Native platform layer
   ├─ Android: Kotlin MainActivity
   └─ iOS: Swift AppDelegate

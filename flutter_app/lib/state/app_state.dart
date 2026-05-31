@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../data/app_models.dart';
-import '../data/bharatfit_api_client.dart';
+import '../data/drape_api_client.dart';
 import '../data/firebase_login_service.dart';
 import '../data/local_image_service.dart';
 import '../data/local_store.dart';
@@ -10,7 +10,7 @@ import '../data/secure_auth_store.dart';
 class AppState extends ChangeNotifier {
   AppState(this.apiClient, this.localStore, this.secureAuthStore, this.firebaseLoginService);
 
-  final BharatFitApiClient apiClient;
+  final DrapeApiClient apiClient;
   final LocalStore localStore;
   final SecureAuthStore secureAuthStore;
   final FirebaseLoginService firebaseLoginService;
@@ -155,7 +155,7 @@ class AppState extends ChangeNotifier {
   Future<void> completeOnboarding() async {
     hasCompletedOnboarding = true;
     await localStore.saveOnboardingCompleted(true);
-    statusMessage = 'Welcome to BharatFit AI';
+    statusMessage = 'Welcome to Drape AI';
     notifyListeners();
   }
 

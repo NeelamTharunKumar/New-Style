@@ -66,7 +66,7 @@ The Flutter app calls this after saving credentials to validate the session.
 Backend:
 
 ```bash
-export BHARATFIT_AUTH_MODE=dev_bearer
+export DRAPE_AUTH_MODE=dev_bearer
 cd backend
 uvicorn app.main:app --reload
 ```
@@ -90,8 +90,8 @@ Authorization: Bearer dev:demo_user
 Backend:
 
 ```bash
-export BHARATFIT_AUTH_MODE=static_bearer
-export BHARATFIT_USER_TOKENS=token-demo:demo_user
+export DRAPE_AUTH_MODE=static_bearer
+export DRAPE_USER_TOKENS=token-demo:demo_user
 ```
 
 Flutter:
@@ -107,7 +107,7 @@ Flutter:
 If backend also has:
 
 ```bash
-export BHARATFIT_API_KEY=service-secret
+export DRAPE_API_KEY=service-secret
 ```
 
 Enter `service-secret` in the API key field.

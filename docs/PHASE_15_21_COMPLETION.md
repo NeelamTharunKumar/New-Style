@@ -86,8 +86,8 @@ Added backend:
 Config:
 
 ```text
-BHARATFIT_RATE_LIMIT_PER_MINUTE=120
-BHARATFIT_SECURITY_HEADERS=true
+DRAPE_RATE_LIMIT_PER_MINUTE=120
+DRAPE_SECURITY_HEADERS=true
 ```
 
 ## Phase 21 — App store production assets

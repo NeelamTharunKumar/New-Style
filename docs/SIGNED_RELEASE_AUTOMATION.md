@@ -24,7 +24,7 @@ base64 -w 0 upload-keystore.jks
 ### Local signed AAB build
 
 ```bash
-export BHARATFIT_API_BASE_URL=https://api.yourdomain.com
+export DRAPE_API_BASE_URL=https://api.yourdomain.com
 export ANDROID_KEYSTORE_BASE64=...
 export ANDROID_KEYSTORE_PASSWORD=...
 export ANDROID_KEY_ALIAS=...
@@ -70,9 +70,9 @@ APP_STORE_CONNECT_API_KEY_BASE64       optional for TestFlight upload
 Requires macOS + Xcode.
 
 ```bash
-export BHARATFIT_API_BASE_URL=https://api.yourdomain.com
+export DRAPE_API_BASE_URL=https://api.yourdomain.com
 export APPLE_TEAM_ID=...
-export IOS_BUNDLE_ID=com.yourcompany.bharatfit
+export IOS_BUNDLE_ID=com.yourcompany.drape
 export IOS_PROVISIONING_PROFILE_NAME="Your Profile Name"
 ./scripts/build_ios_ipa.sh
 ```
@@ -107,7 +107,7 @@ Required secrets:
 GCP_SERVICE_ACCOUNT_KEY
 GCP_PROJECT_ID
 DATABASE_URL
-BHARATFIT_API_KEY
+DRAPE_API_KEY
 FIREBASE_PROJECT_ID
 ```
 

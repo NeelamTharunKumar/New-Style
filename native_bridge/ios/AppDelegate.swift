@@ -3,7 +3,7 @@ import UIKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-  private let channelName = "bharatfit/native_ml"
+  private let channelName = "drape/native_ml"
 
   override func application(
     _ application: UIApplication,
@@ -39,7 +39,7 @@ import UIKit
 
   private static func analyzeGarmentImage(imagePath: String, localImageRef: String) throws -> [String: Any] {
     guard let image = UIImage(contentsOfFile: imagePath), let cgImage = image.cgImage else {
-      throw NSError(domain: "BharatFitNativeML", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not decode image"])
+      throw NSError(domain: "DrapeNativeML", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not decode image"])
     }
 
     let stats = dominantColorStats(cgImage: cgImage)

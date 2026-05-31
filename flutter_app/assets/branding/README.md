@@ -1,6 +1,6 @@
 # Branding assets
 
-These SVGs are source assets for the BharatFit AI visual identity.
+These SVGs are source assets for the Drape AI visual identity.
 
 For production stores, export these to PNG at required sizes:
 

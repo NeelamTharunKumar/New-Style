@@ -296,7 +296,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                       children: [
                         const SectionHeader(
                           title: 'Add photo',
-                          subtitle: 'Pick a clothing photo. BharatFit extracts color locally, suggests tags, then you correct with one tap.',
+                          subtitle: 'Pick a clothing photo. Drape extracts color locally, suggests tags, then you correct with one tap.',
                         ),
                         const SizedBox(height: 12),
                         SizedBox(

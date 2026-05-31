@@ -2,7 +2,7 @@
 
 ## Working name
 
-**BharatFit AI**
+**Drape AI**
 
 This is a working product name. It can be changed later, but the repo should avoid the previous `StyleDNA` naming because that overlaps with existing fashion products.
 
@@ -12,7 +12,7 @@ Privacy-first AI wardrobe assistant for Indian wardrobes.
 
 ## Main differentiation
 
-Most global wardrobe apps are Western-fashion-first. BharatFit AI focuses on Indian realities:
+Most global wardrobe apps are Western-fashion-first. Drape AI focuses on Indian realities:
 
 - ethnic + western combinations
 - Haldi, Sangeet, Mehendi, pooja, reception and wedding guest outfits
@@ -34,7 +34,7 @@ Do not position this as just:
 
 ## Strong positioning statement
 
-> BharatFit AI helps Indian users decide what to wear from their own wardrobe for college, office, dates, weddings and daily life — with privacy-first on-device photo handling.
+> Drape AI helps Indian users decide what to wear from their own wardrobe for college, office, dates, weddings and daily life — with privacy-first on-device photo handling.
 
 ## MVP wedge
 

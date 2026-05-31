@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Sequence
 
 from app.models import OutfitRecommendation, UserProfile, WardrobeItem, WeatherContext
 
-SYSTEM_PROMPT = """You are BharatFit AI's explanation layer.
+SYSTEM_PROMPT = """You are Drape AI's explanation layer.
 
 You explain outfit recommendations for Indian users using structured data only.
 You must never ask for or infer from raw photos. You must not claim to see images.

@@ -1,6 +1,6 @@
 # Production Hardening
 
-Phase 7 adds the first production deployment foundation for BharatFit AI.
+Phase 7 adds the first production deployment foundation for Drape AI.
 
 ## What is included
 
@@ -15,23 +15,23 @@ backend/app/core/config.py
 Supported env vars:
 
 ```text
-BHARATFIT_ENV
-BHARATFIT_APP_NAME
-BHARATFIT_API_KEY
-BHARATFIT_CORS_ORIGINS
-BHARATFIT_LOG_REQUESTS
-DATABASE_URL / BHARATFIT_DATABASE_URL
+DRAPE_ENV
+DRAPE_APP_NAME
+DRAPE_API_KEY
+DRAPE_CORS_ORIGINS
+DRAPE_LOG_REQUESTS
+DATABASE_URL / DRAPE_DATABASE_URL
 ```
 
 ### Optional API key guard
 
-If `BHARATFIT_API_KEY` is set, protected endpoints require:
+If `DRAPE_API_KEY` is set, protected endpoints require:
 
 ```text
 X-API-Key: your-key
 ```
 
-If `BHARATFIT_API_KEY` is unset, the backend remains open for local development.
+If `DRAPE_API_KEY` is unset, the backend remains open for local development.
 
 Protected endpoints:
 
@@ -58,7 +58,7 @@ GET /llm/status
 Configure origins with:
 
 ```text
-BHARATFIT_CORS_ORIGINS=https://your-app.example.com,https://admin.example.com
+DRAPE_CORS_ORIGINS=https://your-app.example.com,https://admin.example.com
 ```
 
 Use exact origins in production. Avoid `*` for authenticated deployments.
@@ -73,13 +73,13 @@ The backend can now use:
 SQLite example:
 
 ```bash
-export DATABASE_URL=sqlite:///./bharatfit.db
+export DATABASE_URL=sqlite:///./drape.db
 ```
 
 Postgres example:
 
 ```bash
-export DATABASE_URL=postgresql+psycopg://bharatfit:bharatfit@localhost:5432/bharatfit
+export DATABASE_URL=postgresql+psycopg://drape:drape@localhost:5432/drape
 ```
 
 Persistence implementation:

@@ -12,7 +12,7 @@ class LocalDatabaseStore {
   Future<Database> get database async {
     if (_db != null) return _db!;
     final base = await getDatabasesPath();
-    final path = p.join(base, 'bharatfit_local.db');
+    final path = p.join(base, 'drape_local.db');
     _db = await openDatabase(
       path,
       version: 1,

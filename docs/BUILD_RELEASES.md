@@ -52,7 +52,7 @@ flutter_app/build/app/outputs/flutter-apk/app-release.apk
 You can pass Flutter build flags:
 
 ```bash
-./scripts/build_android_apk.sh --dart-define=BHARATFIT_API_BASE_URL=https://your-api.example.com
+./scripts/build_android_apk.sh --dart-define=DRAPE_API_BASE_URL=https://your-api.example.com
 ```
 
 For Play Store, build an app bundle:
@@ -99,8 +99,8 @@ flutter_app/ios/Runner.xcworkspace
 Set production API base URL at build time:
 
 ```bash
-flutter build apk --release --dart-define=BHARATFIT_API_BASE_URL=https://api.yourdomain.com
-flutter build ios --release --dart-define=BHARATFIT_API_BASE_URL=https://api.yourdomain.com
+flutter build apk --release --dart-define=DRAPE_API_BASE_URL=https://api.yourdomain.com
+flutter build ios --release --dart-define=DRAPE_API_BASE_URL=https://api.yourdomain.com
 ```
 
 ## Important note

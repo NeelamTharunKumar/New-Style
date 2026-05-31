@@ -3,7 +3,7 @@
   <rect x="390" y="285" width="420" height="420" rx="112" fill="url(#g)"/>
   <path d="M510 440c42-68 238-68 280 0" stroke="white" stroke-width="38" stroke-linecap="round"/>
   <path d="M510 440l-58 202c-8 28 14 56 43 56h310c29 0 51-28 43-56l-58-202" stroke="white" stroke-width="38" stroke-linejoin="round"/>
-  <text x="600" y="820" text-anchor="middle" font-size="72" font-family="Inter, Arial, sans-serif" font-weight="800" fill="white">BharatFit AI</text>
+  <text x="600" y="820" text-anchor="middle" font-size="72" font-family="Inter, Arial, sans-serif" font-weight="800" fill="white">Drape AI</text>
   <text x="600" y="884" text-anchor="middle" font-size="30" font-family="Inter, Arial, sans-serif" fill="#C7D2FE">Outfits from your own wardrobe</text>
   <defs><linearGradient id="g" x1="410" y1="300" x2="795" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#6366F1"/><stop offset="1" stop-color="#22C55E"/></linearGradient></defs>
 </svg>

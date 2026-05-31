@@ -1,8 +1,8 @@
-# BharatFit AI
+# Drape AI
 
 > **Privacy-first, India-first wardrobe assistant that creates visual outfits from clothes users already own.**
 
-BharatFit AI helps users answer:
+Drape AI helps users answer:
 
 ```text
 What should I wear today?
@@ -66,7 +66,7 @@ Actions:
 
 ### Local Level 2 try-on preview
 
-BharatFit includes a privacy-safe **Preview Look** feature:
+Drape includes a privacy-safe **Preview Look** feature:
 
 - mannequin-style local preview
 - board/lookbook preview
@@ -81,7 +81,7 @@ This is intentionally positioned as a local outfit preview, not a body-accurate 
 
 ## Why this product exists
 
-Generic fashion apps and AI stylist apps already exist. BharatFit focuses on Indian wardrobe realities:
+Generic fashion apps and AI stylist apps already exist. Drape focuses on Indian wardrobe realities:
 
 - ethnic + western wardrobe mixing
 - college and office dressing

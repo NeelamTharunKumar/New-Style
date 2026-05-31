@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build backend image
-        run: docker build -t bharatfit-backend:ci ./backend
+        run: docker build -t drape-backend:ci ./backend

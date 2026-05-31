@@ -3,9 +3,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_DIR="$ROOT_DIR/flutter_app"
-ANDROID_APP_ID="${ANDROID_APP_ID:-com.bharatfit.ai}"
-IOS_BUNDLE_ID="${IOS_BUNDLE_ID:-com.bharatfit.ai}"
-APP_DISPLAY_NAME="${APP_DISPLAY_NAME:-BharatFit AI}"
+ANDROID_APP_ID="${ANDROID_APP_ID:-com.drape.ai}"
+IOS_BUNDLE_ID="${IOS_BUNDLE_ID:-com.drape.ai}"
+APP_DISPLAY_NAME="${APP_DISPLAY_NAME:-Drape AI}"
 ANDROID_PACKAGE_PATH="${ANDROID_APP_ID//./\/}"
 ANDROID_PACKAGE_DIR="$APP_DIR/android/app/src/main/kotlin/$ANDROID_PACKAGE_PATH"
 

@@ -3,10 +3,10 @@ services:
     build:
       context: ./backend
     environment:
-      BHARATFIT_ENV: production
-      BHARATFIT_API_KEY: change-me
-      BHARATFIT_CORS_ORIGINS: http://localhost:3000,http://localhost:8080
-      DATABASE_URL: postgresql+psycopg://bharatfit:bharatfit@postgres:5432/bharatfit
+      DRAPE_ENV: production
+      DRAPE_API_KEY: change-me
+      DRAPE_CORS_ORIGINS: http://localhost:3000,http://localhost:8080
+      DATABASE_URL: postgresql+psycopg://drape:drape@postgres:5432/drape
     ports:
       - "8000:8000"
     depends_on:
@@ -16,15 +16,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: bharatfit
-      POSTGRES_PASSWORD: bharatfit
-      POSTGRES_DB: bharatfit
+      POSTGRES_USER: drape
+      POSTGRES_PASSWORD: drape
+      POSTGRES_DB: drape
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bharatfit -d bharatfit"]
+      test: ["CMD-SHELL", "pg_isready -U drape -d drape"]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -29,10 +29,10 @@ class AuthCredentials {
 class SecureAuthStore {
   SecureAuthStore({FlutterSecureStorage? storage}) : _storage = storage ?? const FlutterSecureStorage();
 
-  static const _apiKeyKey = 'bharatfit.secure.apiKey.v1';
-  static const _authTokenKey = 'bharatfit.secure.authToken.v1';
-  static const _authModeKey = 'bharatfit.secure.authMode.v1';
-  static const _userIdKey = 'bharatfit.secure.userId.v1';
+  static const _apiKeyKey = 'drape.secure.apiKey.v1';
+  static const _authTokenKey = 'drape.secure.authToken.v1';
+  static const _authModeKey = 'drape.secure.authMode.v1';
+  static const _userIdKey = 'drape.secure.userId.v1';
 
   final FlutterSecureStorage _storage;
 

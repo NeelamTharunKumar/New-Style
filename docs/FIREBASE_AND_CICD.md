@@ -7,7 +7,7 @@ This phase adds Firebase auth plumbing plus CI/CD workflows.
 Set:
 
 ```bash
-export BHARATFIT_AUTH_MODE=firebase
+export DRAPE_AUTH_MODE=firebase
 export FIREBASE_PROJECT_ID=your-firebase-project-id
 export GOOGLE_APPLICATION_CREDENTIALS=/secure/path/service-account.json
 ```

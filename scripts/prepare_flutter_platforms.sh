@@ -20,4 +20,4 @@ if [ -d "$IOS_RUNNER_DIR" ]; then
   cp "$ROOT_DIR/native_bridge/ios/AppDelegate.swift" "$IOS_RUNNER_DIR/AppDelegate.swift"
 fi
 
-echo "Flutter Android/iOS platform folders prepared with BharatFit branding and native ML bridge."
+echo "Flutter Android/iOS platform folders prepared with Drape branding and native ML bridge."

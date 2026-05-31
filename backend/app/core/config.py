@@ -27,9 +27,13 @@ def _token_map(value: str | None) -> Dict[str, str]:
     return result
 
 
+def _flag(value: str | None, default: str = "true") -> bool:
+    return (value if value is not None else default).lower() in {"1", "true", "yes"}
+
+
 @dataclass(frozen=True)
 class Settings:
-    app_name: str = "BharatFit AI Backend"
+    app_name: str = "Drape AI Backend"
     app_env: str = "development"
     database_url: Optional[str] = None
     api_key: Optional[str] = None
@@ -48,19 +52,22 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> "Settings":
+        auth_mode = os.getenv("DRAPE_AUTH_MODE") or os.getenv("BHARATFIT_AUTH_MODE", "open_dev")
+        log_requests = os.getenv("DRAPE_LOG_REQUESTS") or os.getenv("BHARATFIT_LOG_REQUESTS", "true")
+        security_headers = os.getenv("DRAPE_SECURITY_HEADERS") or os.getenv("BHARATFIT_SECURITY_HEADERS", "true")
         return cls(
-            app_name=os.getenv("BHARATFIT_APP_NAME", "BharatFit AI Backend"),
-            app_env=os.getenv("BHARATFIT_ENV", "development"),
-            database_url=os.getenv("DATABASE_URL") or os.getenv("BHARATFIT_DATABASE_URL"),
-            api_key=os.getenv("BHARATFIT_API_KEY"),
-            auth_mode=os.getenv("BHARATFIT_AUTH_MODE", "open_dev").strip().lower(),
-            user_tokens=_token_map(os.getenv("BHARATFIT_USER_TOKENS")),
-            firebase_project_id=os.getenv("FIREBASE_PROJECT_ID") or os.getenv("BHARATFIT_FIREBASE_PROJECT_ID"),
-            firebase_credentials_path=os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("BHARATFIT_FIREBASE_CREDENTIALS_PATH"),
-            cors_origins=_csv(os.getenv("BHARATFIT_CORS_ORIGINS"), ["*"]),
-            log_requests=os.getenv("BHARATFIT_LOG_REQUESTS", "true").lower() in {"1", "true", "yes"},
-            rate_limit_per_minute=int(os.getenv("BHARATFIT_RATE_LIMIT_PER_MINUTE", "120")),
-            security_headers_enabled=os.getenv("BHARATFIT_SECURITY_HEADERS", "true").lower() in {"1", "true", "yes"},
+            app_name=os.getenv("DRAPE_APP_NAME") or os.getenv("BHARATFIT_APP_NAME", "Drape AI Backend"),
+            app_env=os.getenv("DRAPE_ENV") or os.getenv("BHARATFIT_ENV", "development"),
+            database_url=os.getenv("DATABASE_URL") or os.getenv("DRAPE_DATABASE_URL") or os.getenv("BHARATFIT_DATABASE_URL"),
+            api_key=os.getenv("DRAPE_API_KEY") or os.getenv("BHARATFIT_API_KEY"),
+            auth_mode=auth_mode.strip().lower(),
+            user_tokens=_token_map(os.getenv("DRAPE_USER_TOKENS") or os.getenv("BHARATFIT_USER_TOKENS")),
+            firebase_project_id=os.getenv("FIREBASE_PROJECT_ID") or os.getenv("DRAPE_FIREBASE_PROJECT_ID") or os.getenv("BHARATFIT_FIREBASE_PROJECT_ID"),
+            firebase_credentials_path=os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("DRAPE_FIREBASE_CREDENTIALS_PATH") or os.getenv("BHARATFIT_FIREBASE_CREDENTIALS_PATH"),
+            cors_origins=_csv(os.getenv("DRAPE_CORS_ORIGINS") or os.getenv("BHARATFIT_CORS_ORIGINS"), ["*"]),
+            log_requests=_flag(log_requests),
+            rate_limit_per_minute=int(os.getenv("DRAPE_RATE_LIMIT_PER_MINUTE") or os.getenv("BHARATFIT_RATE_LIMIT_PER_MINUTE", "120")),
+            security_headers_enabled=_flag(security_headers),
         )
 
 

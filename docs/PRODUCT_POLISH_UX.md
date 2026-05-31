@@ -1,6 +1,6 @@
 # Product Polish and Real App UX
 
-Phase 12 improves the user-facing app experience so BharatFit feels closer to a real product instead of a developer prototype.
+Phase 12 improves the user-facing app experience so Drape feels closer to a real product instead of a developer prototype.
 
 ## Added
 

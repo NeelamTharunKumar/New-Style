@@ -14,6 +14,6 @@ flutter --version
 flutter pub get
 flutter analyze
 flutter test
-flutter build apk --debug --dart-define=BHARATFIT_API_BASE_URL="${BHARATFIT_API_BASE_URL:-http://10.0.2.2:8000}"
+flutter build apk --debug --dart-define=DRAPE_API_BASE_URL="${DRAPE_API_BASE_URL:-http://10.0.2.2:8000}"
 
 echo "Flutter local QA passed: pub get, analyze, tests, debug APK build."

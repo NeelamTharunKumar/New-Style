@@ -1,14 +1,14 @@
-# BharatFit AI Product Specification
+# Drape AI Product Specification
 
 Version: 0.2 | Phase: Product repositioning and backend MVP | Date: 2026-05-31
 
 ## One-line positioning
 
-**BharatFit AI is a privacy-first, India-first wardrobe assistant that creates occasion-ready outfits from clothes users already own.**
+**Drape AI is a privacy-first, India-first wardrobe assistant that creates occasion-ready outfits from clothes users already own.**
 
 ## Why this positioning
 
-Generic AI stylist apps already exist. BharatFit AI focuses on a sharper gap:
+Generic AI stylist apps already exist. Drape AI focuses on a sharper gap:
 
 - Indian climate and occasions
 - ethnic + western mix-and-match

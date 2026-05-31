@@ -27,4 +27,4 @@ jobs:
         working-directory: backend
         run: |
           alembic upgrade head
-          rm -f bharatfit.db
+          rm -f drape.db

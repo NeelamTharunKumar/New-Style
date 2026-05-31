@@ -13,10 +13,10 @@ Phase 2 turns the Flutter prototype into a functional backend-connected MVP.
 
 ## Backend connection
 
-The app uses `BharatFitApiClient` in:
+The app uses `DrapeApiClient` in:
 
 ```text
-flutter_app/lib/data/bharatfit_api_client.dart
+flutter_app/lib/data/drape_api_client.dart
 ```
 
 Default API base URL:
@@ -36,7 +36,7 @@ The Home screen lets the user edit the backend base URL.
 You can also compile with:
 
 ```bash
-flutter run --dart-define=BHARATFIT_API_BASE_URL=http://localhost:8000
+flutter run --dart-define=DRAPE_API_BASE_URL=http://localhost:8000
 ```
 
 ## Run full MVP locally

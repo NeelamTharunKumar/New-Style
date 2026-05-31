@@ -1,4 +1,4 @@
-# Contributing to BharatFit AI
+# Contributing to Drape AI
 
 Thank you for your interest in contributing!
 

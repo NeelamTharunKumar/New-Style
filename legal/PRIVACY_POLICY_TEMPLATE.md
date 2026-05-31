@@ -1,4 +1,4 @@
-# BharatFit AI Privacy Policy Template
+# Drape AI Privacy Policy Template
 
 _Last updated: TODO_
 
@@ -6,7 +6,7 @@ This is a template and should be reviewed by a qualified legal professional befo
 
 ## 1. Overview
 
-BharatFit AI helps users organize wardrobe items and generate outfit recommendations from clothes they already own.
+Drape AI helps users organize wardrobe items and generate outfit recommendations from clothes they already own.
 
 ## 2. Privacy-first design
 

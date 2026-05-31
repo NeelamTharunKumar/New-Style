@@ -1,4 +1,4 @@
-# BharatFit AI UI/UX Design Based on UI/UX Pro Max
+# Drape AI UI/UX Design Based on UI/UX Pro Max
 
 This design direction is based on reviewing the separately cloned repository:
 
@@ -18,7 +18,7 @@ India fashion wardrobe AI stylist mobile app outfit planner privacy
 
 **App Store Style Landing / Mobile Product Showcase** adapted inside the app.
 
-For BharatFit, this means:
+For Drape, this means:
 
 - strong first-run onboarding
 - clear privacy promise above the fold

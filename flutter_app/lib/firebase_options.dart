@@ -39,7 +39,7 @@ class DefaultFirebaseOptions {
     appId: '1:000000000000:ios:replace',
     messagingSenderId: '000000000000',
     projectId: 'replace-with-firebase-project-id',
-    iosBundleId: 'com.example.bharatfitAi',
+    iosBundleId: 'com.drape.ai',
   );
 
   static const FirebaseOptions macos = ios;

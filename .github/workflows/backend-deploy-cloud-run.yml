@@ -6,7 +6,7 @@ on:
       service_name:
         description: Cloud Run service name
         required: true
-        default: bharatfit-api
+        default: drape-api
       region:
         description: GCP region
         required: true
@@ -32,9 +32,9 @@ jobs:
           REGION: ${{ inputs.region }}
           SERVICE: ${{ inputs.service_name }}
         run: |
-          IMAGE="$REGION-docker.pkg.dev/$GCP_PROJECT_ID/bharatfit/$SERVICE:${{ github.sha }}"
-          gcloud artifacts repositories describe bharatfit --location="$REGION" >/dev/null 2>&1 || \
-            gcloud artifacts repositories create bharatfit --repository-format=docker --location="$REGION"
+          IMAGE="$REGION-docker.pkg.dev/$GCP_PROJECT_ID/drape/$SERVICE:${{ github.sha }}"
+          gcloud artifacts repositories describe drape --location="$REGION" >/dev/null 2>&1 || \
+            gcloud artifacts repositories create drape --repository-format=docker --location="$REGION"
           docker build -t "$IMAGE" ./backend
           docker push "$IMAGE"
           echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
@@ -44,7 +44,7 @@ jobs:
           REGION: ${{ inputs.region }}
           SERVICE: ${{ inputs.service_name }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          BHARATFIT_API_KEY: ${{ secrets.BHARATFIT_API_KEY }}
+          DRAPE_API_KEY: ${{ secrets.DRAPE_API_KEY }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           gcloud run deploy "$SERVICE" \
@@ -53,5 +53,5 @@ jobs:
             --project "$GCP_PROJECT_ID" \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars "BHARATFIT_ENV=production,BHARATFIT_AUTH_MODE=firebase,FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID" \
-            --set-secrets "DATABASE_URL=DATABASE_URL:latest,BHARATFIT_API_KEY=BHARATFIT_API_KEY:latest"
+            --set-env-vars "DRAPE_ENV=production,DRAPE_AUTH_MODE=firebase,FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID" \
+            --set-secrets "DATABASE_URL=DATABASE_URL:latest,DRAPE_API_KEY=DRAPE_API_KEY:latest"

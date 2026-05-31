@@ -1,6 +1,6 @@
 # Local Outfit Preview / Level 2 Try-On
 
-This feature implements the current realistic version of virtual try-on for BharatFit.
+This feature implements the current realistic version of virtual try-on for Drape.
 
 ## Scope
 

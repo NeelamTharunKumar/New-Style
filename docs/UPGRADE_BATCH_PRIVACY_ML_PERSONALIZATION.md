@@ -13,8 +13,8 @@ backend/app/core/rate_limit.py
 Backend now supports:
 
 ```text
-BHARATFIT_RATE_LIMIT_PER_MINUTE=120
-BHARATFIT_SECURITY_HEADERS=true
+DRAPE_RATE_LIMIT_PER_MINUTE=120
+DRAPE_SECURITY_HEADERS=true
 ```
 
 Security headers are added by middleware:

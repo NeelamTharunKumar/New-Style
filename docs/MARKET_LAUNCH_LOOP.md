@@ -1,6 +1,6 @@
 # Market Launch Loop
 
-This document defines the consumer-facing loop needed to move BharatFit from technical foundation to market-testable MVP.
+This document defines the consumer-facing loop needed to move Drape from technical foundation to market-testable MVP.
 
 ## Core promise
 
