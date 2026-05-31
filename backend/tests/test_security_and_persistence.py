@@ -168,3 +168,31 @@ def test_auth_session_endpoint(monkeypatch):
     finally:
         monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
         get_settings.cache_clear()
+
+
+def test_firebase_auth_mode_uses_verified_uid(monkeypatch):
+    store.clear()
+    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "firebase")
+    get_settings.cache_clear()
+
+    def fake_verify(token: str):
+        assert token == "firebase-token"
+        return {"uid": "firebase_user"}
+
+    monkeypatch.setattr("app.core.auth.verify_firebase_token", fake_verify)
+    try:
+        ok = client.post(
+            "/users/profile",
+            headers={"Authorization": "Bearer firebase-token"},
+            json={"user_id": "firebase_user", "style_mode": "mixed"},
+        )
+        assert ok.status_code == 200
+
+        blocked = client.get(
+            "/wardrobe/items/other_user",
+            headers={"Authorization": "Bearer firebase-token"},
+        )
+        assert blocked.status_code == 403
+    finally:
+        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        get_settings.cache_clear()

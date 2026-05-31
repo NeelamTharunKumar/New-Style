@@ -46,6 +46,10 @@ class _LoginScreenState extends State<LoginScreen> {
       await widget.appState.loginWithDevUser(userId: _userIdController.text, apiKey: _apiKeyController.text);
       return;
     }
+    if (_mode == 'firebase') {
+      await widget.appState.loginWithFirebaseAnonymously(apiKey: _apiKeyController.text);
+      return;
+    }
     await widget.appState.saveAuthCredentials(
       AuthCredentials(
         apiKey: _apiKeyController.text.trim(),
@@ -84,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   items: const [
                     DropdownMenuItem(value: 'dev_bearer', child: Text('Dev bearer: dev:<user_id>')),
                     DropdownMenuItem(value: 'static_bearer', child: Text('Static bearer token')),
+                    DropdownMenuItem(value: 'firebase', child: Text('Firebase anonymous sign-in')),
                   ],
                   onChanged: (value) => setState(() => _mode = value ?? 'dev_bearer'),
                 ),
@@ -92,11 +97,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _userIdController,
                   decoration: const InputDecoration(
                     labelText: 'User ID',
-                    hintText: 'demo_user',
+                    hintText: _mode == 'firebase' ? 'Firebase UID is filled after login' : 'demo_user',
                     border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
+                if (_mode == 'firebase') ...[
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        'Firebase mode requires replacing flutter_app/lib/firebase_options.dart with FlutterFire config and backend BHARATFIT_AUTH_MODE=firebase.',
+                        style: TextStyle(color: Colors.orange.shade200),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
                 if (_mode == 'static_bearer') ...[
                   TextField(
                     controller: _tokenController,
@@ -141,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton.icon(
                     onPressed: state.isBusy ? null : _login,
                     icon: const Icon(Icons.login),
-                    label: const Text('Save login securely'),
+                    label: Text(_mode == 'firebase' ? 'Sign in with Firebase' : 'Save login securely'),
                   ),
                 ),
                 const SizedBox(height: 8),

@@ -134,3 +134,20 @@ Scope:
 - backend auth session endpoint
 - API client secure credential hydration
 - dev/static bearer login flows
+
+
+## Phase 10 — Firebase auth and CI/CD release automation
+
+Status: completed in this commit.
+
+Scope:
+
+- backend Firebase ID token verification
+- Flutter Firebase anonymous login plumbing
+- secure token reuse for Firebase ID tokens
+- backend/session validation
+- GitHub Actions backend CI
+- Docker build CI
+- Flutter analyze/build CI
+- manual Android release artifact workflow
+- manual iOS no-codesign release workflow

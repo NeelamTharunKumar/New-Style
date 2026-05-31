@@ -93,6 +93,7 @@ Implemented in Phase 2:
 - Optional API key guard, CORS config, SQLAlchemy persistence and Docker deployment
 - User auth modes and per-user data isolation checks
 - Flutter login screen and secure token storage for bearer/API credentials
+- Firebase auth verification plumbing and CI/CD release workflows
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains

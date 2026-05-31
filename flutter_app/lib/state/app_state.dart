@@ -2,15 +2,17 @@ import 'package:flutter/foundation.dart';
 
 import '../data/app_models.dart';
 import '../data/bharatfit_api_client.dart';
+import '../data/firebase_login_service.dart';
 import '../data/local_store.dart';
 import '../data/secure_auth_store.dart';
 
 class AppState extends ChangeNotifier {
-  AppState(this.apiClient, this.localStore, this.secureAuthStore);
+  AppState(this.apiClient, this.localStore, this.secureAuthStore, this.firebaseLoginService);
 
   final BharatFitApiClient apiClient;
   final LocalStore localStore;
   final SecureAuthStore secureAuthStore;
+  final FirebaseLoginService firebaseLoginService;
 
   UserProfile profile = const UserProfile(
     userId: 'demo_user',
@@ -60,6 +62,32 @@ class AppState extends ChangeNotifier {
     }
   }
 
+
+  Future<void> loginWithFirebaseAnonymously({String apiKey = ''}) async {
+    await _run(() async {
+      final result = await firebaseLoginService.signInAnonymously();
+      authCredentials = AuthCredentials(
+        userId: result.userId,
+        authMode: 'firebase',
+        authToken: result.idToken,
+        apiKey: apiKey.trim(),
+      );
+      apiClient.apiKey = authCredentials.apiKey;
+      apiClient.authToken = authCredentials.authToken;
+      await secureAuthStore.save(authCredentials);
+
+      final previousUserId = profile.userId;
+      profile = profile.copyWith(userId: result.userId);
+      if (previousUserId != profile.userId && wardrobeItems.isNotEmpty) {
+        wardrobeItems = wardrobeItems.map((item) => item.copyWith(userId: profile.userId)).toList();
+        await localStore.saveWardrobe(wardrobeItems);
+      }
+      await localStore.saveProfile(profile);
+
+      final session = await apiClient.session();
+      statusMessage = 'Firebase login saved securely. Session: ${session['user_id'] ?? result.userId}';
+    });
+  }
 
   Future<void> loginWithDevUser({
     required String userId,
@@ -111,6 +139,11 @@ class AppState extends ChangeNotifier {
       apiClient.apiKey = '';
       apiClient.authToken = '';
       await secureAuthStore.clear();
+      try {
+        await firebaseLoginService.signOut();
+      } catch (_) {
+        // Firebase may be unconfigured in dev/static modes. Secure token cleanup is enough.
+      }
       statusMessage = 'Logged out and cleared secure tokens';
     });
   }

@@ -67,6 +67,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Optional API-key auth, CORS config, SQL persistence and Docker deployment foundation
 - User-auth modes and per-user backend access checks
 - Flutter login screen and secure token storage
+- Firebase auth verification plumbing and CI/CD workflows
 - Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
@@ -116,6 +117,7 @@ flutter run
 - [`docs/PRODUCTION_HARDENING.md`](docs/PRODUCTION_HARDENING.md)
 - [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
 - [`docs/LOGIN_SECURE_STORAGE.md`](docs/LOGIN_SECURE_STORAGE.md)
+- [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 
 ## Example backend flow
@@ -139,3 +141,4 @@ The backend never needs the actual wardrobe photos.
 8. Phase 7: Postgres/auth/deployment hardening — completed.
 9. Phase 8: user auth and isolation — completed.
 10. Phase 9: data lifecycle and migrations — completed.
+11. Phase 10: Firebase auth and CI/CD release automation — completed.

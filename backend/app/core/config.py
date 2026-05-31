@@ -35,6 +35,8 @@ class Settings:
     api_key: Optional[str] = None
     auth_mode: str = "open_dev"
     user_tokens: Dict[str, str] = field(default_factory=dict)
+    firebase_project_id: Optional[str] = None
+    firebase_credentials_path: Optional[str] = None
     cors_origins: List[str] = field(default_factory=lambda: ["*"])
     log_requests: bool = True
 
@@ -51,6 +53,8 @@ class Settings:
             api_key=os.getenv("BHARATFIT_API_KEY"),
             auth_mode=os.getenv("BHARATFIT_AUTH_MODE", "open_dev").strip().lower(),
             user_tokens=_token_map(os.getenv("BHARATFIT_USER_TOKENS")),
+            firebase_project_id=os.getenv("FIREBASE_PROJECT_ID") or os.getenv("BHARATFIT_FIREBASE_PROJECT_ID"),
+            firebase_credentials_path=os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("BHARATFIT_FIREBASE_CREDENTIALS_PATH"),
             cors_origins=_csv(os.getenv("BHARATFIT_CORS_ORIGINS"), ["*"]),
             log_requests=os.getenv("BHARATFIT_LOG_REQUESTS", "true").lower() in {"1", "true", "yes"},
         )

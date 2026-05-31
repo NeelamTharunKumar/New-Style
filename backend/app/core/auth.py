@@ -6,6 +6,7 @@ from typing import Annotated, Optional
 from fastapi import Header, HTTPException, status
 
 from app.core.config import get_settings
+from app.core.firebase_auth import verify_firebase_token
 
 
 @dataclass(frozen=True)
@@ -56,10 +57,11 @@ async def get_current_user(
         return CurrentUser(user_id=user_id, auth_mode=mode)
 
     if mode == "firebase":
-        raise HTTPException(
-            status_code=status.HTTP_501_NOT_IMPLEMENTED,
-            detail="firebase auth mode is reserved but not implemented yet",
-        )
+        decoded = verify_firebase_token(token)
+        user_id = decoded.get("uid") or decoded.get("user_id") or decoded.get("sub")
+        if not user_id:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="firebase token missing uid")
+        return CurrentUser(user_id=str(user_id), auth_mode=mode)
 
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"unsupported auth mode: {mode}")
 
