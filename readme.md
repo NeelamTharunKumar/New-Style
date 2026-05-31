@@ -59,6 +59,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Privacy-safe AI stylist chat stub
 - Local-first profile/wardrobe/outfit persistence
 - Privacy settings screen with export/sync/clear actions
+- Optional LLM explanation adapter with strict JSON/no-photo contract
 
 ## Backend quickstart
 
@@ -100,6 +101,7 @@ flutter run
 - [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
 - [`docs/FLUTTER_MVP.md`](docs/FLUTTER_MVP.md)
 - [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
+- [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
 
 ## Example backend flow
 
@@ -116,7 +118,7 @@ The backend never needs the actual wardrobe photos.
 2. Phase 1: functional structured-data backend MVP — completed.
 3. Phase 2: Flutter functional MVP connected to backend — completed.
 4. Phase 3: local storage and privacy layer — completed.
-5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract.
+5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract — completed.
 6. Phase 5: local feature extraction.
 7. Phase 6: native Kotlin/Swift ML bridges.
 8. Phase 7: Postgres/auth/deployment hardening.

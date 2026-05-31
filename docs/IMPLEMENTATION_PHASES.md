@@ -52,7 +52,7 @@ Scope:
 
 ## Phase 4 — LLM explanation layer
 
-Next recommended phase.
+Status: completed in this commit.
 
 Scope:
 
@@ -61,6 +61,8 @@ Scope:
 - fallback explanations
 
 ## Phase 5 — Local feature extraction
+
+Next recommended phase.
 
 Scope:
 

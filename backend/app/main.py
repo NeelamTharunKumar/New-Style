@@ -13,6 +13,7 @@ from app.models import (
     WardrobeItem,
     WardrobeItemCreate,
 )
+from app.services.llm_orchestrator import LLMOrchestrator
 from app.services.outfit_engine import OutfitEngine
 from app.services.taxonomy import TAXONOMY
 from app.storage import InMemoryStore
@@ -28,6 +29,7 @@ app = FastAPI(
 
 store = InMemoryStore()
 outfit_engine = OutfitEngine()
+llm_orchestrator = LLMOrchestrator()
 
 PRIVACY_MESSAGE = "No raw wardrobe/selfie images are required or processed by this API; use item IDs and structured features only."
 
@@ -45,6 +47,11 @@ async def health():
 @app.get("/taxonomy")
 async def taxonomy():
     return TAXONOMY
+
+
+@app.get("/llm/status")
+async def llm_status():
+    return llm_orchestrator.status()
 
 
 @app.post("/users/profile", response_model=UserProfile)
@@ -102,6 +109,13 @@ async def generate_outfits(req: OutfitGenerateRequest):
         weather=req.weather,
         style_mode=req.style_mode,
         max_results=req.max_results,
+    )
+    outfits = await llm_orchestrator.explain_outfits(
+        profile=profile,
+        wardrobe=wardrobe,
+        occasion=req.occasion,
+        weather=req.weather,
+        outfits=outfits,
     )
     return OutfitGenerateResponse(
         user_id=req.user_id,
