@@ -45,6 +45,56 @@ class UserProfile {
     );
   }
 
+  WardrobeItem copyWith({
+    String? userId,
+    String? itemId,
+    String? styleMode,
+    String? name,
+    String? category,
+    String? subcategory,
+    String? color,
+    String? hexColor,
+    List<String>? secondaryColors,
+    String? pattern,
+    String? fabric,
+    String? fit,
+    String? sleeve,
+    String? neckline,
+    String? length,
+    int? formality,
+    List<String>? styleTags,
+    List<String>? occasionTags,
+    List<String>? seasonTags,
+    List<String>? climateTags,
+    List<String>? indiaTags,
+    String? localImageRef,
+  }) {
+    return WardrobeItem(
+      userId: userId ?? this.userId,
+      itemId: itemId ?? this.itemId,
+      styleMode: styleMode ?? this.styleMode,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      subcategory: subcategory ?? this.subcategory,
+      color: color ?? this.color,
+      hexColor: hexColor ?? this.hexColor,
+      secondaryColors: secondaryColors ?? this.secondaryColors,
+      pattern: pattern ?? this.pattern,
+      fabric: fabric ?? this.fabric,
+      fit: fit ?? this.fit,
+      sleeve: sleeve ?? this.sleeve,
+      neckline: neckline ?? this.neckline,
+      length: length ?? this.length,
+      formality: formality ?? this.formality,
+      styleTags: styleTags ?? this.styleTags,
+      occasionTags: occasionTags ?? this.occasionTags,
+      seasonTags: seasonTags ?? this.seasonTags,
+      climateTags: climateTags ?? this.climateTags,
+      indiaTags: indiaTags ?? this.indiaTags,
+      localImageRef: localImageRef ?? this.localImageRef,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'user_id': userId,
@@ -128,6 +178,56 @@ class WardrobeItem {
     return '$color $category';
   }
 
+  WardrobeItem copyWith({
+    String? userId,
+    String? itemId,
+    String? styleMode,
+    String? name,
+    String? category,
+    String? subcategory,
+    String? color,
+    String? hexColor,
+    List<String>? secondaryColors,
+    String? pattern,
+    String? fabric,
+    String? fit,
+    String? sleeve,
+    String? neckline,
+    String? length,
+    int? formality,
+    List<String>? styleTags,
+    List<String>? occasionTags,
+    List<String>? seasonTags,
+    List<String>? climateTags,
+    List<String>? indiaTags,
+    String? localImageRef,
+  }) {
+    return WardrobeItem(
+      userId: userId ?? this.userId,
+      itemId: itemId ?? this.itemId,
+      styleMode: styleMode ?? this.styleMode,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      subcategory: subcategory ?? this.subcategory,
+      color: color ?? this.color,
+      hexColor: hexColor ?? this.hexColor,
+      secondaryColors: secondaryColors ?? this.secondaryColors,
+      pattern: pattern ?? this.pattern,
+      fabric: fabric ?? this.fabric,
+      fit: fit ?? this.fit,
+      sleeve: sleeve ?? this.sleeve,
+      neckline: neckline ?? this.neckline,
+      length: length ?? this.length,
+      formality: formality ?? this.formality,
+      styleTags: styleTags ?? this.styleTags,
+      occasionTags: occasionTags ?? this.occasionTags,
+      seasonTags: seasonTags ?? this.seasonTags,
+      climateTags: climateTags ?? this.climateTags,
+      indiaTags: indiaTags ?? this.indiaTags,
+      localImageRef: localImageRef ?? this.localImageRef,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'user_id': userId,
@@ -194,6 +294,8 @@ class ScoreBreakdown {
       json.map((key, value) => MapEntry(key, _doubleValue(value))),
     );
   }
+
+  Map<String, dynamic> toJson() => values;
 }
 
 class OutfitRecommendation {
@@ -218,6 +320,20 @@ class OutfitRecommendation {
   final List<String> stylingTips;
   final List<String> avoid;
   final String source;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'outfit_id': outfitId,
+      'title': title,
+      'item_ids': itemIds,
+      'score': score,
+      'score_breakdown': scoreBreakdown.toJson(),
+      'why': why,
+      'styling_tips': stylingTips,
+      'avoid': avoid,
+      'source': source,
+    };
+  }
 
   factory OutfitRecommendation.fromJson(Map<String, dynamic> json) {
     return OutfitRecommendation(

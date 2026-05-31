@@ -64,6 +64,8 @@ class BharatFitApiClient {
     required String userId,
     required String occasion,
     required String styleMode,
+    required UserProfile profile,
+    List<WardrobeItem> wardrobeItems = const [],
     double? temperatureC,
     String? weatherCondition,
     int maxResults = 5,
@@ -79,8 +81,10 @@ class BharatFitApiClient {
         'user_id': userId,
         'occasion': occasion,
         'style_mode': styleMode,
+        'user_profile': profile.toJson(),
         'max_results': maxResults,
         if (weather.isNotEmpty) 'weather': weather,
+        if (wardrobeItems.isNotEmpty) 'wardrobe_items': wardrobeItems.map((item) => item.toJson()).toList(),
       }),
     );
     final decoded = _decodeObject(response);

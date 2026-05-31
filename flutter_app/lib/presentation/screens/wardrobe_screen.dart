@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/app_models.dart';
+import '../../data/local_image_service.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
 
@@ -130,7 +131,8 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
   final _styleTagsController = TextEditingController(text: 'smart casual, minimal');
   final _occasionTagsController = TextEditingController(text: 'office');
   final _climateTagsController = TextEditingController(text: 'hot_humid');
-  final _localRefController = TextEditingController(text: 'local://wardrobe/item.jpg');
+  final _localRefController = TextEditingController(text: '');
+  final _localImageService = const LocalImageService();
   String _styleMode = 'mixed';
   int _formality = 5;
 
@@ -178,7 +180,8 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
       occasionTags: splitTags(_occasionTagsController.text),
       climateTags: splitTags(_climateTagsController.text),
       indiaTags: splitTags(_occasionTagsController.text),
-      localImageRef: _emptyToNull(_localRefController.text),
+      localImageRef: _emptyToNull(_localRefController.text) ??
+          _localImageService.wardrobeRefForItem(_emptyToNull(_itemIdController.text) ?? 'new_item'),
     );
     await widget.appState.addWardrobeItem(item);
     if (mounted && widget.appState.error == null) Navigator.pop(context);
@@ -287,6 +290,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     controller: _localRefController,
                     decoration: const InputDecoration(
                       labelText: 'Local image reference',
+                      hintText: 'local://wardrobe/shirt_001.jpg',
                       helperText: 'Only a local pointer/string is sent. Actual image bytes stay on-device.',
                       border: OutlineInputBorder(),
                     ),

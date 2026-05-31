@@ -57,6 +57,8 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Occasion/weather outfit generation
 - Outfit cards that map returned item IDs to local image references
 - Privacy-safe AI stylist chat stub
+- Local-first profile/wardrobe/outfit persistence
+- Privacy settings screen with export/sync/clear actions
 
 ## Backend quickstart
 
@@ -97,6 +99,7 @@ flutter run
 - [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
 - [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
 - [`docs/FLUTTER_MVP.md`](docs/FLUTTER_MVP.md)
+- [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
 
 ## Example backend flow
 
@@ -112,7 +115,7 @@ The backend never needs the actual wardrobe photos.
 1. Phase 0: repo cleanup, naming, docs, positioning — completed.
 2. Phase 1: functional structured-data backend MVP — completed.
 3. Phase 2: Flutter functional MVP connected to backend — completed.
-4. Phase 3: local storage and privacy layer.
+4. Phase 3: local storage and privacy layer — completed.
 5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract.
 6. Phase 5: local feature extraction.
 7. Phase 6: native Kotlin/Swift ML bridges.

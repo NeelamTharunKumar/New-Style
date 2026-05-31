@@ -84,6 +84,8 @@ Implemented in Phase 2:
 - Backend API integration
 - Backend health check
 - Privacy-safe chat stub
+- Local-first persistence for profile, wardrobe features and generated outfits
+- Privacy settings screen with structured JSON export and local data deletion
 
 ## India-first styling domains
 

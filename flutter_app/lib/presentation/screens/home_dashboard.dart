@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
 import 'ai_stylist_chat.dart';
+import 'privacy_settings_screen.dart';
 import 'style_profile_screen.dart';
 import 'wardrobe_screen.dart';
 import 'your_outfits_screen.dart';
@@ -24,6 +25,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
     super.initState();
     _baseUrlController = TextEditingController(text: widget.appState.apiClient.baseUrl);
     widget.appState.addListener(_refresh);
+    WidgetsBinding.instance.addPostFrameCallback((_) => widget.appState.hydrate());
   }
 
   @override
@@ -116,9 +118,15 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => YourOutfitsScreen(appState: state))),
                 ),
                 _HomeAction(
+                  icon: Icons.privacy_tip_outlined,
+                  title: 'Privacy & Local Data',
+                  subtitle: 'Export, sync or clear local structured wardrobe data',
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PrivacySettingsScreen(appState: state))),
+                ),
+                _HomeAction(
                   icon: Icons.chat_bubble_outline,
                   title: 'AI Stylist Chat',
-                  subtitle: 'Phase 2 connects to the privacy-safe backend chat endpoint',
+                  subtitle: 'Backend chat stub now uses the same privacy-safe API layer',
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AIStylistChat(appState: state))),
                 ),
               ],

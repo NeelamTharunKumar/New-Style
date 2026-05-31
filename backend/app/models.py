@@ -95,6 +95,10 @@ class OutfitGenerateRequest(BaseModel):
     user_id: str
     occasion: str = Field(..., examples=["office", "college", "haldi", "wedding guest", "date"])
     style_mode: Optional[StyleMode] = None
+    user_profile: Optional[UserProfile] = Field(
+        default=None,
+        description="Optional stateless profile features supplied by the app. No photos.",
+    )
     weather: Optional[WeatherContext] = None
     max_results: int = Field(default=5, ge=1, le=20)
     prompt: Optional[str] = Field(default=None, description="User's natural language request; treated as context only.")

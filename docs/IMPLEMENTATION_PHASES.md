@@ -41,7 +41,7 @@ Scope:
 
 ## Phase 3 — Local storage/privacy layer
 
-Next recommended phase.
+Status: completed in this commit.
 
 Scope:
 
@@ -51,6 +51,8 @@ Scope:
 - optional cloud sync design
 
 ## Phase 4 — LLM explanation layer
+
+Next recommended phase.
 
 Scope:
 

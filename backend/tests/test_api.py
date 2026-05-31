@@ -55,6 +55,13 @@ def test_stateless_womenswear_haldi_outfit_uses_structured_data_only():
             "user_id": "u2",
             "occasion": "haldi",
             "style_mode": "womenswear",
+            "user_profile": {
+                "user_id": "u2",
+                "style_mode": "womenswear",
+                "skin_tone": "medium warm",
+                "preferences": ["ethnic", "festive", "budget-conscious"],
+                "climate_preference": "hot_humid"
+            },
             "wardrobe_items": [
                 {"user_id": "u2", "item_id": "kurti_001", "style_mode": "womenswear", "category": "kurti", "color": "mustard yellow", "fabric": "cotton", "formality": 7, "style_tags": ["ethnic", "festive"], "occasion_tags": ["haldi"]},
                 {"user_id": "u2", "item_id": "palazzo_001", "style_mode": "womenswear", "category": "palazzo", "color": "white", "fabric": "cotton", "formality": 5, "style_tags": ["ethnic"], "occasion_tags": ["haldi", "festival"]},

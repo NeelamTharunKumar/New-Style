@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 
 import '../data/app_models.dart';
 import '../data/bharatfit_api_client.dart';
+import '../data/local_store.dart';
 
 class AppState extends ChangeNotifier {
-  AppState(this.apiClient);
+  AppState(this.apiClient, this.localStore);
 
   final BharatFitApiClient apiClient;
+  final LocalStore localStore;
 
   UserProfile profile = const UserProfile(
     userId: 'demo_user',
@@ -19,15 +21,41 @@ class AppState extends ChangeNotifier {
   List<WardrobeItem> wardrobeItems = [];
   List<OutfitRecommendation> outfits = [];
   bool isBusy = false;
+  bool isHydrated = false;
   String? error;
   String? statusMessage;
   String? backendHealth;
 
   String get userId => profile.userId;
 
-  void updateBaseUrl(String value) {
-    apiClient.baseUrl = value.trim();
-    statusMessage = 'Backend URL updated';
+  Future<void> hydrate() async {
+    if (isHydrated) return;
+    isBusy = true;
+    notifyListeners();
+    try {
+      final savedBaseUrl = await localStore.loadBaseUrl();
+      if (savedBaseUrl != null && savedBaseUrl.isNotEmpty) {
+        apiClient.baseUrl = savedBaseUrl;
+      }
+      profile = await localStore.loadProfile() ?? profile;
+      wardrobeItems = await localStore.loadWardrobe();
+      outfits = await localStore.loadOutfits();
+      statusMessage = 'Loaded local profile, ${wardrobeItems.length} wardrobe items and ${outfits.length} saved outfits';
+    } catch (err) {
+      error = 'Local load failed: $err';
+    } finally {
+      isHydrated = true;
+      isBusy = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateBaseUrl(String value) async {
+    final next = value.trim();
+    if (next.isEmpty) return;
+    apiClient.baseUrl = next;
+    await localStore.saveBaseUrl(next);
+    statusMessage = 'Backend URL saved locally';
     notifyListeners();
   }
 
@@ -48,9 +76,15 @@ class AppState extends ChangeNotifier {
 
   Future<void> saveProfile(UserProfile nextProfile) async {
     await _run(() async {
-      profile = await apiClient.upsertProfile(nextProfile);
-      statusMessage = 'Profile saved for ${profile.userId}';
-      await loadWardrobe(notify: false);
+      final previousUserId = profile.userId;
+      profile = nextProfile;
+      if (previousUserId != profile.userId && wardrobeItems.isNotEmpty) {
+        wardrobeItems = wardrobeItems.map((item) => item.copyWith(userId: profile.userId)).toList();
+        await localStore.saveWardrobe(wardrobeItems);
+      }
+      await localStore.saveProfile(profile);
+      final synced = await _trySyncProfile();
+      statusMessage = synced ? 'Profile saved locally and synced to backend' : 'Profile saved locally. Backend sync can be retried later.';
     });
   }
 
@@ -61,8 +95,8 @@ class AppState extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      wardrobeItems = await apiClient.listWardrobeItems(userId);
-      statusMessage = 'Loaded ${wardrobeItems.length} wardrobe items';
+      wardrobeItems = await localStore.loadWardrobe();
+      statusMessage = 'Loaded ${wardrobeItems.length} local wardrobe items';
     } catch (err) {
       error = err.toString();
     } finally {
@@ -75,9 +109,17 @@ class AppState extends ChangeNotifier {
 
   Future<void> addWardrobeItem(WardrobeItem item) async {
     await _run(() async {
-      final saved = await apiClient.addWardrobeItem(item);
-      wardrobeItems = [...wardrobeItems, saved];
-      statusMessage = 'Added ${saved.displayName}';
+      final localItem = _ensureLocalItemId(item);
+      wardrobeItems = [
+        ...wardrobeItems.where((existing) => existing.itemId != localItem.itemId),
+        localItem,
+      ];
+      await localStore.saveWardrobe(wardrobeItems);
+
+      final synced = await _trySyncItem(localItem);
+      statusMessage = synced
+          ? 'Added ${localItem.displayName} locally and synced structured data'
+          : 'Added ${localItem.displayName} locally. Backend sync can be retried later.';
     });
   }
 
@@ -85,9 +127,14 @@ class AppState extends ChangeNotifier {
     final itemId = item.itemId;
     if (itemId == null || itemId.isEmpty) return;
     await _run(() async {
-      await apiClient.deleteWardrobeItem(userId, itemId);
       wardrobeItems = wardrobeItems.where((existing) => existing.itemId != itemId).toList();
-      statusMessage = 'Deleted ${item.displayName}';
+      await localStore.saveWardrobe(wardrobeItems);
+      try {
+        await apiClient.deleteWardrobeItem(userId, itemId);
+      } catch (_) {
+        // Local delete remains authoritative in Phase 3.
+      }
+      statusMessage = 'Deleted ${item.displayName} from local wardrobe';
     });
   }
 
@@ -95,6 +142,7 @@ class AppState extends ChangeNotifier {
     final mode = profile.styleMode == 'womenswear' ? 'womenswear' : 'menswear';
     final items = mode == 'womenswear' ? _demoWomenswear(userId) : _demoMenswear(userId);
     for (final item in items) {
+      if (wardrobeItems.any((existing) => existing.itemId == item.itemId)) continue;
       await addWardrobeItem(item);
     }
   }
@@ -109,10 +157,13 @@ class AppState extends ChangeNotifier {
         userId: userId,
         occasion: occasion,
         styleMode: profile.styleMode,
+        profile: profile,
+        wardrobeItems: wardrobeItems,
         temperatureC: temperatureC,
         weatherCondition: weatherCondition,
       );
-      statusMessage = outfits.isEmpty ? 'No outfit combinations found yet' : 'Generated ${outfits.length} outfits';
+      await localStore.saveOutfits(outfits);
+      statusMessage = outfits.isEmpty ? 'No outfit combinations found yet' : 'Generated and saved ${outfits.length} outfits locally';
     });
   }
 
@@ -122,6 +173,77 @@ class AppState extends ChangeNotifier {
       reply = await apiClient.chat(userId: userId, message: message);
     });
     return reply;
+  }
+
+  Future<String> exportLocalData() {
+    return localStore.exportJson(profile: profile, wardrobe: wardrobeItems, outfits: outfits);
+  }
+
+  Future<void> clearSavedOutfits() async {
+    await _run(() async {
+      outfits = [];
+      await localStore.clearOutfits();
+      statusMessage = 'Cleared saved local outfit results';
+    });
+  }
+
+  Future<void> clearLocalData() async {
+    await _run(() async {
+      await localStore.clearAll();
+      profile = const UserProfile(
+        userId: 'demo_user',
+        styleMode: 'mixed',
+        skinTone: 'medium warm',
+        climatePreference: 'hot_humid',
+        preferences: ['smart casual', 'budget-conscious'],
+      );
+      wardrobeItems = [];
+      outfits = [];
+      statusMessage = 'Cleared local profile, wardrobe and outfits';
+    });
+  }
+
+  Future<void> syncStructuredDataToBackend() async {
+    await _run(() async {
+      var syncedItems = 0;
+      final profileSynced = await _trySyncProfile();
+      for (final item in wardrobeItems) {
+        if (await _trySyncItem(item)) syncedItems++;
+      }
+      statusMessage = profileSynced
+          ? 'Synced profile and $syncedItems/${wardrobeItems.length} structured wardrobe items'
+          : 'Synced $syncedItems/${wardrobeItems.length} items. Profile sync failed.';
+    });
+  }
+
+  Future<bool> _trySyncProfile() async {
+    try {
+      await apiClient.upsertProfile(profile);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> _trySyncItem(WardrobeItem item) async {
+    try {
+      await apiClient.addWardrobeItem(item);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  WardrobeItem _ensureLocalItemId(WardrobeItem item) {
+    final slug = item.category.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_');
+    final id = item.itemId != null && item.itemId!.trim().isNotEmpty
+        ? item.itemId!.trim()
+        : 'local_${slug}_${DateTime.now().millisecondsSinceEpoch}';
+    final needsLocalRef = item.localImageRef == null || item.localImageRef!.isEmpty || item.localImageRef!.contains('new_item');
+    return item.copyWith(
+      itemId: id,
+      localImageRef: needsLocalRef ? 'local://wardrobe/$id.jpg' : item.localImageRef,
+    );
   }
 
   Future<void> _run(Future<void> Function() task) async {

@@ -9,10 +9,10 @@ This document is the running implementation log for the repository. It should be
 | Product positioning | Repositioned to India-first, privacy-first wardrobe assistant |
 | Backend MVP | Functional FastAPI structured-data outfit engine |
 | Flutter MVP | Backend-connected functional prototype |
-| Local photo storage | Not implemented yet |
+| Local photo storage | Local reference persistence implemented; actual image picker/file copy not yet |
 | Real on-device ML | Not implemented yet; interfaces/placeholders only |
 | LLM integration | Not implemented yet; backend chat is deterministic stub |
-| Database/auth/deployment | Not implemented yet; backend uses in-memory store |
+| Database/auth/deployment | Not implemented yet; backend uses in-memory store, but Flutter can now send local wardrobe statelessly |
 
 ## Core product direction
 
@@ -591,14 +591,183 @@ flutter run
 
 ### Phase 2 limitations
 
-- Flutter uses in-memory app state.
-- Wardrobe data is not stored locally yet.
 - Backend storage is still in-memory.
 - No real image picker.
-- No local image database.
+- No local image database for actual image files yet.
 - No real on-device ML extraction.
 - Outfit visual card uses color swatches/local refs, not actual local photos yet.
 - Chat is backend stub, not LLM.
+
+---
+
+## Phase 3 — Local storage and privacy layer
+
+Commit:
+
+```text
+2a0b759 Phase 3: add local-first privacy storage
+```
+
+### What was fixed/added
+
+#### Added local persistence
+
+Added:
+
+```text
+flutter_app/lib/data/local_store.dart
+```
+
+The Flutter app now persists locally using `shared_preferences`:
+
+- user style profile
+- structured wardrobe items
+- generated outfit results
+- backend API base URL
+
+This means the app no longer loses the user's wardrobe/profile when restarted.
+
+#### Added local image reference helper
+
+Added:
+
+```text
+flutter_app/lib/data/local_image_service.dart
+```
+
+It standardizes local-only references such as:
+
+```text
+local://wardrobe/shirt_001.jpg
+```
+
+Actual image picking/copying is still future work.
+
+#### Made Flutter local-first
+
+Updated:
+
+```text
+flutter_app/lib/state/app_state.dart
+```
+
+The app now:
+
+- hydrates profile/wardrobe/outfits from local storage on startup
+- saves profile locally before trying backend sync
+- saves wardrobe locally before trying backend sync
+- deletes wardrobe locally even if backend is unavailable
+- saves generated outfits locally
+- exports local structured data as JSON
+- clears saved outfits or all local data
+- syncs structured data to backend on demand
+
+#### Made outfit generation stateless/local-wardrobe aware
+
+Updated backend request model:
+
+```text
+backend/app/models.py
+backend/app/main.py
+```
+
+`POST /outfits/generate` now accepts optional `user_profile` in the request.
+
+The Flutter app now sends:
+
+- local structured `user_profile`
+- local structured `wardrobe_items`
+- occasion/weather context
+
+This avoids relying on backend in-memory wardrobe/profile state. Backend restart no longer destroys the app's ability to generate outfits, as long as the app has local data.
+
+#### Added privacy settings screen
+
+Added:
+
+```text
+flutter_app/lib/presentation/screens/privacy_settings_screen.dart
+```
+
+It supports:
+
+- local data summary
+- sync structured data to backend
+- export local structured data JSON
+- clear saved outfit results
+- clear all local profile/wardrobe/outfit data
+
+#### Updated Home screen
+
+Updated:
+
+```text
+flutter_app/lib/presentation/screens/home_dashboard.dart
+```
+
+Home now hydrates local data on startup and includes navigation to Privacy & Local Data.
+
+#### Updated API client
+
+Updated:
+
+```text
+flutter_app/lib/data/bharatfit_api_client.dart
+```
+
+`generateOutfits()` now sends local structured wardrobe/profile data in the request.
+
+#### Added docs
+
+Added:
+
+```text
+docs/LOCAL_STORAGE_PRIVACY.md
+```
+
+Updated:
+
+```text
+readme.md
+docs/PRODUCT_SPEC.md
+docs/IMPLEMENTATION_PHASES.md
+```
+
+#### Added dependency
+
+Added:
+
+```yaml
+shared_preferences: ^2.3.2
+```
+
+### Validation
+
+Backend validation passed:
+
+```text
+python3 -m py_compile backend/app/*.py backend/app/services/*.py
+cd backend && pytest -q
+3 passed, 1 warning
+```
+
+Flutter SDK is not installed in this environment, so local validation is still needed:
+
+```bash
+cd flutter_app
+flutter pub get
+flutter analyze
+flutter run
+```
+
+### Phase 3 limitations
+
+- Uses `shared_preferences`, which is acceptable for MVP but not ideal for large wardrobes.
+- Actual image picker/file-copy flow is not implemented yet.
+- Local data is not encrypted at rest yet.
+- No conflict resolution between local data and backend data.
+- Backend still uses in-memory storage.
+- No Flutter automated tests yet.
 
 ---
 
@@ -629,9 +798,9 @@ flutter run
 
 ## Flutter
 
-1. **No local persistence yet**
-   - App state disappears when app restarts.
-   - Need Hive/Isar/Drift/SQLite.
+1. **MVP local persistence only**
+   - `shared_preferences` stores structured data locally.
+   - Need Hive/Isar/Drift/SQLite for large wardrobes.
 
 2. **No real local image storage yet**
    - `local_image_ref` is a string only.
@@ -664,53 +833,6 @@ flutter run
 ---
 
 # Next recommended work
-
-## Phase 3 — Local storage and privacy layer
-
-Goal:
-
-Make the app preserve wardrobe/profile/outfit data locally and prepare for real local image handling.
-
-### Recommended implementation
-
-1. Add local storage package.
-   - Options: Hive, Isar, Drift/SQLite.
-   - For fast MVP, Hive or shared_preferences + local JSON is simplest.
-
-2. Store locally:
-   - user profile
-   - wardrobe items
-   - local image refs
-   - generated outfit history
-   - favorite/rejected outfits
-
-3. Add image picker.
-   - User selects/takes wardrobe photo.
-   - App stores it locally.
-   - Backend still receives only `local_image_ref` + features.
-
-4. Add privacy settings screen:
-   - explain what stays local
-   - delete local wardrobe
-   - export structured data
-   - clear backend prototype data if needed
-
-5. Add local-first flow:
-   - user can still see wardrobe if backend is offline
-   - backend only needed for outfit generation until local engine exists
-
-### Files likely to change/add
-
-```text
-flutter_app/pubspec.yaml
-flutter_app/lib/data/local_store.dart
-flutter_app/lib/data/local_image_service.dart
-flutter_app/lib/state/app_state.dart
-flutter_app/lib/presentation/screens/privacy_settings_screen.dart
-flutter_app/lib/presentation/screens/wardrobe_screen.dart
-```
-
----
 
 ## Phase 4 — LLM explanation adapter
 

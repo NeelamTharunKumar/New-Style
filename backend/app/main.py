@@ -80,7 +80,7 @@ async def delete_wardrobe_item(user_id: str, item_id: str):
 
 @app.post("/outfits/generate", response_model=OutfitGenerateResponse)
 async def generate_outfits(req: OutfitGenerateRequest):
-    profile = store.get_profile(req.user_id) or UserProfile(user_id=req.user_id, style_mode=req.style_mode or "mixed")
+    profile = req.user_profile or store.get_profile(req.user_id) or UserProfile(user_id=req.user_id, style_mode=req.style_mode or "mixed")
 
     if req.wardrobe_items is not None:
         # Stateless privacy-first mode: frontend can send structured features without persisting them server-side.
