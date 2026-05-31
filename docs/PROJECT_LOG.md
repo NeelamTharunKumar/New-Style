@@ -605,7 +605,7 @@ flutter run
 Commit:
 
 ```text
-2a0b759 Phase 3: add local-first privacy storage
+84873e9 Phase 3: add local-first privacy storage
 ```
 
 ### What was fixed/added
