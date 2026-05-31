@@ -39,6 +39,8 @@ class Settings:
     firebase_credentials_path: Optional[str] = None
     cors_origins: List[str] = field(default_factory=lambda: ["*"])
     log_requests: bool = True
+    rate_limit_per_minute: int = 120
+    security_headers_enabled: bool = True
 
     @property
     def store_backend(self) -> str:
@@ -57,6 +59,8 @@ class Settings:
             firebase_credentials_path=os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("BHARATFIT_FIREBASE_CREDENTIALS_PATH"),
             cors_origins=_csv(os.getenv("BHARATFIT_CORS_ORIGINS"), ["*"]),
             log_requests=os.getenv("BHARATFIT_LOG_REQUESTS", "true").lower() in {"1", "true", "yes"},
+            rate_limit_per_minute=int(os.getenv("BHARATFIT_RATE_LIMIT_PER_MINUTE", "120")),
+            security_headers_enabled=os.getenv("BHARATFIT_SECURITY_HEADERS", "true").lower() in {"1", "true", "yes"},
         )
 
 

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import List, Optional
+from uuid import uuid4
 
 from sqlalchemy import Column, String, Text, create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-from app.models import UserProfile, WardrobeItem
+from app.models import OutfitFeedback, OutfitFeedbackRequest, UserProfile, WardrobeItem
 
 Base = declarative_base()
 
@@ -23,6 +25,14 @@ class WardrobeItemRecord(Base):
     user_id = Column(String(128), primary_key=True)
     item_id = Column(String(128), primary_key=True)
     item_json = Column(Text, nullable=False)
+
+
+class OutfitFeedbackRecord(Base):
+    __tablename__ = "outfit_feedback"
+
+    user_id = Column(String(128), primary_key=True)
+    feedback_id = Column(String(128), primary_key=True)
+    feedback_json = Column(Text, nullable=False)
 
 
 class PersistentStore:
@@ -78,24 +88,45 @@ class PersistentStore:
             return True
 
 
+
+    def add_feedback(self, payload: OutfitFeedbackRequest) -> OutfitFeedback:
+        feedback = OutfitFeedback(
+            feedback_id=f"feedback_{uuid4().hex[:10]}",
+            created_at=datetime.now(timezone.utc).isoformat(),
+            **payload.model_dump(),
+        )
+        with self._session() as session:
+            session.add(OutfitFeedbackRecord(user_id=feedback.user_id, feedback_id=feedback.feedback_id, feedback_json=feedback.model_dump_json()))
+            session.commit()
+        return feedback
+
+    def list_feedback(self, user_id: str) -> List[OutfitFeedback]:
+        with self._session() as session:
+            records = session.query(OutfitFeedbackRecord).filter(OutfitFeedbackRecord.user_id == user_id).all()
+            return [OutfitFeedback.model_validate_json(record.feedback_json) for record in records]
+
     def export_user(self, user_id: str) -> dict:
         return {
             "profile": self.get_profile(user_id),
             "wardrobe_items": self.list_items(user_id),
+            "outfit_history": [item.model_dump() for item in self.list_feedback(user_id)],
         }
 
     def delete_user(self, user_id: str) -> dict:
         with self._session() as session:
+            feedback_count = session.query(OutfitFeedbackRecord).filter(OutfitFeedbackRecord.user_id == user_id).delete()
             item_count = session.query(WardrobeItemRecord).filter(WardrobeItemRecord.user_id == user_id).delete()
             profile_count = session.query(UserProfileRecord).filter(UserProfileRecord.user_id == user_id).delete()
             session.commit()
             return {
                 "profile_deleted": profile_count > 0,
                 "wardrobe_items_deleted": item_count,
+                "outfit_feedback_deleted": feedback_count,
             }
 
     def clear(self) -> None:
         with self._session() as session:
+            session.query(OutfitFeedbackRecord).delete()
             session.query(WardrobeItemRecord).delete()
             session.query(UserProfileRecord).delete()
             session.commit()

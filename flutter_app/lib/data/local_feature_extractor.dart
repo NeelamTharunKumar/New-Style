@@ -5,6 +5,7 @@ import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
 import '../services/native_ml_bridge.dart';
+import 'ml_feature_schema.dart';
 import 'local_image_service.dart';
 
 class ExtractedGarmentFeatures {
@@ -30,6 +31,7 @@ class ExtractedGarmentFeatures {
 
   Map<String, dynamic> toStructuredSummary() {
     return {
+      'schema_version': GarmentFeatureSchema.version,
       'local_extraction': true,
       'dominant_hex_color': hexColor,
       'dominant_color_name': colorName,
@@ -38,6 +40,8 @@ class ExtractedGarmentFeatures {
       'confidence': confidence,
       'image_width': width,
       'image_height': height,
+      'category_hint': _categoryHint(colorName, patternHint),
+      'occasion_hints': _occasionHints(colorName, patternHint),
       'privacy': 'computed on-device; raw image not uploaded',
     };
   }
@@ -205,6 +209,20 @@ class _ColorStats {
   final double clusterShare;
   final double averageLuminance;
   final double luminanceVariance;
+}
+
+String _categoryHint(String colorName, String patternHint) {
+  if (patternHint == 'patterned') return 'top';
+  if (['gold', 'tan', 'brown'].contains(colorName)) return 'footwear/accessory';
+  return 'unknown';
+}
+
+List<String> _occasionHints(String colorName, String patternHint) {
+  final festive = {'gold', 'mustard yellow', 'yellow', 'maroon', 'emerald green', 'pink'};
+  if (festive.contains(colorName)) return ['festival', 'haldi', 'wedding guest'];
+  if (['navy blue', 'light blue', 'charcoal', 'grey', 'white'].contains(colorName)) return ['office', 'college'];
+  if (patternHint == 'patterned') return ['casual', 'college'];
+  return ['daily casual'];
 }
 
 int _toInt(dynamic value, {required int fallback}) {

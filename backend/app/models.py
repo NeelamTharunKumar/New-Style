@@ -150,6 +150,34 @@ class OutfitGenerateResponse(BaseModel):
 
 
 
+
+
+class OutfitFeedbackRequest(BaseModel):
+    user_id: str
+    outfit_id: str
+    item_ids: List[str] = Field(default_factory=list)
+    occasion: Optional[str] = None
+    rating: Optional[int] = Field(default=None, ge=1, le=5)
+    worn: bool = False
+    favorite: bool = False
+    rejected: bool = False
+    notes: Optional[str] = None
+
+
+class OutfitFeedback(BaseModel):
+    feedback_id: str
+    user_id: str
+    outfit_id: str
+    item_ids: List[str] = Field(default_factory=list)
+    occasion: Optional[str] = None
+    rating: Optional[int] = None
+    worn: bool = False
+    favorite: bool = False
+    rejected: bool = False
+    notes: Optional[str] = None
+    created_at: str
+
+
 class AuthSessionResponse(BaseModel):
     authenticated: bool
     auth_mode: str

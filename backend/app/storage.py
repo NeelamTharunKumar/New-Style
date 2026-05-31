@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import datetime, timezone
 from typing import Dict, List, Optional
+from uuid import uuid4
 
-from app.models import UserProfile, WardrobeItem
+from app.models import OutfitFeedback, OutfitFeedbackRequest, UserProfile, WardrobeItem
 
 
 class InMemoryStore:
@@ -12,6 +14,7 @@ class InMemoryStore:
     def __init__(self) -> None:
         self._profiles: Dict[str, UserProfile] = {}
         self._wardrobe: Dict[str, Dict[str, WardrobeItem]] = defaultdict(dict)
+        self._feedback: Dict[str, Dict[str, OutfitFeedback]] = defaultdict(dict)
 
     def upsert_profile(self, profile: UserProfile) -> UserProfile:
         self._profiles[profile.user_id] = profile
@@ -34,16 +37,31 @@ class InMemoryStore:
         return False
 
 
+
+    def add_feedback(self, payload: OutfitFeedbackRequest) -> OutfitFeedback:
+        feedback = OutfitFeedback(
+            feedback_id=f"feedback_{uuid4().hex[:10]}",
+            created_at=datetime.now(timezone.utc).isoformat(),
+            **payload.model_dump(),
+        )
+        self._feedback[payload.user_id][feedback.feedback_id] = feedback
+        return feedback
+
+    def list_feedback(self, user_id: str) -> List[OutfitFeedback]:
+        return list(self._feedback[user_id].values())
+
     def export_user(self, user_id: str) -> dict:
         return {
             "profile": self.get_profile(user_id),
             "wardrobe_items": self.list_items(user_id),
+            "outfit_history": [item.model_dump() for item in self.list_feedback(user_id)],
         }
 
     def delete_user(self, user_id: str) -> dict:
         profile_deleted = self._profiles.pop(user_id, None) is not None
         item_count = len(self._wardrobe[user_id])
         self._wardrobe.pop(user_id, None)
+        self._feedback.pop(user_id, None)
         return {
             "profile_deleted": profile_deleted,
             "wardrobe_items_deleted": item_count,
@@ -52,3 +70,4 @@ class InMemoryStore:
     def clear(self) -> None:
         self._profiles.clear()
         self._wardrobe.clear()
+        self._feedback.clear()

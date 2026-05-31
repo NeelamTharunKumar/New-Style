@@ -9,9 +9,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.auth import CurrentUser, ensure_user_access, get_current_user
 from app.core.config import get_settings
+from app.core.rate_limit import enforce_rate_limit
 from app.core.security import require_api_key
 from app.models import (
     AuthSessionResponse,
+    OutfitFeedback,
+    OutfitFeedbackRequest,
     OutfitGenerateRequest,
     OutfitGenerateResponse,
     StylistChatRequest,
@@ -56,9 +59,15 @@ PRIVACY_MESSAGE = "No raw wardrobe/selfie images are required or processed by th
 
 
 @app.middleware("http")
-async def request_logging_middleware(request: Request, call_next):
+async def request_security_middleware(request: Request, call_next):
     start = time.perf_counter()
+    await enforce_rate_limit(request)
     response = await call_next(request)
+    if settings.security_headers_enabled:
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if settings.log_requests:
         elapsed_ms = round((time.perf_counter() - start) * 1000, 2)
         logger.info("%s %s -> %s in %sms", request.method, request.url.path, response.status_code, elapsed_ms)
@@ -241,6 +250,26 @@ async def generate_outfits(
         privacy=PRIVACY_MESSAGE,
         outfits=outfits,
     )
+
+
+@app.post("/outfits/feedback", response_model=OutfitFeedback)
+async def record_outfit_feedback(
+    req: OutfitFeedbackRequest,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, req.user_id)
+    return store.add_feedback(req)
+
+
+@app.get("/outfits/history/{user_id}", response_model=List[OutfitFeedback])
+async def list_outfit_history(
+    user_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
+    return store.list_feedback(user_id)
 
 
 @app.post("/chat/stylist", response_model=StylistChatResponse)

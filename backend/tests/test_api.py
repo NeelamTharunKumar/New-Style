@@ -75,3 +75,27 @@ def test_stateless_womenswear_haldi_outfit_uses_structured_data_only():
     assert "No raw" in body["privacy"]
     assert body["outfits"]
     assert any("kurti_001" in outfit["item_ids"] for outfit in body["outfits"])
+
+
+def test_outfit_feedback_history_flow():
+    store.clear()
+    payload = {
+        "user_id": "u_feedback",
+        "outfit_id": "outfit_001",
+        "item_ids": ["shirt_001", "trouser_001"],
+        "occasion": "office",
+        "rating": 5,
+        "worn": True,
+        "favorite": True,
+        "notes": "Worked well",
+    }
+    created = client.post("/outfits/feedback", json=payload)
+    assert created.status_code == 200
+    body = created.json()
+    assert body["feedback_id"].startswith("feedback_")
+    assert body["rating"] == 5
+
+    history = client.get("/outfits/history/u_feedback")
+    assert history.status_code == 200
+    assert len(history.json()) == 1
+    assert history.json()[0]["item_ids"] == ["shirt_001", "trouser_001"]
