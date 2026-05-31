@@ -73,6 +73,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - First-run onboarding, premium UI components, polished home/wardrobe/outfit UX
 - Centralized branding constants, source app icon/splash assets and package/bundle patching script
 - Flutter QA scripts and widget/model tests
+- Privacy hardening, outfit feedback personalization, SQLite scaffold, item/outfit detail UX
 - Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
@@ -128,6 +129,7 @@ flutter run
 - [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
 - [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
 - [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
+- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
 - [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 

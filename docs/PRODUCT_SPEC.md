@@ -99,6 +99,7 @@ Implemented in Phase 2:
 - First-run onboarding, premium UI components and polished wardrobe/outfit UX
 - Centralized branding, source app icon/splash assets and package/bundle ID patching
 - Flutter QA scripts, model/component tests and CI test step
+- Feedback-based outfit personalization, privacy hardening, SQLite scaffold and detail-page UX
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains

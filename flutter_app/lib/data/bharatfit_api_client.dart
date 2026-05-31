@@ -111,6 +111,35 @@ class BharatFitApiClient {
         .toList();
   }
 
+  Future<void> recordOutfitFeedback({
+    required String userId,
+    required String outfitId,
+    required List<String> itemIds,
+    String? occasion,
+    int? rating,
+    bool worn = false,
+    bool favorite = false,
+    bool rejected = false,
+    String? notes,
+  }) async {
+    final response = await http.post(
+      _uri('/outfits/feedback'),
+      headers: _headers,
+      body: jsonEncode({
+        'user_id': userId,
+        'outfit_id': outfitId,
+        'item_ids': itemIds,
+        if (occasion != null) 'occasion': occasion,
+        if (rating != null) 'rating': rating,
+        'worn': worn,
+        'favorite': favorite,
+        'rejected': rejected,
+        if (notes != null && notes.isNotEmpty) 'notes': notes,
+      }),
+    );
+    _decode(response);
+  }
+
   Future<String> chat({required String userId, required String message}) async {
     final response = await http.post(
       _uri('/chat/stylist'),

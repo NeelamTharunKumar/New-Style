@@ -221,3 +221,20 @@ Scope:
 - combined backend+Flutter verification script
 - Flutter CI test step
 - manual QA checklist
+
+
+## Upgrade batch — Privacy, ML, personalization, local DB and detail UX
+
+Status: completed in this commit.
+
+Scope:
+
+- backend rate limiting and security headers
+- local image deletion on wardrobe item removal
+- local ML schema/category/occasion hints
+- feedback-based outfit reranking
+- outfit feedback/history API
+- SQLite local DB scaffold
+- wardrobe item detail page
+- outfit detail and feedback page
+- placeholder app icon/screenshot assets

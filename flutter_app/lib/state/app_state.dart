@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../data/app_models.dart';
 import '../data/bharatfit_api_client.dart';
 import '../data/firebase_login_service.dart';
+import '../data/local_image_service.dart';
 import '../data/local_store.dart';
 import '../data/secure_auth_store.dart';
 
@@ -13,6 +14,7 @@ class AppState extends ChangeNotifier {
   final LocalStore localStore;
   final SecureAuthStore secureAuthStore;
   final FirebaseLoginService firebaseLoginService;
+  final LocalImageService _localImageService = const LocalImageService();
 
   UserProfile profile = const UserProfile(
     userId: 'demo_user',
@@ -240,6 +242,7 @@ class AppState extends ChangeNotifier {
     final itemId = item.itemId;
     if (itemId == null || itemId.isEmpty) return;
     await _run(() async {
+      await _localImageService.deleteLocalImage(item.localImageRef);
       wardrobeItems = wardrobeItems.where((existing) => existing.itemId != itemId).toList();
       await localStore.saveWardrobe(wardrobeItems);
       try {
@@ -277,6 +280,37 @@ class AppState extends ChangeNotifier {
       );
       await localStore.saveOutfits(outfits);
       statusMessage = outfits.isEmpty ? 'No outfit combinations found yet' : 'Generated and saved ${outfits.length} outfits locally';
+    });
+  }
+
+  Future<void> recordOutfitFeedback({
+    required OutfitRecommendation outfit,
+    int? rating,
+    bool worn = false,
+    bool favorite = false,
+    bool rejected = false,
+    String? occasion,
+    String? notes,
+  }) async {
+    await _run(() async {
+      await apiClient.recordOutfitFeedback(
+        userId: userId,
+        outfitId: outfit.outfitId,
+        itemIds: outfit.itemIds,
+        occasion: occasion,
+        rating: rating,
+        worn: worn,
+        favorite: favorite,
+        rejected: rejected,
+        notes: notes,
+      );
+      statusMessage = favorite
+          ? 'Saved outfit as favorite'
+          : rejected
+              ? 'Feedback saved. Similar looks will be ranked lower.'
+              : worn
+                  ? 'Marked outfit as worn'
+                  : 'Outfit feedback saved';
     });
   }
 

@@ -27,6 +27,7 @@ from app.models import (
 )
 from app.services.llm_orchestrator import LLMOrchestrator
 from app.services.outfit_engine import OutfitEngine
+from app.services.personalization import apply_feedback_personalization
 from app.services.taxonomy import TAXONOMY
 from app.storage_factory import create_store
 
@@ -147,7 +148,7 @@ async def export_user_data(
         privacy=PRIVACY_MESSAGE,
         profile=exported.get("profile"),
         wardrobe_items=exported.get("wardrobe_items", []),
-        outfit_history=[],
+        outfit_history=exported.get("outfit_history", []),
     )
 
 
@@ -237,6 +238,7 @@ async def generate_outfits(
         style_mode=req.style_mode,
         max_results=req.max_results,
     )
+    outfits = apply_feedback_personalization(outfits, store.list_feedback(req.user_id))
     outfits = await llm_orchestrator.explain_outfits(
         profile=profile,
         wardrobe=wardrobe,

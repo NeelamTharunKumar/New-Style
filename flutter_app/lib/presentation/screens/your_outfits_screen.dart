@@ -7,6 +7,7 @@ import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
+import 'outfit_detail_screen.dart';
 import 'wardrobe_screen.dart';
 
 class YourOutfitsScreen extends StatefulWidget {
@@ -169,59 +170,65 @@ class _OutfitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = outfit.itemIds.map(state.itemById).whereType<WardrobeItem>().toList();
-    return PremiumCard(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(child: Text(outfit.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800))),
-                _ScorePill(score: outfit.score),
+    return InkWell(
+      borderRadius: BorderRadius.circular(28),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => OutfitDetailScreen(appState: state, outfit: outfit)),
+      ),
+      child: PremiumCard(
+        margin: const EdgeInsets.only(bottom: 16),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(child: Text(outfit.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800))),
+                  _ScorePill(score: outfit.score),
+                ],
+              ),
+              const SizedBox(height: 14),
+              if (items.isNotEmpty)
+                SizedBox(
+                  height: 116,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => _OutfitItemTile(item: items[index]),
+                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    itemCount: items.length,
+                  ),
+                )
+              else
+                Text('Item IDs: ${outfit.itemIds.join(', ')}'),
+              const SizedBox(height: 14),
+              Text(outfit.why),
+              if (outfit.stylingTips.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                const Text('Styling tips', style: TextStyle(fontWeight: FontWeight.w700)),
+                ...outfit.stylingTips.map((tip) => Text('• $tip')),
               ],
-            ),
-            const SizedBox(height: 14),
-            if (items.isNotEmpty)
-              SizedBox(
-                height: 116,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => _OutfitItemTile(item: items[index]),
-                  separatorBuilder: (_, __) => const SizedBox(width: 10),
-                  itemCount: items.length,
-                ),
-              )
-            else
-              Text('Item IDs: ${outfit.itemIds.join(', ')}'),
-            const SizedBox(height: 14),
-            Text(outfit.why),
-            if (outfit.stylingTips.isNotEmpty) ...[
+              if (outfit.avoid.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                const Text('Avoid', style: TextStyle(fontWeight: FontWeight.w700)),
+                ...outfit.avoid.map((tip) => Text('• $tip')),
+              ],
               const SizedBox(height: 12),
-              const Text('Styling tips', style: TextStyle(fontWeight: FontWeight.w700)),
-              ...outfit.stylingTips.map((tip) => Text('• $tip')),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: outfit.scoreBreakdown.values.entries
+                    .map((entry) => Chip(label: Text('${entry.key}: ${entry.value.toStringAsFixed(0)}')))
+                    .toList(),
+              ),
             ],
-            if (outfit.avoid.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              const Text('Avoid', style: TextStyle(fontWeight: FontWeight.w700)),
-              ...outfit.avoid.map((tip) => Text('• $tip')),
-            ],
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: outfit.scoreBreakdown.values.entries
-                  .map((entry) => Chip(label: Text('${entry.key}: ${entry.value.toStringAsFixed(0)}')))
-                  .toList(),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-
 class _OutfitItemTile extends StatelessWidget {
   const _OutfitItemTile({required this.item});
 

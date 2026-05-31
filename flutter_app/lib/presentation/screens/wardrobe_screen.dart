@@ -9,6 +9,7 @@ import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
+import 'wardrobe_item_detail_screen.dart';
 
 class WardrobeScreen extends StatefulWidget {
   const WardrobeScreen({super.key, required this.appState});
@@ -117,6 +118,10 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                     itemBuilder: (context, index) => _WardrobeGridCard(
                       item: state.wardrobeItems[index],
                       onDelete: () => state.deleteWardrobeItem(state.wardrobeItems[index]),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => WardrobeItemDetailScreen(appState: state, item: state.wardrobeItems[index])),
+                      ),
                     ),
                   ),
               ],
@@ -374,58 +379,62 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
 }
 
 class _WardrobeGridCard extends StatelessWidget {
-  const _WardrobeGridCard({required this.item, required this.onDelete});
+  const _WardrobeGridCard({required this.item, required this.onDelete, required this.onTap});
 
   final WardrobeItem item;
   final VoidCallback onDelete;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return PremiumCard(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: LocalWardrobeImage(
-                    localImageRef: item.localImageRef,
-                    hexColor: item.hexColor,
-                    borderRadius: 16,
-                  ),
-                ),
-                Positioned(
-                  top: 6,
-                  right: 6,
-                  child: InkWell(
-                    onTap: onDelete,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(99)),
-                      child: const Icon(Icons.delete_outline, size: 18),
+    return InkWell(
+      borderRadius: BorderRadius.circular(28),
+      onTap: onTap,
+      child: PremiumCard(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: LocalWardrobeImage(
+                      localImageRef: item.localImageRef,
+                      hexColor: item.hexColor,
+                      borderRadius: 16,
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: InkWell(
+                      onTap: onDelete,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(99)),
+                        child: const Icon(Icons.delete_outline, size: 18),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(item.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
-          const SizedBox(height: 4),
-          Text(
-            [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: AppColors.mutedForeground, fontSize: 12),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Text(item.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
+            const SizedBox(height: 4),
+            Text(
+              [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: AppColors.mutedForeground, fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
 String? _emptyToNull(String value) {
   final trimmed = value.trim();
   return trimmed.isEmpty ? null : trimmed;

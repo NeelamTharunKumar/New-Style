@@ -39,6 +39,15 @@ class LocalImageService {
     return null;
   }
 
+  Future<bool> deleteLocalImage(String? value) async {
+    final path = pathFromLocalRef(value);
+    if (path == null) return false;
+    final file = File(path);
+    if (!await file.exists()) return false;
+    await file.delete();
+    return true;
+  }
+
   String privacyLabel(String? value) {
     if (value == null || value.isEmpty) return 'No local image linked yet';
     if (value.startsWith('file://')) return 'Stored inside app-local files';
