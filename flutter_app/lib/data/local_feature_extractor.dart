@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
+import '../services/native_ml_bridge.dart';
 import 'local_image_service.dart';
 
 class ExtractedGarmentFeatures {
@@ -43,16 +44,43 @@ class ExtractedGarmentFeatures {
 }
 
 class LocalFeatureExtractor {
-  LocalFeatureExtractor({LocalImageService? imageService}) : imageService = imageService ?? const LocalImageService();
+  LocalFeatureExtractor({LocalImageService? imageService, NativeMlBridge? nativeBridge})
+      : imageService = imageService ?? const LocalImageService(),
+        nativeBridge = nativeBridge ?? NativeMlBridge();
 
   final LocalImageService imageService;
+  final NativeMlBridge nativeBridge;
   final ImagePicker _picker = ImagePicker();
 
   Future<ExtractedGarmentFeatures?> pickCopyAndExtract({required String itemIdHint}) async {
     final picked = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 92);
     if (picked == null) return null;
     final localRef = await imageService.copyImageIntoWardrobe(picked.path, itemIdHint: itemIdHint);
+    final path = imageService.pathFromLocalRef(localRef);
+    if (path != null) {
+      final native = await nativeBridge.analyzeGarmentImage(
+        imagePath: path,
+        localImageRef: localRef,
+        itemIdHint: itemIdHint,
+      );
+      if (native != null) {
+        return _fromNativeResult(native, localRef);
+      }
+    }
     return extractFromLocalRef(localRef);
+  }
+
+  ExtractedGarmentFeatures _fromNativeResult(Map<String, dynamic> native, String fallbackLocalRef) {
+    return ExtractedGarmentFeatures(
+      localImageRef: native['localImageRef']?.toString() ?? fallbackLocalRef,
+      hexColor: native['hexColor']?.toString() ?? '#808080',
+      colorName: native['colorName']?.toString() ?? 'neutral',
+      patternHint: native['patternHint']?.toString() ?? 'solid',
+      brightness: _toDouble(native['brightness'], fallback: 128),
+      confidence: _toDouble(native['confidence'], fallback: 0.7),
+      width: _toInt(native['width'], fallback: 0),
+      height: _toInt(native['height'], fallback: 0),
+    );
   }
 
   Future<ExtractedGarmentFeatures> extractFromLocalRef(String localImageRef) async {
@@ -177,6 +205,18 @@ class _ColorStats {
   final double clusterShare;
   final double averageLuminance;
   final double luminanceVariance;
+}
+
+int _toInt(dynamic value, {required int fallback}) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  return int.tryParse(value?.toString() ?? '') ?? fallback;
+}
+
+double _toDouble(dynamic value, {required double fallback}) {
+  if (value is double) return value;
+  if (value is num) return value.toDouble();
+  return double.tryParse(value?.toString() ?? '') ?? fallback;
 }
 
 double _luminance(int r, int g, int b) => 0.2126 * r + 0.7152 * g + 0.0722 * b;

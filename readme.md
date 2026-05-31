@@ -62,6 +62,8 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Optional LLM explanation adapter with strict JSON/no-photo contract
 - Basic on-device wardrobe photo color extraction
 - Local file image previews for wardrobe/outfit cards
+- Native Kotlin/Swift ML bridge templates
+- Android APK and iOS build preparation scripts
 
 ## Backend quickstart
 
@@ -105,6 +107,8 @@ flutter run
 - [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
 - [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
 - [`docs/LOCAL_FEATURE_EXTRACTION.md`](docs/LOCAL_FEATURE_EXTRACTION.md)
+- [`docs/NATIVE_ML_BRIDGE.md`](docs/NATIVE_ML_BRIDGE.md)
+- [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
 
 ## Example backend flow
 
@@ -123,5 +127,5 @@ The backend never needs the actual wardrobe photos.
 4. Phase 3: local storage and privacy layer — completed.
 5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract — completed.
 6. Phase 5: basic local feature extraction — completed.
-7. Phase 6: native Kotlin/Swift ML bridges.
+7. Phase 6: native Kotlin/Swift ML bridges and Android/iOS build scripts — completed.
 8. Phase 7: Postgres/auth/deployment hardening.

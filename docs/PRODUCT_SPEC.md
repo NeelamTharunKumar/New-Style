@@ -88,6 +88,8 @@ Implemented in Phase 2:
 - Privacy settings screen with structured JSON export and local data deletion
 - Optional LLM explanation adapter that cannot change item IDs/scores
 - Basic local image picking, local copy and dominant color extraction
+- Native Kotlin/Swift method-channel bridge for platform ML
+- Scripts to prepare Android/iOS platform folders and build APK/iOS release
 
 ## India-first styling domains
 

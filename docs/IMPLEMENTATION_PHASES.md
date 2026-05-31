@@ -72,7 +72,7 @@ Scope:
 
 ## Phase 6 — Native Kotlin/Swift ML bridge
 
-Next recommended phase.
+Status: completed in this commit.
 
 Scope:
 
@@ -81,6 +81,8 @@ Scope:
 - iOS Swift CoreML/Vision module
 
 ## Phase 7 — Production hardening
+
+Next recommended phase.
 
 Scope:
 
