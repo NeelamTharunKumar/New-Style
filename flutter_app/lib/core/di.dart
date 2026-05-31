@@ -1,13 +1,13 @@
 // Dependency Inversion - All ML services behind interfaces
 abstract class LocalMLService {
-  Future<Map<String, dynamic>> extractStyleDNAFeatures(List<double> selfieLandmarks);
+  Future<Map<String, dynamic>> extractStyleProfileFeatures(List<double> selfieLandmarks);
   Future<Map<String, dynamic>> extractGarmentFeatures(String imagePath);
   Future<List<double>> getCLIPEmbedding(String imagePath);
 }
 
 class MediaPipeLocalMLService implements LocalMLService {
   @override
-  Future<Map<String, dynamic>> extractStyleDNAFeatures(List<double> selfieLandmarks) async {
+  Future<Map<String, dynamic>> extractStyleProfileFeatures(List<double> selfieLandmarks) async {
     // On-device MediaPipe FaceMesh + Pose processing
     return {
       'skin_tone_lab': [45.2, 12.1, -8.3],

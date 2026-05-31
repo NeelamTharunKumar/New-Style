@@ -1,4 +1,4 @@
-# Contributing to StyleDNA AI
+# Contributing to BharatFit AI
 
 Thank you for your interest in contributing!
 

@@ -30,7 +30,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
       {
         'items': ['White T-Shirt', 'Black Jeans', 'White Sneakers'],
         'score': 92,
-        'why': 'High contrast minimalist look perfect for college. Neutral palette matches your StyleDNA.'
+        'why': 'High contrast minimalist look perfect for college. Neutral palette matches your BharatFit.'
       },
       {
         'items': ['Blue Oxford Shirt', 'Beige Chinos', 'Brown Loafers'],

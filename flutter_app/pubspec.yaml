@@ -1,7 +1,7 @@
-name: styledna_ai
-description: AI-powered fashion and wardrobe assistant with on-device intelligence.
+name: bharatfit_ai
+description: Privacy-first India wardrobe assistant for outfit generation from clothes users already own.
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

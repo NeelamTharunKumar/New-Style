@@ -26,7 +26,7 @@ class _AIStylistChatState extends State<AIStylistChat> {
 
   String _generateSmartReply(String query) {
     if (query.toLowerCase().contains('today')) {
-      return "Based on your StyleDNA and local wardrobe graph, I recommend the Blue Oxford + Beige Chinos combo today.";
+      return "Based on your BharatFit profile and local wardrobe graph, I recommend the Blue Oxford + Beige Chinos combo today.";
     }
     return "Understood. Your wardrobe has 47 compatible combinations for that request.";
   }

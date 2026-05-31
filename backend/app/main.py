@@ -18,7 +18,7 @@ from app.services.taxonomy import TAXONOMY
 from app.storage import InMemoryStore
 
 app = FastAPI(
-    title="India-First Wardrobe AI Backend",
+    title="BharatFit AI Backend",
     description=(
         "Privacy-preserving outfit recommendation API. The backend accepts structured wardrobe/profile "
         "features only; raw photos are expected to stay on-device."
@@ -36,7 +36,7 @@ PRIVACY_MESSAGE = "No raw wardrobe/selfie images are required or processed by th
 async def health():
     return {
         "status": "ok",
-        "product": "India-first wardrobe assistant",
+        "product": "BharatFit AI",
         "ml_mode": "on_device_feature_extraction_first",
         "privacy": PRIVACY_MESSAGE,
     }

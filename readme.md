@@ -1,57 +1,40 @@
-# India-First Wardrobe AI
+# BharatFit AI
 
 > Privacy-first outfit intelligence for Indian wardrobes — ethnic, western, college, office, dates, weddings, Haldi, Sangeet, and daily dressing.
 
-This repository is being converted from an early prototype into a functional foundation for an India-first AI wardrobe assistant.
+BharatFit AI is an India-first wardrobe assistant that recommends outfits from clothes users already own.
 
-## Core product promise
-
-Users upload their wardrobe photos locally. The app extracts structured features on-device and sends only those features to the backend.
-
-The backend recommends exact outfit item IDs and explains why the combination works. The app displays the real clothing photos locally.
+The core privacy principle is simple:
 
 ```text
-Photos stay on phone.
-Structured features go to backend.
+Photos stay on the phone.
+Structured features go to the backend.
 Backend returns outfit item IDs + explanation.
-Phone displays local images.
+Phone displays local wardrobe images.
 ```
 
-## India-first focus
+## Why this product exists
 
-The product is optimized for Indian dressing contexts:
+Generic fashion apps and AI stylist apps already exist. BharatFit AI is focused on Indian wardrobe realities:
 
 - ethnic + western wardrobe mixing
 - college outfits
-- office outfits
-- dates
-- wedding guest looks
-- Haldi / Sangeet / Mehendi / Reception
-- saree + blouse matching
+- Indian office outfits
+- dates and daily casual looks
+- wedding guest outfits
+- Haldi / Sangeet / Mehendi / Reception looks
+- saree + blouse combinations
 - kurti + palazzo / leggings / dupatta combinations
 - kurta + chinos / churidar / Nehru jacket combinations
 - hot, humid, monsoon and indoor-AC dressing
 - budget-conscious styling using clothes users already own
-- skin-tone/color recommendations for Indian complexions
-
-## Men’s styling focus
-
-The engine includes practical menswear rules:
-
-- shirt + trouser combinations
-- shirt + pant contrast
-- sneakers/shoes matching
-- belt/shoe matching guidance
-- college, office, date and wedding looks
-- kurta / sherwani / Nehru jacket styling
-- grooming tips
-- capsule wardrobe direction
+- practical men’s styling: shirts, trousers, sneakers, shoes, belts, grooming and capsule wardrobes
 
 ## Current implementation status
 
-### Backend
+This repo now contains a functional backend MVP and an early Flutter prototype.
 
-Implemented in this phase:
+### Backend implemented
 
 - FastAPI app that runs
 - privacy-first health endpoint
@@ -59,15 +42,15 @@ Implemented in this phase:
 - user style profile endpoint
 - wardrobe add/list/delete endpoints
 - structured-data-only outfit generation endpoint
-- rule-based India/menswear/womenswear outfit engine
+- India/menswear/womenswear rule engine
 - deterministic explanations and styling tips
 - tests for core API flows
 
-### Flutter app
+### Flutter status
 
-The Flutter app is still an early UI prototype. Next phases will connect it to the backend and add local storage/privacy-preserving image handling.
+The Flutter app is still an early UI prototype. The next phase is to connect it to the backend and add local wardrobe storage/image-reference handling.
 
-## Run backend
+## Backend quickstart
 
 ```bash
 cd backend
@@ -75,28 +58,20 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Docs:
+Open API docs:
 
 ```text
 http://localhost:8000/docs
 ```
 
-## Run tests
+Run tests:
 
 ```bash
 cd backend
 pytest
 ```
 
-## Privacy architecture
-
-See [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md).
-
-## API examples
-
-See [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md).
-
-## Flutter app
+## Flutter quickstart
 
 ```bash
 cd flutter_app
@@ -104,11 +79,31 @@ flutter pub get
 flutter run
 ```
 
+## Documentation
+
+- [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md)
+- [`docs/PRODUCT_POSITIONING.md`](docs/PRODUCT_POSITIONING.md)
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
+- [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
+- [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
+
+## Example backend flow
+
+1. Create profile.
+2. Add structured wardrobe items.
+3. Generate outfits for an occasion.
+4. Use returned `item_ids` to display local wardrobe photos in the app.
+
+The backend never needs the actual wardrobe photos.
+
 ## Roadmap
 
-1. Backend functional MVP — in progress/completed for structured data.
-2. Flutter functional MVP with local wardrobe storage.
-3. LLM explanation layer with strict JSON and no-photo contract.
-4. Basic local feature extraction.
-5. Native Kotlin/Swift ML bridge for on-device garment/body feature extraction.
-6. Postgres/auth/deployment production hardening.
+1. Phase 0: repo cleanup, naming, docs, positioning — completed.
+2. Phase 1: functional structured-data backend MVP — completed.
+3. Phase 2: Flutter functional MVP connected to backend.
+4. Phase 3: local storage and privacy layer.
+5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract.
+6. Phase 5: local feature extraction.
+7. Phase 6: native Kotlin/Swift ML bridges.
+8. Phase 7: Postgres/auth/deployment hardening.

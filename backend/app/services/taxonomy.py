@@ -85,7 +85,7 @@ STYLE_TAGS = [
 ]
 
 TAXONOMY = {
-    "positioning": "India-first privacy-preserving wardrobe assistant",
+    "positioning": "BharatFit AI: India-first privacy-preserving wardrobe assistant",
     "privacy_contract": "Only structured item/profile features leave the app; photos stay local.",
     "occasions": INDIAN_OCCASIONS,
     "menswear_categories": MENSWEAR_CATEGORIES,

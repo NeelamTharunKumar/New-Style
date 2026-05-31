@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'style_dna_screen.dart';
+import 'style_profile_screen.dart';
 import 'wardrobe_screen.dart';
 import 'your_outfits_screen.dart';
 import 'ai_stylist_chat.dart';
@@ -10,16 +10,16 @@ class HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('StyleDNA AI')),
+      appBar: AppBar(title: const Text('BharatFit AI')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Welcome to your StyleDNA', style: TextStyle(fontSize: 24)),
+            const Text('Welcome to BharatFit AI', style: TextStyle(fontSize: 24)),
             const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StyleDNAScreen())),
-              child: const Text('Style DNA Analysis'),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StyleProfileScreen())),
+              child: const Text('Style Profile'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
