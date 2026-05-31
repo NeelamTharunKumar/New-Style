@@ -3,12 +3,14 @@ import 'package:flutter/foundation.dart';
 import '../data/app_models.dart';
 import '../data/bharatfit_api_client.dart';
 import '../data/local_store.dart';
+import '../data/secure_auth_store.dart';
 
 class AppState extends ChangeNotifier {
-  AppState(this.apiClient, this.localStore);
+  AppState(this.apiClient, this.localStore, this.secureAuthStore);
 
   final BharatFitApiClient apiClient;
   final LocalStore localStore;
+  final SecureAuthStore secureAuthStore;
 
   UserProfile profile = const UserProfile(
     userId: 'demo_user',
@@ -25,7 +27,9 @@ class AppState extends ChangeNotifier {
   String? error;
   String? statusMessage;
   String? backendHealth;
+  AuthCredentials authCredentials = const AuthCredentials();
 
+  bool get isLoggedIn => authCredentials.hasBearerToken || authCredentials.authMode == 'open_dev';
   String get userId => profile.userId;
 
   Future<void> hydrate() async {
@@ -37,10 +41,16 @@ class AppState extends ChangeNotifier {
       if (savedBaseUrl != null && savedBaseUrl.isNotEmpty) {
         apiClient.baseUrl = savedBaseUrl;
       }
+      authCredentials = await secureAuthStore.load();
+      apiClient.apiKey = authCredentials.apiKey;
+      apiClient.authToken = authCredentials.authToken;
       profile = await localStore.loadProfile() ?? profile;
+      if (authCredentials.userId.isNotEmpty && profile.userId != authCredentials.userId) {
+        profile = profile.copyWith(userId: authCredentials.userId);
+      }
       wardrobeItems = await localStore.loadWardrobe();
       outfits = await localStore.loadOutfits();
-      statusMessage = 'Loaded local profile, ${wardrobeItems.length} wardrobe items and ${outfits.length} saved outfits';
+      statusMessage = 'Loaded secure auth, local profile, ${wardrobeItems.length} wardrobe items and ${outfits.length} saved outfits';
     } catch (err) {
       error = 'Local load failed: $err';
     } finally {
@@ -48,6 +58,61 @@ class AppState extends ChangeNotifier {
       isBusy = false;
       notifyListeners();
     }
+  }
+
+
+  Future<void> loginWithDevUser({
+    required String userId,
+    String apiKey = '',
+  }) async {
+    final trimmedUserId = userId.trim();
+    if (trimmedUserId.isEmpty) {
+      error = 'User ID is required';
+      notifyListeners();
+      return;
+    }
+    await saveAuthCredentials(
+      AuthCredentials(
+        userId: trimmedUserId,
+        authMode: 'dev_bearer',
+        authToken: 'dev:$trimmedUserId',
+        apiKey: apiKey.trim(),
+      ),
+      updateProfileUserId: true,
+    );
+  }
+
+  Future<void> saveAuthCredentials(
+    AuthCredentials credentials, {
+    bool updateProfileUserId = false,
+  }) async {
+    await _run(() async {
+      authCredentials = credentials;
+      apiClient.apiKey = credentials.apiKey;
+      apiClient.authToken = credentials.authToken;
+      await secureAuthStore.save(credentials);
+      if (updateProfileUserId && credentials.userId.isNotEmpty) {
+        final previousUserId = profile.userId;
+        profile = profile.copyWith(userId: credentials.userId);
+        if (previousUserId != profile.userId && wardrobeItems.isNotEmpty) {
+          wardrobeItems = wardrobeItems.map((item) => item.copyWith(userId: profile.userId)).toList();
+          await localStore.saveWardrobe(wardrobeItems);
+        }
+        await localStore.saveProfile(profile);
+      }
+      final session = await apiClient.session();
+      statusMessage = 'Login saved securely. Session: ${session['auth_mode']} ${session['user_id'] ?? ''}'.trim();
+    });
+  }
+
+  Future<void> logout() async {
+    await _run(() async {
+      authCredentials = const AuthCredentials();
+      apiClient.apiKey = '';
+      apiClient.authToken = '';
+      await secureAuthStore.clear();
+      statusMessage = 'Logged out and cleared secure tokens';
+    });
   }
 
   Future<void> updateBaseUrl(String value) async {

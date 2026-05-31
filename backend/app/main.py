@@ -11,6 +11,7 @@ from app.core.auth import CurrentUser, ensure_user_access, get_current_user
 from app.core.config import get_settings
 from app.core.security import require_api_key
 from app.models import (
+    AuthSessionResponse,
     OutfitGenerateRequest,
     OutfitGenerateResponse,
     StylistChatRequest,
@@ -86,6 +87,19 @@ async def taxonomy():
 @app.get("/llm/status")
 async def llm_status():
     return llm_orchestrator.status()
+
+
+@app.get("/auth/session", response_model=AuthSessionResponse)
+async def auth_session(
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    return AuthSessionResponse(
+        authenticated=current_user.user_id is not None or settings.auth_mode == "open_dev",
+        auth_mode=current_user.auth_mode,
+        user_id=current_user.user_id,
+        api_key_required=bool(settings.api_key),
+    )
 
 
 @app.post("/users/profile", response_model=UserProfile)

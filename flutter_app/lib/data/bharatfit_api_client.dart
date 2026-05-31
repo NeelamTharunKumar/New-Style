@@ -37,6 +37,11 @@ class BharatFitApiClient {
     return _decodeObject(response);
   }
 
+  Future<Map<String, dynamic>> session() async {
+    final response = await http.get(_uri('/auth/session'), headers: _headers);
+    return _decodeObject(response);
+  }
+
   Future<UserProfile> upsertProfile(UserProfile profile) async {
     final response = await http.post(
       _uri('/users/profile'),

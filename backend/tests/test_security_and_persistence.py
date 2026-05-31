@@ -153,3 +153,18 @@ def test_user_delete_respects_auth_isolation(monkeypatch):
     finally:
         monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
         get_settings.cache_clear()
+
+
+def test_auth_session_endpoint(monkeypatch):
+    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    get_settings.cache_clear()
+    try:
+        response = client.get("/auth/session", headers={"Authorization": "Bearer dev:session_user"})
+        assert response.status_code == 200
+        body = response.json()
+        assert body["authenticated"] is True
+        assert body["auth_mode"] == "dev_bearer"
+        assert body["user_id"] == "session_user"
+    finally:
+        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        get_settings.cache_clear()

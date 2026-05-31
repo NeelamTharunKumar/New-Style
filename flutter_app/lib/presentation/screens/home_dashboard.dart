@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
 import 'ai_stylist_chat.dart';
+import 'login_screen.dart';
 import 'privacy_settings_screen.dart';
 import 'style_profile_screen.dart';
 import 'wardrobe_screen.dart';
@@ -99,6 +100,12 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                _HomeAction(
+                  icon: Icons.login_outlined,
+                  title: '0. Login & Secure Tokens',
+                  subtitle: '${state.authCredentials.authMode} · bearer ${state.authCredentials.hasBearerToken ? 'saved' : 'not set'}',
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen(appState: state))),
+                ),
                 _HomeAction(
                   icon: Icons.person_outline,
                   title: '1. Style Profile',

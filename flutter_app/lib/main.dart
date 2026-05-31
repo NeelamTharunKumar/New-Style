@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'data/bharatfit_api_client.dart';
 import 'data/local_store.dart';
+import 'data/secure_auth_store.dart';
 import 'presentation/screens/home_dashboard.dart';
 import 'state/app_state.dart';
 
 void main() {
-  runApp(BharatFitApp(appState: AppState(BharatFitApiClient(), LocalStore())));
+  runApp(BharatFitApp(appState: AppState(BharatFitApiClient(), LocalStore(), SecureAuthStore())));
 }
 
 class BharatFitApp extends StatelessWidget {

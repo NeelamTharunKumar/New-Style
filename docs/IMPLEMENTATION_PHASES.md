@@ -121,3 +121,16 @@ Scope:
 - user data deletion endpoint
 - store-level export/delete methods
 - auth-protected lifecycle tests
+
+
+## Phase 9B — Login and secure token storage
+
+Status: completed in this commit.
+
+Scope:
+
+- Flutter secure token storage
+- login/logout screen
+- backend auth session endpoint
+- API client secure credential hydration
+- dev/static bearer login flows

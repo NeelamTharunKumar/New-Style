@@ -148,6 +148,15 @@ class OutfitGenerateResponse(BaseModel):
 
 
 
+
+
+class AuthSessionResponse(BaseModel):
+    authenticated: bool
+    auth_mode: str
+    user_id: Optional[str] = None
+    api_key_required: bool = False
+
+
 class UserDataExport(BaseModel):
     user_id: str
     privacy: str

@@ -92,6 +92,7 @@ Implemented in Phase 2:
 - Scripts to prepare Android/iOS platform folders and build APK/iOS release
 - Optional API key guard, CORS config, SQLAlchemy persistence and Docker deployment
 - User auth modes and per-user data isolation checks
+- Flutter login screen and secure token storage for bearer/API credentials
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains
