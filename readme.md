@@ -1,85 +1,172 @@
 # BharatFit AI
 
-> Privacy-first outfit intelligence for Indian wardrobes — ethnic, western, college, office, dates, weddings, Haldi, Sangeet, and daily dressing.
+> **Privacy-first, India-first wardrobe assistant that creates visual outfits from clothes users already own.**
 
-BharatFit AI is an India-first wardrobe assistant that recommends outfits from clothes users already own.
+BharatFit AI helps users answer:
 
-The core privacy principle is simple:
+```text
+What should I wear today?
+```
+
+The product is designed for Indian wardrobes and occasions: college, office, dates, travel, festivals, pooja, Haldi, Sangeet, Mehendi, reception and wedding guest looks.
+
+---
+
+## Core privacy promise
 
 ```text
 Photos stay on the phone.
-Structured features go to the backend.
-Backend returns outfit item IDs + explanation.
-Phone displays local wardrobe images.
+Local ML extracts structured clothing features.
+Only item IDs, categories, colors, tags and context go to the backend.
+Backend returns outfit item IDs + explanations.
+The phone displays local wardrobe images and local previews.
 ```
+
+Raw wardrobe photos, selfies, face images and body images are not required by the backend or LLM.
+
+---
+
+## Market-launch loop
+
+The app is now organized around the consumer loop that matters:
+
+```text
+Add photo
+→ local color extraction
+→ 1-tap category/color/occasion correction chips
+→ save wardrobe item
+→ pick occasion
+→ get visual outfits
+→ preview look locally
+→ wear/save/swap/reject
+```
+
+### Occasion-first home
+
+Home asks:
+
+```text
+What are you dressing for?
+[College] [Office] [Date] [Haldi] [Sangeet] [Wedding] [Casual] [Travel]
+```
+
+### Outfit result format
+
+```text
+Office-ready look
+
+[Blue shirt] [Charcoal trousers] [Brown loafers]
+
+Why it works:
+Clean blue-charcoal contrast, breathable cotton for warm weather, brown loafers make it polished.
+
+Actions:
+[Preview Look] [Wear today] [Save] [Swap item] [Not my style]
+```
+
+### Local Level 2 try-on preview
+
+BharatFit includes a privacy-safe **Preview Look** feature:
+
+- mannequin-style local preview
+- board/lookbook preview
+- category-to-body-slot placement
+- local item photos only
+- no image upload
+- no LLM image generation
+
+This is intentionally positioned as a local outfit preview, not a body-accurate virtual try-on.
+
+---
 
 ## Why this product exists
 
-Generic fashion apps and AI stylist apps already exist. BharatFit AI is focused on Indian wardrobe realities:
+Generic fashion apps and AI stylist apps already exist. BharatFit focuses on Indian wardrobe realities:
 
 - ethnic + western wardrobe mixing
-- college outfits
-- Indian office outfits
+- college and office dressing
 - dates and daily casual looks
-- wedding guest outfits
-- Haldi / Sangeet / Mehendi / Reception looks
+- Haldi / Sangeet / Mehendi / Reception / wedding guest outfits
 - saree + blouse combinations
 - kurti + palazzo / leggings / dupatta combinations
 - kurta + chinos / churidar / Nehru jacket combinations
 - hot, humid, monsoon and indoor-AC dressing
 - budget-conscious styling using clothes users already own
-- practical men’s styling: shirts, trousers, sneakers, shoes, belts, grooming and capsule wardrobes
+- practical men’s styling: shirts, trousers, sneakers, loafers, belts, watches, grooming and capsule wardrobes
+
+---
 
 ## Current implementation status
 
-This repo now contains a functional backend MVP and a backend-connected Flutter MVP.
+This repo contains a backend MVP, a backend-connected Flutter MVP, local-first privacy scaffolding, release automation, and market-launch UX loops.
 
 ### Backend implemented
 
-- FastAPI app that runs
-- privacy-first health endpoint
-- India-first taxonomy endpoint
-- user style profile endpoint
-- wardrobe add/list/delete endpoints
-- structured-data-only outfit generation endpoint
-- India/menswear/womenswear rule engine
-- deterministic explanations and styling tips
-- tests for core API flows
+- FastAPI backend
+- India-first taxonomy
+- user profile endpoints
+- wardrobe CRUD endpoints
+- outfit generation endpoint
+- outfit feedback/history endpoints
+- user data export/delete endpoints
+- optional API key guard
+- user auth/isolation modes
+- Firebase token verification plumbing
+- SQLAlchemy persistence with SQLite/Postgres support
+- Alembic migrations
+- rate limiting and security headers
+- privacy-safe audit events
+- optional LLM explanation layer with no-photo contract
+- LLM cache and per-user daily limit
+- feedback-based outfit personalization
+- Docker and Cloud Run deployment scaffolding
+- backend test suite
 
 ### Flutter implemented
 
-- Backend API client
-- Home dashboard with backend health check
-- Style profile setup
-- Manual structured wardrobe item entry
-- Wardrobe list/delete flow
-- Demo wardrobe seed flow
-- Occasion/weather outfit generation
-- Outfit cards that map returned item IDs to local image references
-- Privacy-safe AI stylist chat stub
-- Local-first profile/wardrobe/outfit persistence
-- Privacy settings screen with export/sync/clear actions
-- Optional LLM explanation adapter with strict JSON/no-photo contract
-- Basic on-device wardrobe photo color extraction
-- Local file image previews for wardrobe/outfit cards
-- Native Kotlin/Swift ML bridge templates
-- Android APK and iOS build preparation scripts
-- Optional API-key auth, CORS config, SQL persistence and Docker deployment foundation
-- User-auth modes and per-user backend access checks
-- Flutter login screen and secure token storage
-- Firebase auth verification plumbing and CI/CD workflows
-- Signed Android AAB/iOS IPA release automation and app store readiness templates
 - UI/UX Pro Max-inspired fashion/lifestyle visual system
-- First-run onboarding, premium UI components, polished home/wardrobe/outfit UX
-- Centralized branding constants, source app icon/splash assets and package/bundle patching script
-- Flutter QA scripts and widget/model tests
-- Privacy hardening, outfit feedback personalization, SQLite scaffold, item/outfit detail UX
-- Market-launch loop: Add photo → correction chips → occasion-first outfits → feedback actions
-- Local Level 2 outfit preview with mannequin/board modes before swapping
-- Alembic migration scaffold and user export/delete lifecycle endpoints
+- first-run onboarding
+- occasion-first home
+- photo-first wardrobe add flow
+- local photo copy and dominant color extraction
+- 1-tap category/color/occasion correction chips
+- local-first profile/wardrobe/outfit persistence
+- secure token storage
+- login screen for dev/static/Firebase auth flows
+- style profile setup
+- wardrobe grid
+- wardrobe item detail page
+- outfit generation screen
+- outfit detail page
+- local mannequin/board outfit preview
+- wear/save/swap/reject feedback actions
+- privacy and local data screen
+- local structured data export
+- native Kotlin/Swift ML bridge templates
+- Android/iOS build scripts
+- signed release automation scaffolding
+- app branding constants and source assets
+- Flutter widget/model tests and verification scripts
 
-- [`docs/MARKET_LAUNCH_LOOP.md`](docs/MARKET_LAUNCH_LOOP.md)
-- [`docs/LOCAL_TRY_ON_PREVIEW.md`](docs/LOCAL_TRY_ON_PREVIEW.md)
+---
+
+## Important limitations
+
+This is not fully market-launched yet. Remaining work before public release:
+
+- run Flutter locally and fix analyzer/build issues
+- run real device QA
+- replace placeholder Firebase config with `flutterfire configure`
+- add real Google/Apple/email sign-in if needed
+- move local app state fully from SharedPreferences to SQLite/encrypted storage
+- add true garment segmentation/classification models
+- improve recommendation rules with beta feedback
+- generate final app icon, adaptive icon, splash and screenshots
+- configure real Android/iOS signing secrets
+- deploy backend with real Postgres/Firebase credentials
+- legal review of privacy policy and terms
+
+---
 
 ## Backend quickstart
 
@@ -95,12 +182,21 @@ Open API docs:
 http://localhost:8000/docs
 ```
 
-Run tests:
+Run backend tests:
 
 ```bash
 cd backend
 pytest
 ```
+
+Run migrations:
+
+```bash
+cd backend
+alembic upgrade head
+```
+
+---
 
 ## Flutter quickstart
 
@@ -110,57 +206,122 @@ flutter pub get
 flutter run
 ```
 
-## Documentation
+Full local Flutter verification:
 
-- [`docs/PROJECT_LOG.md`](docs/PROJECT_LOG.md) — running implementation log and TODO tracker
+```bash
+./scripts/verify_flutter_local.sh
+```
+
+Full backend + Flutter verification:
+
+```bash
+./scripts/verify_all_local.sh
+```
+
+> Flutter SDK is not available in the agent sandbox, so Flutter analyze/build must be run locally or in CI.
+
+---
+
+## Build Android and iOS versions
+
+Prepare generated platform folders and native bridge:
+
+```bash
+./scripts/prepare_flutter_platforms.sh
+```
+
+Build Android APK:
+
+```bash
+./scripts/build_android_apk.sh
+```
+
+Build signed Android AAB:
+
+```bash
+./scripts/build_android_aab_signed.sh
+```
+
+Build iOS release without codesign:
+
+```bash
+./scripts/build_ios_release.sh
+```
+
+Build signed/exported iOS IPA on macOS:
+
+```bash
+./scripts/build_ios_ipa.sh
+```
+
+---
+
+## Key documentation
+
+### Product and architecture
+
 - [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md)
 - [`docs/PRODUCT_POSITIONING.md`](docs/PRODUCT_POSITIONING.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-- [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
-- [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
 - [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
-- [`docs/FLUTTER_MVP.md`](docs/FLUTTER_MVP.md)
+- [`docs/MARKET_LAUNCH_LOOP.md`](docs/MARKET_LAUNCH_LOOP.md)
+
+### Privacy and AI
+
+- [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
 - [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
-- [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
 - [`docs/LOCAL_FEATURE_EXTRACTION.md`](docs/LOCAL_FEATURE_EXTRACTION.md)
-- [`docs/NATIVE_ML_BRIDGE.md`](docs/NATIVE_ML_BRIDGE.md)
-- [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
+- [`docs/LOCAL_TRY_ON_PREVIEW.md`](docs/LOCAL_TRY_ON_PREVIEW.md)
+- [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
+
+### Backend, auth and deployment
+
+- [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
 - [`docs/PRODUCTION_HARDENING.md`](docs/PRODUCTION_HARDENING.md)
 - [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
 - [`docs/LOGIN_SECURE_STORAGE.md`](docs/LOGIN_SECURE_STORAGE.md)
-- [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
-- [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
-- [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
-- [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
-- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
-- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
-- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
-- [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
+- [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
+- [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
+- [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
 
-## Example backend flow
+### UI/UX, release and assets
 
-1. Create profile.
-2. Add structured wardrobe items.
-3. Generate outfits for an occasion.
-4. Use returned `item_ids` to display local wardrobe photos in the app.
+- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
+- [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
+- [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
+- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
+- [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
 
-The backend never needs the actual wardrobe photos.
+### Upgrade notes
 
-## Roadmap
+- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
+- [`docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md`](docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md)
+- [`docs/PHASE_15_21_COMPLETION.md`](docs/PHASE_15_21_COMPLETION.md)
 
-1. Phase 0: repo cleanup, naming, docs, positioning — completed.
-2. Phase 1: functional structured-data backend MVP — completed.
-3. Phase 2: Flutter functional MVP connected to backend — completed.
-4. Phase 3: local storage and privacy layer — completed.
-5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract — completed.
-6. Phase 5: basic local feature extraction — completed.
-7. Phase 6: native Kotlin/Swift ML bridges and Android/iOS build scripts — completed.
-8. Phase 7: Postgres/auth/deployment hardening — completed.
-9. Phase 8: user auth and isolation — completed.
-10. Phase 9: data lifecycle and migrations — completed.
-11. Phase 10: Firebase auth and CI/CD release automation — completed.
-12. Phase 11: signed Android/iOS release automation and app-store readiness — completed.
-13. Phase 12: product polish and real app UX — completed.
-14. Phase 13: final branding/package cleanup and app assets — completed.
-15. Phase 14: Flutter QA, tests and local build verification — completed.
+> `docs/PROJECT_LOG.md` is intentionally ignored by git and kept as a local running implementation log.
+
+---
+
+## Roadmap status
+
+Completed foundation phases:
+
+```text
+Phase 0–14: completed
+Phase 15–21 batch: partially implemented/scaffolded
+Market-launch loop: implemented
+Local Level 2 outfit preview: implemented
+```
+
+Next highest-priority work:
+
+```text
+1. Run Flutter locally and fix analyzer/build issues.
+2. Configure real Firebase with FlutterFire.
+3. Complete SQLite/encrypted local storage migration.
+4. Add real garment classifier/segmentation model.
+5. Beta test with 10–20 Indian users.
+6. Improve recommendation quality from feedback.
+7. Finalize store assets and deployment credentials.
+```
