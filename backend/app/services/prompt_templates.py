@@ -84,10 +84,10 @@ def sanitize_item_for_llm(item: WardrobeItem) -> Dict[str, Any]:
         value = data.get(key)
         if value is None or value == [] or value == {}:
             continue
+        if hasattr(value, "value"):
+            value = value.value
         sanitized[key] = value
     return sanitized
-
-
 
 
 def occasion_guidance(occasion: str) -> Dict[str, Any]:

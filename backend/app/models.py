@@ -178,12 +178,6 @@ class OutfitGenerateResponse(BaseModel):
     outfits: List[OutfitRecommendation]
 
 
-
-
-
-
-
-
 class OutfitFeedbackRequest(BaseModel):
     user_id: str
     outfit_id: str

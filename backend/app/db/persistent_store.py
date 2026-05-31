@@ -120,7 +120,6 @@ class PersistentStore:
             return True
 
 
-
     def add_feedback(self, payload: OutfitFeedbackRequest) -> OutfitFeedback:
         feedback = OutfitFeedback(
             feedback_id=f"feedback_{uuid4().hex[:10]}",
