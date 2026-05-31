@@ -90,6 +90,7 @@ Implemented in Phase 2:
 - Basic local image picking, local copy and dominant color extraction
 - Native Kotlin/Swift method-channel bridge for platform ML
 - Scripts to prepare Android/iOS platform folders and build APK/iOS release
+- Optional API key guard, CORS config, SQLAlchemy persistence and Docker deployment
 
 ## India-first styling domains
 

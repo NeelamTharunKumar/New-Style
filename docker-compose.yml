@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: ./backend
+    environment:
+      BHARATFIT_ENV: production
+      BHARATFIT_API_KEY: change-me
+      BHARATFIT_CORS_ORIGINS: http://localhost:3000,http://localhost:8080
+      DATABASE_URL: postgresql+psycopg://bharatfit:bharatfit@postgres:5432/bharatfit
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bharatfit
+      POSTGRES_PASSWORD: bharatfit
+      POSTGRES_DB: bharatfit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bharatfit -d bharatfit"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
