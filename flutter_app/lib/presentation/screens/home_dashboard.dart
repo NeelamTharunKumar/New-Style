@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../core/branding.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
@@ -75,7 +77,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       const SizedBox(height: 10),
                       Text(
                         'Create outfits from your own clothes for college, office, dates, Haldi, Sangeet and weddings.',
-                        style: TextStyle(color: Colors.grey.shade300, height: 1.4),
+                        style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
                       ),
                       const SizedBox(height: 16),
                       Wrap(

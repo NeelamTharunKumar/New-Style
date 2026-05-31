@@ -69,6 +69,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Flutter login screen and secure token storage
 - Firebase auth verification plumbing and CI/CD workflows
 - Signed Android AAB/iOS IPA release automation and app store readiness templates
+- UI/UX Pro Max-inspired fashion/lifestyle visual system
 - First-run onboarding, premium UI components, polished home/wardrobe/outfit UX
 - Centralized branding constants, source app icon/splash assets and package/bundle patching script
 - Alembic migration scaffold and user export/delete lifecycle endpoints
@@ -124,6 +125,7 @@ flutter run
 - [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
 - [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
 - [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
+- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
 - [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 

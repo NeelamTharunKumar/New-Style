@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../core/design_tokens.dart';
 import 'package:flutter/services.dart';
 
 import '../../state/app_state.dart';
@@ -88,7 +90,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Phase 3 makes the Flutter app local-first. Profile, wardrobe features and generated outfit results are persisted on this device. Backend calls use structured data only.',
-                  style: TextStyle(color: Colors.grey.shade300, height: 1.4),
+                  style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
                 ),
                 const SizedBox(height: 16),
                 const _PrivacyRuleCard(),
@@ -211,7 +213,7 @@ class _ActionCard extends StatelessWidget {
           children: [
             Row(children: [Icon(icon), const SizedBox(width: 8), Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)))]),
             const SizedBox(height: 8),
-            Text(subtitle, style: TextStyle(color: Colors.grey.shade300)),
+            Text(subtitle, style: TextStyle(color: AppColors.mutedForeground)),
             const SizedBox(height: 12),
             Align(
               alignment: Alignment.centerRight,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../core/branding.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
@@ -122,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     height: 8,
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
-                      color: i == _index ? Theme.of(context).colorScheme.primary : Colors.white24,
+                      color: i == _index ? Theme.of(context).colorScheme.primary : AppColors.border,
                       borderRadius: BorderRadius.circular(99),
                     ),
                   ),
@@ -195,7 +197,7 @@ class _OnboardingPage extends StatelessWidget {
         const SizedBox(height: 32),
         Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, height: 1.08)),
         const SizedBox(height: 14),
-        Text(subtitle, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey.shade300, fontSize: 16, height: 1.45)),
+        Text(subtitle, textAlign: TextAlign.center, style: TextStyle(color: AppColors.mutedForeground, fontSize: 16, height: 1.45)),
       ],
     );
   }

@@ -95,6 +95,7 @@ Implemented in Phase 2:
 - Flutter login screen and secure token storage for bearer/API credentials
 - Firebase auth verification plumbing and CI/CD release workflows
 - Signed Android/iOS release automation, backend Cloud Run deploy workflow and app-store metadata templates
+- UI/UX Pro Max-inspired Exaggerated Minimalism fashion/lifestyle visual system
 - First-run onboarding, premium UI components and polished wardrobe/outfit UX
 - Centralized branding, source app icon/splash assets and package/bundle ID patching
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints

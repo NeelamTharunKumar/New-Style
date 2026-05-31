@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../data/app_models.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
@@ -231,9 +233,10 @@ class _OutfitItemTile extends StatelessWidget {
       width: 132,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFF22222A),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white12),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppShadows.card,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +250,7 @@ class _OutfitItemTile extends StatelessWidget {
           const SizedBox(height: 8),
           Text(item.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700)),
           const Spacer(),
-          Text(item.localImageRef ?? item.itemId ?? item.category, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 11, color: Colors.grey.shade400)),
+          Text(item.localImageRef ?? item.itemId ?? item.category, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 11, color: AppColors.mutedForeground)),
         ],
       ),
     );

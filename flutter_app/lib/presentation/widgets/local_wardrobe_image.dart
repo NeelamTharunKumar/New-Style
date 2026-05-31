@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 class LocalWardrobeImage extends StatelessWidget {
   const LocalWardrobeImage({
     super.key,
@@ -49,7 +51,7 @@ class LocalWardrobeImage extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(color: Colors.white24),
+        border: Border.all(color: AppColors.border),
       ),
       child: Icon(icon, size: 22),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../data/app_models.dart';
 import '../../data/local_feature_extractor.dart';
 import '../../data/local_image_service.dart';
@@ -416,7 +418,7 @@ class _WardrobeGridCard extends StatelessWidget {
             [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.grey.shade300, fontSize: 12),
+            style: TextStyle(color: AppColors.mutedForeground, fontSize: 12),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../data/secure_auth_store.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Tokens are stored with flutter_secure_storage. For production, replace dev/static tokens with Firebase/Auth0/Supabase login.',
-                  style: TextStyle(color: Colors.grey.shade300, height: 1.4),
+                  style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(

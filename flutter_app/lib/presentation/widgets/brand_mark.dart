@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 class BrandMark extends StatelessWidget {
   const BrandMark({super.key, this.size = 52});
 
@@ -14,24 +16,18 @@ class BrandMark extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF6366F1), Color(0xFF22C55E)],
+          colors: [AppColors.primary, AppColors.secondary, AppColors.accent],
         ),
-        borderRadius: BorderRadius.circular(size * 0.26),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF6366F1).withOpacity(0.35),
-            blurRadius: size * 0.35,
-            offset: Offset(0, size * 0.12),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(size * 0.28),
+        boxShadow: AppShadows.accent,
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Icon(Icons.checkroom_outlined, size: size * 0.48, color: Colors.white),
           Positioned(
-            right: size * 0.16,
-            top: size * 0.16,
+            right: size * 0.15,
+            top: size * 0.15,
             child: Icon(Icons.auto_awesome, size: size * 0.22, color: Colors.white),
           ),
         ],

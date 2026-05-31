@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 class StatusBanner extends StatelessWidget {
   const StatusBanner({super.key, this.error, this.message, this.isBusy = false});
 
@@ -12,15 +14,15 @@ class StatusBanner extends StatelessWidget {
     final text = error ?? message;
     if (!isBusy && (text == null || text.isEmpty)) return const SizedBox.shrink();
 
-    final color = error != null ? Colors.red.shade900 : Colors.indigo.shade800;
+    final base = error != null ? AppColors.destructive : AppColors.primary;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.35),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.8)),
+        color: base.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: base.withOpacity(0.22)),
       ),
       child: Row(
         children: [
@@ -32,7 +34,12 @@ class StatusBanner extends StatelessWidget {
             ),
             const SizedBox(width: 10),
           ],
-          Expanded(child: Text(isBusy ? 'Working...' : text!)),
+          Expanded(
+            child: Text(
+              isBusy ? 'Working...' : text!,
+              style: TextStyle(color: base, fontWeight: FontWeight.w700),
+            ),
+          ),
         ],
       ),
     );

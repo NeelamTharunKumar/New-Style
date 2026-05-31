@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
+
 import '../../data/app_models.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
@@ -83,7 +85,7 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Phase 2 uses manual structured fields. Later phases will extract many of these locally from photos.',
-                  style: TextStyle(color: Colors.grey.shade300),
+                  style: TextStyle(color: AppColors.mutedForeground),
                 ),
                 const SizedBox(height: 16),
                 TextField(
