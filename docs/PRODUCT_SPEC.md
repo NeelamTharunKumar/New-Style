@@ -184,3 +184,8 @@ Recommended flow:
 ## Market Launch Loop
 
 The consumer-facing MVP should prioritize: Add photo → auto color extraction → one-tap correction chips → save → pick occasion → visual outfit cards → wear/save/swap/reject feedback.
+
+
+## Local Outfit Preview
+
+The app now supports a Level 2 client-side preview: local mannequin/board rendering of selected outfit items before users ask for swaps. This is privacy-safe and not positioned as body-accurate virtual try-on.

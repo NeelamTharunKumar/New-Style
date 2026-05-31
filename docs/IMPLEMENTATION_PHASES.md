@@ -238,3 +238,16 @@ Scope:
 - wardrobe item detail page
 - outfit detail and feedback page
 - placeholder app icon/screenshot assets
+
+
+## Local Outfit Preview — Level 2 try-on MVP
+
+Status: completed in this commit.
+
+Scope:
+
+- local mannequin-style preview screen
+- board/lookbook preview mode
+- category-to-body-slot mapping
+- preview entry points from outfit card/detail page
+- privacy copy and feedback actions

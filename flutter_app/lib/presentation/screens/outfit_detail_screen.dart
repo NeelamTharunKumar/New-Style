@@ -6,6 +6,7 @@ import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
+import 'outfit_preview_screen.dart';
 
 class OutfitDetailScreen extends StatefulWidget {
   const OutfitDetailScreen({super.key, required this.appState, required this.outfit, this.occasion});
@@ -103,6 +104,18 @@ class _OutfitDetailScreenState extends State<OutfitDetailScreen> {
                 const SizedBox(height: 12),
                 Text('Rating: $_rating/5'),
                 Slider(value: _rating.toDouble(), min: 1, max: 5, divisions: 4, label: '$_rating', onChanged: (v) => setState(() => _rating = v.round())),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => OutfitPreviewScreen(appState: state, outfit: widget.outfit, occasion: widget.occasion)),
+                    ),
+                    icon: const Icon(Icons.checkroom_outlined),
+                    label: const Text('Preview Look'),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     Expanded(child: ElevatedButton.icon(onPressed: state.isBusy ? null : () => _feedback(favorite: true), icon: const Icon(Icons.favorite_outline), label: const Text('Favorite'))),

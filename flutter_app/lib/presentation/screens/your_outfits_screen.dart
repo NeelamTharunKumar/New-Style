@@ -8,6 +8,7 @@ import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
 import 'outfit_detail_screen.dart';
+import 'outfit_preview_screen.dart';
 import 'wardrobe_screen.dart';
 
 class YourOutfitsScreen extends StatefulWidget {
@@ -257,6 +258,14 @@ class _OutfitCard extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
+                  FilledButton.icon(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => OutfitPreviewScreen(appState: state, outfit: outfit, occasion: _inferOccasion(outfit))),
+                    ),
+                    icon: const Icon(Icons.checkroom_outlined),
+                    label: const Text('Preview Look'),
+                  ),
                   FilledButton.icon(
                     onPressed: state.isBusy ? null : () => state.recordOutfitFeedback(outfit: outfit, occasion: _inferOccasion(outfit), worn: true, rating: 5),
                     icon: const Icon(Icons.check_circle_outline),
