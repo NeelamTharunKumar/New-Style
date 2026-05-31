@@ -163,6 +163,10 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
   String _styleMode = 'mixed';
   int _formality = 5;
 
+  static const _categoryChips = ['shirt', 't-shirt', 'kurti', 'saree', 'blouse', 'jeans', 'chinos', 'trousers', 'palazzo', 'dupatta', 'juttis', 'sneakers', 'heels', 'watch', 'belt'];
+  static const _colorChips = ['white', 'black', 'light blue', 'navy blue', 'charcoal', 'beige', 'mustard yellow', 'pink', 'maroon', 'emerald green', 'gold', 'brown'];
+  static const _occasionChips = ['college', 'office', 'date', 'haldi', 'sangeet', 'wedding guest', 'festival', 'daily casual'];
+
   @override
   void initState() {
     super.initState();
@@ -211,6 +215,38 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
     }
   }
 
+  void _toggleOccasion(String occasion) {
+    final tags = splitTags(_occasionTagsController.text).toSet();
+    if (tags.contains(occasion)) {
+      tags.remove(occasion);
+    } else {
+      tags.add(occasion);
+    }
+    _occasionTagsController.text = (tags.toList()..sort()).join(', ');
+    setState(() {});
+  }
+
+  Widget _choiceWrap({required String title, required List<String> values, required bool Function(String) selected, required void Function(String) onSelected}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: values
+              .map((value) => ChoiceChip(
+                    label: Text(value),
+                    selected: selected(value),
+                    onSelected: (_) => onSelected(value),
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     final item = WardrobeItem(
@@ -254,6 +290,59 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  PremiumCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SectionHeader(
+                          title: 'Add photo',
+                          subtitle: 'Pick a clothing photo. BharatFit extracts color locally, suggests tags, then you correct with one tap.',
+                        ),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _pickAndExtractImage,
+                            icon: const Icon(Icons.photo_library_outlined),
+                            label: const Text('Add photo & auto extract'),
+                          ),
+                        ),
+                        if (_featureSummary.isNotEmpty) ...[
+                          const SizedBox(height: 10),
+                          Text(
+                            "Auto color: ${_featureSummary['dominant_color_name']} ${_featureSummary['dominant_hex_color']} · ${_featureSummary['pattern_hint']}",
+                            style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w800),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _choiceWrap(
+                    title: 'Category suggestion',
+                    values: _categoryChips,
+                    selected: (value) => _categoryController.text.trim().toLowerCase() == value,
+                    onSelected: (value) => setState(() => _categoryController.text = value),
+                  ),
+                  const SizedBox(height: 16),
+                  _choiceWrap(
+                    title: 'Color correction',
+                    values: _colorChips,
+                    selected: (value) => _colorController.text.trim().toLowerCase() == value,
+                    onSelected: (value) => setState(() => _colorController.text = value),
+                  ),
+                  const SizedBox(height: 16),
+                  _choiceWrap(
+                    title: 'Occasion tags',
+                    values: _occasionChips,
+                    selected: (value) => splitTags(_occasionTagsController.text).contains(value),
+                    onSelected: _toggleOccasion,
+                  ),
+                  const SizedBox(height: 16),
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    title: const Text('Advanced details', style: TextStyle(fontWeight: FontWeight.w900)),
+                    children: [
                   DropdownButtonFormField<String>(
                     value: _styleMode,
                     decoration: const InputDecoration(labelText: 'Style mode', border: OutlineInputBorder()),
@@ -359,6 +448,8 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                       style: TextStyle(color: Colors.green.shade300),
                     ),
                   ],
+                    ],
+                  ),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,

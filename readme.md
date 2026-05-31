@@ -74,7 +74,10 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Centralized branding constants, source app icon/splash assets and package/bundle patching script
 - Flutter QA scripts and widget/model tests
 - Privacy hardening, outfit feedback personalization, SQLite scaffold, item/outfit detail UX
+- Market-launch loop: Add photo → correction chips → occasion-first outfits → feedback actions
 - Alembic migration scaffold and user export/delete lifecycle endpoints
+
+- [`docs/MARKET_LAUNCH_LOOP.md`](docs/MARKET_LAUNCH_LOOP.md)
 
 ## Backend quickstart
 

@@ -11,9 +11,10 @@ import 'outfit_detail_screen.dart';
 import 'wardrobe_screen.dart';
 
 class YourOutfitsScreen extends StatefulWidget {
-  const YourOutfitsScreen({super.key, required this.appState});
+  const YourOutfitsScreen({super.key, required this.appState, this.initialOccasion});
 
   final AppState appState;
+  final String? initialOccasion;
 
   @override
   State<YourOutfitsScreen> createState() => _YourOutfitsScreenState();
@@ -44,6 +45,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
   @override
   void initState() {
     super.initState();
+    _occasion = widget.initialOccasion ?? 'office';
     widget.appState.addListener(_refresh);
   }
 
@@ -78,12 +80,24 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeader(title: 'Generate from your wardrobe', subtitle: 'Choose an Indian occasion and weather context. Results map back to local photos.'),
+                const SectionHeader(title: 'What are you dressing for?', subtitle: 'Pick an occasion and BharatFit will build visual outfits from your own clothes.'),
                 const SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: const ['college', 'office', 'date', 'haldi', 'sangeet', 'wedding guest', 'daily casual', 'travel']
+                      .map((occasion) => ChoiceChip(
+                            label: Text(_labelForOccasion(occasion)),
+                            selected: _occasion == occasion,
+                            onSelected: (_) => setState(() => _occasion = occasion),
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   value: _occasion,
-                  decoration: const InputDecoration(labelText: 'Occasion', border: OutlineInputBorder()),
-                  items: _occasions.map((occasion) => DropdownMenuItem(value: occasion, child: Text(occasion))).toList(),
+                  decoration: const InputDecoration(labelText: 'More occasions', border: OutlineInputBorder()),
+                  items: _occasions.map((occasion) => DropdownMenuItem(value: occasion, child: Text(_labelForOccasion(occasion)))).toList(),
                   onChanged: (value) => setState(() => _occasion = value ?? 'office'),
                 ),
                 const SizedBox(height: 12),
@@ -161,6 +175,20 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
   }
 }
 
+String _labelForOccasion(String occasion) {
+  return switch (occasion) {
+    'college' => 'College',
+    'office' => 'Office',
+    'date' => 'Date',
+    'haldi' => 'Haldi',
+    'sangeet' => 'Sangeet',
+    'wedding guest' => 'Wedding',
+    'daily casual' => 'Casual',
+    'travel' => 'Travel',
+    _ => occasion.split(' ').map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}').join(' '),
+  };
+}
+
 class _OutfitCard extends StatelessWidget {
   const _OutfitCard({required this.outfit, required this.state});
 
@@ -222,6 +250,35 @@ class _OutfitCard extends StatelessWidget {
                     .map((entry) => Chip(label: Text('${entry.key}: ${entry.value.toStringAsFixed(0)}')))
                     .toList(),
               ),
+              const SizedBox(height: 14),
+              const Text('Actions', style: TextStyle(fontWeight: FontWeight.w900)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  FilledButton.icon(
+                    onPressed: state.isBusy ? null : () => state.recordOutfitFeedback(outfit: outfit, occasion: _inferOccasion(outfit), worn: true, rating: 5),
+                    icon: const Icon(Icons.check_circle_outline),
+                    label: const Text('Wear today'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: state.isBusy ? null : () => state.recordOutfitFeedback(outfit: outfit, occasion: _inferOccasion(outfit), favorite: true, rating: 5),
+                    icon: const Icon(Icons.bookmark_border),
+                    label: const Text('Save'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: state.isBusy ? null : () => state.generateOutfits(occasion: _inferOccasion(outfit)),
+                    icon: const Icon(Icons.swap_horiz),
+                    label: const Text('Swap item'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: state.isBusy ? null : () => state.recordOutfitFeedback(outfit: outfit, occasion: _inferOccasion(outfit), rejected: true, rating: 1),
+                    icon: const Icon(Icons.thumb_down_alt_outlined),
+                    label: const Text('Not my style'),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -229,6 +286,14 @@ class _OutfitCard extends StatelessWidget {
     );
   }
 }
+String _inferOccasion(OutfitRecommendation outfit) {
+  final title = outfit.title.toLowerCase();
+  for (final occasion in _YourOutfitsScreenState._occasions) {
+    if (title.contains(occasion)) return occasion;
+  }
+  return 'daily casual';
+}
+
 class _OutfitItemTile extends StatelessWidget {
   const _OutfitItemTile({required this.item});
 

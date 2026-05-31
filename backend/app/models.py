@@ -231,6 +231,7 @@ class UserDataExport(BaseModel):
     profile: Optional[UserProfile] = None
     wardrobe_items: List[WardrobeItem] = Field(default_factory=list)
     outfit_history: List[Dict[str, Any]] = Field(default_factory=list)
+    audit_events: List[Dict[str, Any]] = Field(default_factory=list)
 
 
 class UserDeleteResponse(BaseModel):

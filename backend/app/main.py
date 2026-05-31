@@ -150,6 +150,7 @@ async def export_user_data(
         profile=exported.get("profile"),
         wardrobe_items=exported.get("wardrobe_items", []),
         outfit_history=exported.get("outfit_history", []),
+        audit_events=exported.get("audit_events", []),
     )
 
 

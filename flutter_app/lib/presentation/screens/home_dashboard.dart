@@ -143,6 +143,33 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   subtitle: '${state.wardrobeItems.length} structured items saved',
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WardrobeScreen(appState: state))),
                 ),
+                PremiumCard(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SectionHeader(
+                        title: 'What are you dressing for?',
+                        subtitle: 'Pick an occasion and get outfits from your own wardrobe.',
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          _OccasionButton(label: 'College', occasion: 'college', state: state),
+                          _OccasionButton(label: 'Office', occasion: 'office', state: state),
+                          _OccasionButton(label: 'Date', occasion: 'date', state: state),
+                          _OccasionButton(label: 'Haldi', occasion: 'haldi', state: state),
+                          _OccasionButton(label: 'Sangeet', occasion: 'sangeet', state: state),
+                          _OccasionButton(label: 'Wedding', occasion: 'wedding guest', state: state),
+                          _OccasionButton(label: 'Casual', occasion: 'daily casual', state: state),
+                          _OccasionButton(label: 'Travel', occasion: 'travel', state: state),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 _HomeAction(
                   icon: Icons.auto_awesome_outlined,
                   title: '3. Generate Outfits',
@@ -205,6 +232,26 @@ class _PrivacyCard extends StatelessWidget {
             ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _OccasionButton extends StatelessWidget {
+  const _OccasionButton({required this.label, required this.occasion, required this.state});
+
+  final String label;
+  final String occasion;
+  final AppState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      label: Text(label),
+      avatar: const Icon(Icons.auto_awesome_outlined, size: 18),
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => YourOutfitsScreen(appState: state, initialOccasion: occasion)),
       ),
     );
   }

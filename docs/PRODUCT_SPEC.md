@@ -179,3 +179,8 @@ Recommended flow:
 6. Phase 5: local feature extraction.
 7. Phase 6: native Kotlin/Swift ML bridges.
 8. Phase 7: Postgres/auth/deployment hardening.
+
+
+## Market Launch Loop
+
+The consumer-facing MVP should prioritize: Add photo → auto color extraction → one-tap correction chips → save → pick occasion → visual outfit cards → wear/save/swap/reject feedback.
