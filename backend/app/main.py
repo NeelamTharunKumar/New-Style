@@ -7,6 +7,7 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.auth import CurrentUser, ensure_user_access, get_current_user
 from app.core.config import get_settings
 from app.core.security import require_api_key
 from app.models import (
@@ -68,7 +69,8 @@ async def health():
         "product": "BharatFit AI",
         "environment": settings.app_env,
         "store_backend": settings.store_backend,
-        "auth_mode": "api_key" if settings.api_key else "open_dev",
+        "api_key_mode": "enabled" if settings.api_key else "open_dev",
+        "user_auth_mode": get_settings().auth_mode,
         "ml_mode": "on_device_feature_extraction_first",
         "privacy": PRIVACY_MESSAGE,
     }
@@ -85,12 +87,22 @@ async def llm_status():
 
 
 @app.post("/users/profile", response_model=UserProfile)
-async def upsert_profile(profile: UserProfile, _auth: None = Depends(require_api_key)):
+async def upsert_profile(
+    profile: UserProfile,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, profile.user_id)
     return store.upsert_profile(profile)
 
 
 @app.get("/users/{user_id}/profile", response_model=UserProfile)
-async def get_profile(user_id: str, _auth: None = Depends(require_api_key)):
+async def get_profile(
+    user_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
     profile = store.get_profile(user_id)
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="profile not found")
@@ -98,25 +110,51 @@ async def get_profile(user_id: str, _auth: None = Depends(require_api_key)):
 
 
 @app.post("/wardrobe/items", response_model=WardrobeItem, status_code=status.HTTP_201_CREATED)
-async def add_wardrobe_item(payload: WardrobeItemCreate, _auth: None = Depends(require_api_key)):
+async def add_wardrobe_item(
+    payload: WardrobeItemCreate,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, payload.user_id)
     item = WardrobeItem.from_create(payload)
     return store.add_item(item)
 
 
 @app.get("/wardrobe/items/{user_id}", response_model=List[WardrobeItem])
-async def list_wardrobe_items(user_id: str, _auth: None = Depends(require_api_key)):
+async def list_wardrobe_items(
+    user_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
     return store.list_items(user_id)
 
 
 @app.delete("/wardrobe/items/{user_id}/{item_id}")
-async def delete_wardrobe_item(user_id: str, item_id: str, _auth: None = Depends(require_api_key)):
+async def delete_wardrobe_item(
+    user_id: str,
+    item_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
     if not store.delete_item(user_id, item_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="wardrobe item not found")
     return {"deleted": True, "item_id": item_id}
 
 
 @app.post("/outfits/generate", response_model=OutfitGenerateResponse)
-async def generate_outfits(req: OutfitGenerateRequest, _auth: None = Depends(require_api_key)):
+async def generate_outfits(
+    req: OutfitGenerateRequest,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, req.user_id)
+    if req.user_profile is not None:
+        ensure_user_access(current_user, req.user_profile.user_id)
+    if req.wardrobe_items is not None:
+        for structured_item in req.wardrobe_items:
+            ensure_user_access(current_user, structured_item.user_id)
     profile = req.user_profile or store.get_profile(req.user_id) or UserProfile(user_id=req.user_id, style_mode=req.style_mode or "mixed")
 
     if req.wardrobe_items is not None:
@@ -156,7 +194,12 @@ async def generate_outfits(req: OutfitGenerateRequest, _auth: None = Depends(req
 
 
 @app.post("/chat/stylist", response_model=StylistChatResponse)
-async def stylist_chat(req: StylistChatRequest, _auth: None = Depends(require_api_key)):
+async def stylist_chat(
+    req: StylistChatRequest,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, req.user_id)
     # Phase 1 uses a deterministic privacy-safe response. Phase 5 will add an LLM adapter with strict JSON I/O.
     msg = req.message.strip()
     if not msg:

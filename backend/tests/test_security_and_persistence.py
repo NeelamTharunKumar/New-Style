@@ -48,3 +48,50 @@ def test_persistent_store_roundtrip(tmp_path):
     assert persistent.list_items("u1") == [item]
     assert persistent.delete_item("u1", "shirt_001") is True
     assert persistent.list_items("u1") == []
+
+
+def test_dev_bearer_user_isolation(monkeypatch):
+    store.clear()
+    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    get_settings.cache_clear()
+    try:
+        missing = client.post("/users/profile", json={"user_id": "alice", "style_mode": "mixed"})
+        assert missing.status_code == 401
+
+        alice_ok = client.post(
+            "/users/profile",
+            headers={"Authorization": "Bearer dev:alice"},
+            json={"user_id": "alice", "style_mode": "mixed"},
+        )
+        assert alice_ok.status_code == 200
+
+        cross_user = client.post(
+            "/users/profile",
+            headers={"Authorization": "Bearer dev:alice"},
+            json={"user_id": "bob", "style_mode": "mixed"},
+        )
+        assert cross_user.status_code == 403
+    finally:
+        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        get_settings.cache_clear()
+
+
+def test_static_bearer_token_mapping(monkeypatch):
+    store.clear()
+    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "static_bearer")
+    monkeypatch.setenv("BHARATFIT_USER_TOKENS", "token-alice:alice")
+    get_settings.cache_clear()
+    try:
+        ok = client.post(
+            "/users/profile",
+            headers={"Authorization": "Bearer token-alice"},
+            json={"user_id": "alice", "style_mode": "mixed"},
+        )
+        assert ok.status_code == 200
+
+        forbidden = client.get("/wardrobe/items/bob", headers={"Authorization": "Bearer token-alice"})
+        assert forbidden.status_code == 403
+    finally:
+        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        monkeypatch.delenv("BHARATFIT_USER_TOKENS", raising=False)
+        get_settings.cache_clear()

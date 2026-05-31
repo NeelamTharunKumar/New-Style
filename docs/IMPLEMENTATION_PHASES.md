@@ -93,3 +93,17 @@ Scope:
 - CI
 - logging
 - rate limiting
+
+
+## Phase 8 — User auth and isolation
+
+Status: completed in this commit.
+
+Scope:
+
+- user identity dependency
+- dev bearer mode for local testing
+- static bearer mode for staging/demo
+- per-user access checks for profile, wardrobe, outfits and chat
+- Flutter API client support for API key and bearer token dart-defines
+- auth/user-isolation tests

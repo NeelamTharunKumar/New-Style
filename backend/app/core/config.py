@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from functools import lru_cache
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 
 def _csv(value: str | None, default: List[str]) -> List[str]:
@@ -12,12 +12,29 @@ def _csv(value: str | None, default: List[str]) -> List[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
+def _token_map(value: str | None) -> Dict[str, str]:
+    if not value:
+        return {}
+    result: Dict[str, str] = {}
+    for pair in value.split(","):
+        if not pair.strip() or ":" not in pair:
+            continue
+        token, user_id = pair.split(":", 1)
+        token = token.strip()
+        user_id = user_id.strip()
+        if token and user_id:
+            result[token] = user_id
+    return result
+
+
 @dataclass(frozen=True)
 class Settings:
     app_name: str = "BharatFit AI Backend"
     app_env: str = "development"
     database_url: Optional[str] = None
     api_key: Optional[str] = None
+    auth_mode: str = "open_dev"
+    user_tokens: Dict[str, str] = field(default_factory=dict)
     cors_origins: List[str] = field(default_factory=lambda: ["*"])
     log_requests: bool = True
 
@@ -32,6 +49,8 @@ class Settings:
             app_env=os.getenv("BHARATFIT_ENV", "development"),
             database_url=os.getenv("DATABASE_URL") or os.getenv("BHARATFIT_DATABASE_URL"),
             api_key=os.getenv("BHARATFIT_API_KEY"),
+            auth_mode=os.getenv("BHARATFIT_AUTH_MODE", "open_dev").strip().lower(),
+            user_tokens=_token_map(os.getenv("BHARATFIT_USER_TOKENS")),
             cors_origins=_csv(os.getenv("BHARATFIT_CORS_ORIGINS"), ["*"]),
             log_requests=os.getenv("BHARATFIT_LOG_REQUESTS", "true").lower() in {"1", "true", "yes"},
         )

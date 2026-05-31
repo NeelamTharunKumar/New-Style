@@ -134,6 +134,10 @@ http://localhost:8000/health
 }
 ```
 
+## User auth and isolation
+
+See [`AUTH_USER_ISOLATION.md`](AUTH_USER_ISOLATION.md) for Phase 8 user isolation modes.
+
 ## Security notes
 
 This is a production foundation, not full enterprise auth.

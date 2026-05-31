@@ -5,21 +5,32 @@ import 'package:http/http.dart' as http;
 import 'app_models.dart';
 
 class BharatFitApiClient {
-  BharatFitApiClient({String? baseUrl}) : baseUrl = baseUrl ?? defaultBaseUrl;
+  BharatFitApiClient({String? baseUrl, String? apiKey, String? authToken})
+      : baseUrl = baseUrl ?? defaultBaseUrl,
+        apiKey = apiKey ?? defaultApiKey,
+        authToken = authToken ?? defaultAuthToken;
 
   static const String defaultBaseUrl = String.fromEnvironment(
     'BHARATFIT_API_BASE_URL',
     defaultValue: 'http://10.0.2.2:8000',
   );
+  static const String defaultApiKey = String.fromEnvironment('BHARATFIT_API_KEY', defaultValue: '');
+  static const String defaultAuthToken = String.fromEnvironment('BHARATFIT_AUTH_TOKEN', defaultValue: '');
 
   String baseUrl;
+  String apiKey;
+  String authToken;
 
   Uri _uri(String path) {
     final normalizedBase = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
     return Uri.parse('$normalizedBase$path');
   }
 
-  Map<String, String> get _headers => const {'Content-Type': 'application/json'};
+  Map<String, String> get _headers => {
+        'Content-Type': 'application/json',
+        if (apiKey.trim().isNotEmpty) 'X-API-Key': apiKey.trim(),
+        if (authToken.trim().isNotEmpty) 'Authorization': 'Bearer ${authToken.trim()}',
+      };
 
   Future<Map<String, dynamic>> health() async {
     final response = await http.get(_uri('/health'));
@@ -36,7 +47,7 @@ class BharatFitApiClient {
   }
 
   Future<List<WardrobeItem>> listWardrobeItems(String userId) async {
-    final response = await http.get(_uri('/wardrobe/items/$userId'));
+    final response = await http.get(_uri('/wardrobe/items/$userId'), headers: _headers);
     final decoded = _decode(response);
     if (decoded is! List) {
       throw ApiException('Expected wardrobe list but received ${decoded.runtimeType}');
@@ -56,7 +67,7 @@ class BharatFitApiClient {
   }
 
   Future<void> deleteWardrobeItem(String userId, String itemId) async {
-    final response = await http.delete(_uri('/wardrobe/items/$userId/$itemId'));
+    final response = await http.delete(_uri('/wardrobe/items/$userId/$itemId'), headers: _headers);
     _decode(response);
   }
 

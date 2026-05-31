@@ -91,6 +91,7 @@ Implemented in Phase 2:
 - Native Kotlin/Swift method-channel bridge for platform ML
 - Scripts to prepare Android/iOS platform folders and build APK/iOS release
 - Optional API key guard, CORS config, SQLAlchemy persistence and Docker deployment
+- User auth modes and per-user data isolation checks
 
 ## India-first styling domains
 
