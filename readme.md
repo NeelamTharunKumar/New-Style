@@ -1,83 +1,114 @@
-# StyleDNA AI
+# India-First Wardrobe AI
 
-> **The definitive AI-powered personal fashion operating system.**
+> Privacy-first outfit intelligence for Indian wardrobes — ethnic, western, college, office, dates, weddings, Haldi, Sangeet, and daily dressing.
 
-StyleDNA AI is not another clothing recommendation app. It is a **wardrobe-native intelligence platform** that understands *your* clothes, *your* body, and *your* style — and generates outfits exclusively from what you already own.
+This repository is being converted from an early prototype into a functional foundation for an India-first AI wardrobe assistant.
 
----
+## Core product promise
 
-## 🎯 Vision
+Users upload their wardrobe photos locally. The app extracts structured features on-device and sends only those features to the backend.
 
-Existing apps like **Essembl**, **Whering**, and **Acloset** focus on catalog matching or basic tagging. They treat your wardrobe as a passive list.
+The backend recommends exact outfit item IDs and explains why the combination works. The app displays the real clothing photos locally.
 
-**StyleDNA AI** flips the model:
+```text
+Photos stay on phone.
+Structured features go to backend.
+Backend returns outfit item IDs + explanation.
+Phone displays local images.
+```
 
-- Your wardrobe becomes the **source of truth**
-- AI generates **thousands of outfit combinations** using only the clothes you own
-- Every recommendation respects your personal **Style DNA** (skin tone, body type, fashion personality)
-- Processing happens **on-device first** for maximum privacy and speed
+## India-first focus
 
-This is the foundation of a true **personal fashion OS**.
+The product is optimized for Indian dressing contexts:
 
----
+- ethnic + western wardrobe mixing
+- college outfits
+- office outfits
+- dates
+- wedding guest looks
+- Haldi / Sangeet / Mehendi / Reception
+- saree + blouse matching
+- kurti + palazzo / leggings / dupatta combinations
+- kurta + chinos / churidar / Nehru jacket combinations
+- hot, humid, monsoon and indoor-AC dressing
+- budget-conscious styling using clothes users already own
+- skin-tone/color recommendations for Indian complexions
 
-## ✨ Core Differentiator: "Your Outfits"
+## Men’s styling focus
 
-This is the heart of the product.
+The engine includes practical menswear rules:
 
-Users upload photos of their actual clothing. The AI then intelligently combines those items into context-aware outfits:
+- shirt + trouser combinations
+- shirt + pant contrast
+- sneakers/shoes matching
+- belt/shoe matching guidance
+- college, office, date and wedding looks
+- kurta / sherwani / Nehru jacket styling
+- grooming tips
+- capsule wardrobe direction
 
-- College outfits
-- Office outfits
-- Wedding outfits
-- Date nights
-- Travel packing lists
+## Current implementation status
 
-Each suggestion includes a clear explanation of **why** the combination works — based on color harmony, style consistency, occasion suitability, and the user’s personal Style DNA profile.
+### Backend
 
-No more “what should I wear?” paralysis.
+Implemented in this phase:
 
----
+- FastAPI app that runs
+- privacy-first health endpoint
+- India-first taxonomy endpoint
+- user style profile endpoint
+- wardrobe add/list/delete endpoints
+- structured-data-only outfit generation endpoint
+- rule-based India/menswear/womenswear outfit engine
+- deterministic explanations and styling tips
+- tests for core API flows
 
-## 🧠 Technical Philosophy
+### Flutter app
 
-We built StyleDNA AI with strict principles:
+The Flutter app is still an early UI prototype. Next phases will connect it to the backend and add local storage/privacy-preserving image handling.
 
-| Principle                    | Implementation                              |
-|-----------------------------|---------------------------------------------|
-| **On-Device First**         | MediaPipe, YOLO, CLIP run locally           |
-| **Minimal LLM Usage**       | Only structured features sent to LLMs       |
-| **Privacy by Design**       | Raw images never leave the device           |
-| **Dependency Inversion**    | All ML services behind clean interfaces     |
-| **Production Grade**        | Clean architecture, scalable, testable      |
+## Run backend
 
-This approach delivers:
-- Blazing fast outfit generation (< 500ms)
-- Extremely low operational cost
-- Maximum user privacy
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
----
+Docs:
 
-## 🏗️ Current Implementation
+```text
+http://localhost:8000/docs
+```
 
-The repository contains a **complete, runnable foundation**.
+## Run tests
 
-### Flutter App (`flutter_app/`)
-- Premium dark-mode UI
-- 5 fully functional screens
+```bash
+cd backend
+pytest
+```
 
-### Backend (`backend/`)
-- FastAPI with local graph engine
+## Privacy architecture
 
-### Full Specification
-See `StyleDNA_AI_Complete_Specification.md`
+See [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md).
 
----
+## API examples
 
-## 🚀 Getting Started
+See [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md).
 
-### Flutter App
+## Flutter app
+
 ```bash
 cd flutter_app
 flutter pub get
 flutter run
+```
+
+## Roadmap
+
+1. Backend functional MVP — in progress/completed for structured data.
+2. Flutter functional MVP with local wardrobe storage.
+3. LLM explanation layer with strict JSON and no-photo contract.
+4. Basic local feature extraction.
+5. Native Kotlin/Swift ML bridge for on-device garment/body feature extraction.
+6. Postgres/auth/deployment production hardening.
