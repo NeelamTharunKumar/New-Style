@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/app_models.dart';
 import '../../state/app_state.dart';
+import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
 import 'wardrobe_screen.dart';
@@ -63,7 +64,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(title: const Text('Your Outfits')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
@@ -74,12 +75,7 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Generate from your wardrobe', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-                const SizedBox(height: 8),
-                Text(
-                  'Backend returns exact item IDs. The app maps them to local wardrobe references, so the final UI can show your real local photos.',
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
+                const SectionHeader(title: 'Generate from your wardrobe', subtitle: 'Choose an Indian occasion and weather context. Results map back to local photos.'),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
                   value: _occasion,
@@ -146,7 +142,11 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                 ),
                 const SizedBox(height: 20),
                 if (state.outfits.isEmpty)
-                  const Text('Generated outfits will appear here.')
+                  const EmptyState(
+                    icon: Icons.auto_awesome_outlined,
+                    title: 'No generated outfits yet',
+                    subtitle: 'Add wardrobe items, choose an occasion, and BharatFit will compose looks from your own clothes.',
+                  )
                 else
                   ...state.outfits.map((outfit) => _OutfitCard(outfit: outfit, state: state)),
               ],
@@ -167,7 +167,7 @@ class _OutfitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = outfit.itemIds.map(state.itemById).whereType<WardrobeItem>().toList();
-    return Card(
+    return PremiumCard(
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(16),

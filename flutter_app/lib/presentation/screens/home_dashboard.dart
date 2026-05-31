@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../state/app_state.dart';
+import '../widgets/app_components.dart';
 import '../widgets/status_banner.dart';
 import 'ai_stylist_chat.dart';
 import 'login_screen.dart';
@@ -41,7 +42,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(
         title: const Text('BharatFit AI'),
         actions: [
@@ -61,11 +62,31 @@ class _HomeDashboardState extends State<HomeDashboard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('India-first wardrobe assistant', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700)),
-                const SizedBox(height: 8),
-                Text(
-                  'Create outfits from your own clothes for college, office, dates, Haldi, Sangeet and weddings. Photos stay on-device; only structured features go to the backend.',
-                  style: TextStyle(color: Colors.grey.shade300, height: 1.4),
+                PremiumCard(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const PrivacyBadge(),
+                      const SizedBox(height: 16),
+                      const Text('India-first wardrobe assistant', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, height: 1.05)),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Create outfits from your own clothes for college, office, dates, Haldi, Sangeet and weddings.',
+                        style: TextStyle(color: Colors.grey.shade300, height: 1.4),
+                      ),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          StatPill(label: 'items', value: '${state.wardrobeItems.length}', icon: Icons.checkroom_outlined),
+                          StatPill(label: 'outfits', value: '${state.outfits.length}', icon: Icons.auto_awesome_outlined),
+                          StatPill(label: 'mode', value: state.profile.styleMode, icon: Icons.person_outline),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 _PrivacyCard(state: state),
@@ -135,6 +156,11 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   title: 'AI Stylist Chat',
                   subtitle: 'Backend chat stub now uses the same privacy-safe API layer',
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AIStylistChat(appState: state))),
+                ),
+                TextButton.icon(
+                  onPressed: state.resetOnboarding,
+                  icon: const Icon(Icons.restart_alt),
+                  label: const Text('Replay onboarding'),
                 ),
               ],
             ),

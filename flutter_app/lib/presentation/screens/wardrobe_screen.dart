@@ -4,6 +4,7 @@ import '../../data/app_models.dart';
 import '../../data/local_feature_extractor.dart';
 import '../../data/local_image_service.dart';
 import '../../state/app_state.dart';
+import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
 
@@ -42,7 +43,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(
         title: const Text('Your Wardrobe'),
         actions: [
@@ -67,12 +68,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Structured wardrobe', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-                const SizedBox(height: 8),
-                Text(
-                  'Add semantic clothing features. In later phases, these fields will be extracted locally from photos. The backend does not receive image bytes.',
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
+                const SectionHeader(title: 'Structured wardrobe', subtitle: 'Add items manually or pick a local photo to prefill color and pattern hints.'),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -95,12 +91,32 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                 ),
                 const SizedBox(height: 16),
                 if (state.wardrobeItems.isEmpty)
-                  const _EmptyWardrobe()
+                  EmptyState(
+                    icon: Icons.checkroom_outlined,
+                    title: 'No wardrobe items yet',
+                    subtitle: 'Add a demo set or create your first local wardrobe item. Photos remain on-device.',
+                    action: ElevatedButton.icon(
+                      onPressed: state.isBusy ? null : () => state.addDemoWardrobe(),
+                      icon: const Icon(Icons.auto_fix_high_outlined),
+                      label: const Text('Add demo wardrobe'),
+                    ),
+                  )
                 else
-                  ...state.wardrobeItems.map((item) => _WardrobeItemCard(
-                        item: item,
-                        onDelete: () => state.deleteWardrobeItem(item),
-                      )),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.78,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                    ),
+                    itemCount: state.wardrobeItems.length,
+                    itemBuilder: (context, index) => _WardrobeGridCard(
+                      item: state.wardrobeItems[index],
+                      onDelete: () => state.deleteWardrobeItem(state.wardrobeItems[index]),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -218,7 +234,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(title: const Text('Add wardrobe item')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
@@ -348,6 +364,59 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WardrobeGridCard extends StatelessWidget {
+  const _WardrobeGridCard({required this.item, required this.onDelete});
+
+  final WardrobeItem item;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return PremiumCard(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: LocalWardrobeImage(
+                    localImageRef: item.localImageRef,
+                    hexColor: item.hexColor,
+                    borderRadius: 16,
+                  ),
+                ),
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: InkWell(
+                    onTap: onDelete,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(99)),
+                      child: const Icon(Icons.delete_outline, size: 18),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(item.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
+          const SizedBox(height: 4),
+          Text(
+            [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.grey.shade300, fontSize: 12),
           ),
         ],
       ),

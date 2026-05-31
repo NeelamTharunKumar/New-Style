@@ -4,7 +4,7 @@ import 'data/bharatfit_api_client.dart';
 import 'data/firebase_login_service.dart';
 import 'data/local_store.dart';
 import 'data/secure_auth_store.dart';
-import 'presentation/screens/home_dashboard.dart';
+import 'presentation/screens/onboarding_screen.dart';
 import 'state/app_state.dart';
 
 void main() {
@@ -25,8 +25,29 @@ class BharatFitApp extends StatelessWidget {
           seedColor: const Color(0xFF6366F1),
           brightness: Brightness.dark,
         ),
+        scaffoldBackgroundColor: const Color(0xFF09090B),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          backgroundColor: Color(0xFF09090B),
+          elevation: 0,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
       ),
-      home: HomeDashboard(appState: appState),
+      home: OnboardingGate(appState: appState),
       debugShowCheckedModeBanner: false,
     );
   }

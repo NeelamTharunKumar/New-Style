@@ -9,6 +9,7 @@ class LocalStore {
   static const _wardrobeKey = 'bharatfit.wardrobe.v1';
   static const _outfitsKey = 'bharatfit.outfits.v1';
   static const _baseUrlKey = 'bharatfit.apiBaseUrl.v1';
+  static const _onboardingKey = 'bharatfit.onboarding.completed.v1';
 
   Future<UserProfile?> loadProfile() async {
     final prefs = await SharedPreferences.getInstance();
@@ -58,6 +59,16 @@ class LocalStore {
     await prefs.setString(_baseUrlKey, baseUrl);
   }
 
+  Future<bool> loadOnboardingCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_onboardingKey) ?? false;
+  }
+
+  Future<void> saveOnboardingCompleted(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_onboardingKey, value);
+  }
+
   Future<String> exportJson({
     required UserProfile profile,
     required List<WardrobeItem> wardrobe,
@@ -82,5 +93,6 @@ class LocalStore {
     await prefs.remove(_profileKey);
     await prefs.remove(_wardrobeKey);
     await prefs.remove(_outfitsKey);
+    await prefs.remove(_onboardingKey);
   }
 }

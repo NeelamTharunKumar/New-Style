@@ -26,6 +26,7 @@ class AppState extends ChangeNotifier {
   List<OutfitRecommendation> outfits = [];
   bool isBusy = false;
   bool isHydrated = false;
+  bool hasCompletedOnboarding = false;
   String? error;
   String? statusMessage;
   String? backendHealth;
@@ -46,6 +47,7 @@ class AppState extends ChangeNotifier {
       authCredentials = await secureAuthStore.load();
       apiClient.apiKey = authCredentials.apiKey;
       apiClient.authToken = authCredentials.authToken;
+      hasCompletedOnboarding = await localStore.loadOnboardingCompleted();
       profile = await localStore.loadProfile() ?? profile;
       if (authCredentials.userId.isNotEmpty && profile.userId != authCredentials.userId) {
         profile = profile.copyWith(userId: authCredentials.userId);
@@ -146,6 +148,19 @@ class AppState extends ChangeNotifier {
       }
       statusMessage = 'Logged out and cleared secure tokens';
     });
+  }
+
+  Future<void> completeOnboarding() async {
+    hasCompletedOnboarding = true;
+    await localStore.saveOnboardingCompleted(true);
+    statusMessage = 'Welcome to BharatFit AI';
+    notifyListeners();
+  }
+
+  Future<void> resetOnboarding() async {
+    hasCompletedOnboarding = false;
+    await localStore.saveOnboardingCompleted(false);
+    notifyListeners();
   }
 
   Future<void> updateBaseUrl(String value) async {
