@@ -89,6 +89,7 @@ flutter run
 
 ## Documentation
 
+- [`docs/PROJECT_LOG.md`](docs/PROJECT_LOG.md) — running implementation log and TODO tracker
 - [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md)
 - [`docs/PRODUCT_POSITIONING.md`](docs/PRODUCT_POSITIONING.md)
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
