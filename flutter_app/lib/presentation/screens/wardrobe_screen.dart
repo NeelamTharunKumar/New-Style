@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../data/app_models.dart';
+import '../../data/local_feature_extractor.dart';
 import '../../data/local_image_service.dart';
 import '../../state/app_state.dart';
+import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
 
 class WardrobeScreen extends StatefulWidget {
@@ -133,12 +135,15 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
   final _climateTagsController = TextEditingController(text: 'hot_humid');
   final _localRefController = TextEditingController(text: '');
   final _localImageService = const LocalImageService();
+  late final LocalFeatureExtractor _featureExtractor;
+  Map<String, dynamic> _featureSummary = const {};
   String _styleMode = 'mixed';
   int _formality = 5;
 
   @override
   void initState() {
     super.initState();
+    _featureExtractor = LocalFeatureExtractor(imageService: _localImageService);
     _styleMode = widget.appState.profile.styleMode;
     if (_styleMode == 'mixed') _styleMode = 'menswear';
   }
@@ -159,6 +164,28 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
     _climateTagsController.dispose();
     _localRefController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickAndExtractImage() async {
+    try {
+      final hint = _emptyToNull(_itemIdController.text) ?? _emptyToNull(_nameController.text) ?? _categoryController.text;
+      final extracted = await _featureExtractor.pickCopyAndExtract(itemIdHint: hint);
+      if (extracted == null) return;
+      setState(() {
+        _localRefController.text = extracted.localImageRef;
+        _hexController.text = extracted.hexColor;
+        _colorController.text = extracted.colorName;
+        _patternController.text = extracted.patternHint;
+        _featureSummary = extracted.toStructuredSummary();
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Extracted ${extracted.colorName} (${extracted.hexColor}) locally. Photo was not uploaded.')),
+      );
+    } catch (err) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Local extraction failed: $err')));
+    }
   }
 
   Future<void> _save() async {
@@ -182,6 +209,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
       indiaTags: splitTags(_occasionTagsController.text),
       localImageRef: _emptyToNull(_localRefController.text) ??
           _localImageService.wardrobeRefForItem(_emptyToNull(_itemIdController.text) ?? 'new_item'),
+      featureVectorSummary: _featureSummary,
     );
     await widget.appState.addWardrobeItem(item);
     if (mounted && widget.appState.error == null) Navigator.pop(context);
@@ -290,11 +318,24 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     controller: _localRefController,
                     decoration: const InputDecoration(
                       labelText: 'Local image reference',
-                      hintText: 'local://wardrobe/shirt_001.jpg',
+                      hintText: 'local://wardrobe/shirt_001.jpg or file:///...',
                       helperText: 'Only a local pointer/string is sent. Actual image bytes stay on-device.',
                       border: OutlineInputBorder(),
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    onPressed: _pickAndExtractImage,
+                    icon: const Icon(Icons.photo_library_outlined),
+                    label: const Text('Pick local photo & extract color'),
+                  ),
+                  if (_featureSummary.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      "Local extraction: ${_featureSummary['dominant_color_name']} ${_featureSummary['dominant_hex_color']} · ${_featureSummary['pattern_hint']} · confidence ${((_featureSummary['confidence'] as num?)?.toDouble() ?? 0).toStringAsFixed(2)}",
+                      style: TextStyle(color: Colors.green.shade300),
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -325,7 +366,7 @@ class _WardrobeItemCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
-        leading: _ColorSwatch(item: item),
+        leading: LocalWardrobeImage(localImageRef: item.localImageRef, hexColor: item.hexColor, width: 44, height: 44),
         title: Text(item.displayName, style: const TextStyle(fontWeight: FontWeight.w700)),
         subtitle: Text([
           item.category,
@@ -339,27 +380,6 @@ class _WardrobeItemCard extends StatelessWidget {
           onPressed: onDelete,
         ),
       ),
-    );
-  }
-}
-
-class _ColorSwatch extends StatelessWidget {
-  const _ColorSwatch({required this.item});
-
-  final WardrobeItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = _parseHex(item.hexColor) ?? Colors.indigo.shade400;
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: const Icon(Icons.checkroom, size: 20),
     );
   }
 }
@@ -381,9 +401,4 @@ class _EmptyWardrobe extends StatelessWidget {
 String? _emptyToNull(String value) {
   final trimmed = value.trim();
   return trimmed.isEmpty ? null : trimmed;
-}
-
-Color? _parseHex(String? hex) {
-  if (hex == null || !RegExp(r'^#[0-9A-Fa-f]{6}$').hasMatch(hex)) return null;
-  return Color(int.parse('FF${hex.substring(1)}', radix: 16));
 }

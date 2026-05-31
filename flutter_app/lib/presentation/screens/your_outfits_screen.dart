@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/app_models.dart';
 import '../../state/app_state.dart';
+import '../widgets/local_wardrobe_image.dart';
 import '../widgets/status_banner.dart';
 import 'wardrobe_screen.dart';
 
@@ -226,7 +227,6 @@ class _OutfitItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _parseHex(item.hexColor) ?? Colors.indigo.shade400;
     return Container(
       width: 132,
       padding: const EdgeInsets.all(10),
@@ -238,11 +238,11 @@ class _OutfitItemTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          LocalWardrobeImage(
+            localImageRef: item.localImageRef,
+            hexColor: item.hexColor,
             width: double.infinity,
             height: 42,
-            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(12)),
-            child: const Icon(Icons.checkroom),
           ),
           const SizedBox(height: 8),
           Text(item.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700)),
@@ -267,9 +267,4 @@ class _ScorePill extends StatelessWidget {
       child: Text(score.toStringAsFixed(0), style: const TextStyle(fontWeight: FontWeight.w800)),
     );
   }
-}
-
-Color? _parseHex(String? hex) {
-  if (hex == null || !RegExp(r'^#[0-9A-Fa-f]{6}$').hasMatch(hex)) return null;
-  return Color(int.parse('FF${hex.substring(1)}', radix: 16));
 }

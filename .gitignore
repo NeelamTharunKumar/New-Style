@@ -25,3 +25,6 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local agent/project notes
+docs/PROJECT_LOG.md

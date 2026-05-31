@@ -62,7 +62,7 @@ Scope:
 
 ## Phase 5 — Local feature extraction
 
-Next recommended phase.
+Status: completed in this commit.
 
 Scope:
 
@@ -71,6 +71,8 @@ Scope:
 - skin-tone prototype
 
 ## Phase 6 — Native Kotlin/Swift ML bridge
+
+Next recommended phase.
 
 Scope:
 

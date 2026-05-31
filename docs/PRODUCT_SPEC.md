@@ -87,6 +87,7 @@ Implemented in Phase 2:
 - Local-first persistence for profile, wardrobe features and generated outfits
 - Privacy settings screen with structured JSON export and local data deletion
 - Optional LLM explanation adapter that cannot change item IDs/scores
+- Basic local image picking, local copy and dominant color extraction
 
 ## India-first styling domains
 

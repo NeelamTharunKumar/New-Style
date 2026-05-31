@@ -45,56 +45,6 @@ class UserProfile {
     );
   }
 
-  WardrobeItem copyWith({
-    String? userId,
-    String? itemId,
-    String? styleMode,
-    String? name,
-    String? category,
-    String? subcategory,
-    String? color,
-    String? hexColor,
-    List<String>? secondaryColors,
-    String? pattern,
-    String? fabric,
-    String? fit,
-    String? sleeve,
-    String? neckline,
-    String? length,
-    int? formality,
-    List<String>? styleTags,
-    List<String>? occasionTags,
-    List<String>? seasonTags,
-    List<String>? climateTags,
-    List<String>? indiaTags,
-    String? localImageRef,
-  }) {
-    return WardrobeItem(
-      userId: userId ?? this.userId,
-      itemId: itemId ?? this.itemId,
-      styleMode: styleMode ?? this.styleMode,
-      name: name ?? this.name,
-      category: category ?? this.category,
-      subcategory: subcategory ?? this.subcategory,
-      color: color ?? this.color,
-      hexColor: hexColor ?? this.hexColor,
-      secondaryColors: secondaryColors ?? this.secondaryColors,
-      pattern: pattern ?? this.pattern,
-      fabric: fabric ?? this.fabric,
-      fit: fit ?? this.fit,
-      sleeve: sleeve ?? this.sleeve,
-      neckline: neckline ?? this.neckline,
-      length: length ?? this.length,
-      formality: formality ?? this.formality,
-      styleTags: styleTags ?? this.styleTags,
-      occasionTags: occasionTags ?? this.occasionTags,
-      seasonTags: seasonTags ?? this.seasonTags,
-      climateTags: climateTags ?? this.climateTags,
-      indiaTags: indiaTags ?? this.indiaTags,
-      localImageRef: localImageRef ?? this.localImageRef,
-    );
-  }
-
   Map<String, dynamic> toJson() {
     return {
       'user_id': userId,
@@ -148,6 +98,7 @@ class WardrobeItem {
     this.climateTags = const [],
     this.indiaTags = const [],
     this.localImageRef,
+    this.featureVectorSummary = const {},
   });
 
   final String userId;
@@ -172,6 +123,7 @@ class WardrobeItem {
   final List<String> climateTags;
   final List<String> indiaTags;
   final String? localImageRef;
+  final Map<String, dynamic> featureVectorSummary;
 
   String get displayName {
     if (name != null && name!.trim().isNotEmpty) return name!;
@@ -201,6 +153,7 @@ class WardrobeItem {
     List<String>? climateTags,
     List<String>? indiaTags,
     String? localImageRef,
+    Map<String, dynamic>? featureVectorSummary,
   }) {
     return WardrobeItem(
       userId: userId ?? this.userId,
@@ -225,6 +178,7 @@ class WardrobeItem {
       climateTags: climateTags ?? this.climateTags,
       indiaTags: indiaTags ?? this.indiaTags,
       localImageRef: localImageRef ?? this.localImageRef,
+      featureVectorSummary: featureVectorSummary ?? this.featureVectorSummary,
     );
   }
 
@@ -252,7 +206,7 @@ class WardrobeItem {
       'climate_tags': climateTags,
       'india_tags': indiaTags,
       'local_image_ref': localImageRef,
-      'feature_vector_summary': <String, dynamic>{},
+      'feature_vector_summary': featureVectorSummary,
     };
   }
 
@@ -280,6 +234,7 @@ class WardrobeItem {
       climateTags: _stringList(json['climate_tags']),
       indiaTags: _stringList(json['india_tags']),
       localImageRef: json['local_image_ref']?.toString(),
+      featureVectorSummary: (json['feature_vector_summary'] as Map?)?.cast<String, dynamic>() ?? const {},
     );
   }
 }
