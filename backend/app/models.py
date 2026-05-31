@@ -7,6 +7,31 @@ from uuid import uuid4
 from pydantic import BaseModel, Field, field_validator
 
 
+SENSITIVE_FEATURE_KEYS = {
+    "raw_image",
+    "image_bytes",
+    "base64",
+    "base64_image",
+    "face_image",
+    "selfie",
+    "body_image",
+    "embedding",
+    "clip_embedding",
+}
+
+
+def _contains_sensitive_feature_key(value: Any) -> bool:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if str(key).lower() in SENSITIVE_FEATURE_KEYS:
+                return True
+            if _contains_sensitive_feature_key(child):
+                return True
+    if isinstance(value, list):
+        return any(_contains_sensitive_feature_key(item) for item in value)
+    return False
+
+
 class StyleMode(str, Enum):
     menswear = "menswear"
     womenswear = "womenswear"
@@ -76,6 +101,13 @@ class WardrobeItemCreate(BaseModel):
     @classmethod
     def normalize_lists(cls, values: List[str]) -> List[str]:
         return sorted({v.strip().lower() for v in values if v and v.strip()})
+
+    @field_validator("feature_vector_summary")
+    @classmethod
+    def reject_sensitive_feature_payloads(cls, value: Dict[str, Any]) -> Dict[str, Any]:
+        if _contains_sensitive_feature_key(value):
+            raise ValueError("feature_vector_summary must not contain raw images, base64 payloads, face/selfie data, or embeddings")
+        return value
 
 
 class WardrobeItem(WardrobeItemCreate):
@@ -176,6 +208,14 @@ class OutfitFeedback(BaseModel):
     rejected: bool = False
     notes: Optional[str] = None
     created_at: str
+
+
+class AuditEvent(BaseModel):
+    event_id: str
+    user_id: str
+    event_type: str
+    created_at: str
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 class AuthSessionResponse(BaseModel):

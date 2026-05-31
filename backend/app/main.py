@@ -143,6 +143,7 @@ async def export_user_data(
 ):
     ensure_user_access(current_user, user_id)
     exported = store.export_user(user_id)
+    store.add_audit_event(user_id, "user_data_export", {"endpoint": "/users/{user_id}/export"})
     return UserDataExport(
         user_id=user_id,
         privacy=PRIVACY_MESSAGE,
@@ -159,6 +160,7 @@ async def delete_user_data(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     ensure_user_access(current_user, user_id)
+    store.add_audit_event(user_id, "user_data_delete_requested", {"endpoint": "DELETE /users/{user_id}"})
     result = store.delete_user(user_id)
     return UserDeleteResponse(
         user_id=user_id,
@@ -177,7 +179,9 @@ async def add_wardrobe_item(
 ):
     ensure_user_access(current_user, payload.user_id)
     item = WardrobeItem.from_create(payload)
-    return store.add_item(item)
+    saved = store.add_item(item)
+    store.add_audit_event(payload.user_id, "wardrobe_item_upsert", {"item_id": saved.item_id, "category": saved.category})
+    return saved
 
 
 @app.get("/wardrobe/items/{user_id}", response_model=List[WardrobeItem])
@@ -200,6 +204,7 @@ async def delete_wardrobe_item(
     ensure_user_access(current_user, user_id)
     if not store.delete_item(user_id, item_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="wardrobe item not found")
+    store.add_audit_event(user_id, "wardrobe_item_delete", {"item_id": item_id})
     return {"deleted": True, "item_id": item_id}
 
 
@@ -239,6 +244,7 @@ async def generate_outfits(
         max_results=req.max_results,
     )
     outfits = apply_feedback_personalization(outfits, store.list_feedback(req.user_id))
+    store.add_audit_event(req.user_id, "outfit_generate", {"occasion": req.occasion, "candidate_count": len(outfits)})
     outfits = await llm_orchestrator.explain_outfits(
         profile=profile,
         wardrobe=wardrobe,
@@ -261,7 +267,9 @@ async def record_outfit_feedback(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     ensure_user_access(current_user, req.user_id)
-    return store.add_feedback(req)
+    feedback = store.add_feedback(req)
+    store.add_audit_event(req.user_id, "outfit_feedback", {"outfit_id": req.outfit_id, "rating": req.rating, "favorite": req.favorite, "rejected": req.rejected})
+    return feedback
 
 
 @app.get("/outfits/history/{user_id}", response_model=List[OutfitFeedback])

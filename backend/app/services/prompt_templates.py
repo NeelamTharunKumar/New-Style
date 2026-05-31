@@ -88,6 +88,39 @@ def sanitize_item_for_llm(item: WardrobeItem) -> Dict[str, Any]:
     return sanitized
 
 
+
+
+def occasion_guidance(occasion: str) -> Dict[str, Any]:
+    normalized = occasion.strip().lower()
+    guidance = {
+        "haldi": {
+            "color_mood": ["yellow", "white", "green"],
+            "advice": ["prefer washable fabrics", "choose comfortable footwear", "avoid delicate pieces if staining is likely"],
+        },
+        "sangeet": {
+            "color_mood": ["festive", "bold", "jewel tones"],
+            "advice": ["dance-friendly fit", "avoid restrictive silhouettes", "statement accessory is acceptable"],
+        },
+        "wedding guest": {
+            "color_mood": ["elevated", "ethnic", "fusion"],
+            "advice": ["avoid underdressed combinations", "consider jewelry intensity", "balance festive with comfort"],
+        },
+        "office": {
+            "color_mood": ["polished", "neutral", "smart contrast"],
+            "advice": ["breathable fabrics", "AC-friendly layer if available", "avoid overly flashy combinations"],
+        },
+        "date": {
+            "color_mood": ["smart casual", "clean", "warm accents"],
+            "advice": ["clean shoes", "one polished accessory", "avoid gymwear unless context is explicitly casual"],
+        },
+        "college": {
+            "color_mood": ["comfortable", "repeat-friendly", "casual"],
+            "advice": ["comfortable footwear", "weather-safe fabrics", "budget-conscious remixing"],
+        },
+    }
+    return guidance.get(normalized, {"advice": ["keep the explanation practical, respectful and occasion-aware"]})
+
+
 def build_llm_payload(
     *,
     profile: UserProfile,
@@ -100,6 +133,7 @@ def build_llm_payload(
     return {
         "privacy_contract": "Structured features only. No raw photos, local image refs, vectors, or image bytes are included.",
         "occasion": occasion,
+        "occasion_guidance": occasion_guidance(occasion),
         "weather": weather.model_dump(exclude_none=True) if weather else None,
         "user_profile": {
             "user_id": profile.user_id,

@@ -196,3 +196,14 @@ def test_firebase_auth_mode_uses_verified_uid(monkeypatch):
     finally:
         monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
         get_settings.cache_clear()
+
+
+def test_export_contains_audit_event_without_raw_payloads():
+    store.clear()
+    client.post("/users/profile", json={"user_id": "audit_user", "style_mode": "mixed"})
+    exported = client.get("/users/audit_user/export")
+    assert exported.status_code == 200
+    body_text = exported.text.lower()
+    assert "raw_image" not in body_text
+    assert "image_bytes" not in body_text
+    assert "base64" not in body_text

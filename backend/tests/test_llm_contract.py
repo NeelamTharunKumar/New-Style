@@ -11,7 +11,7 @@ def test_llm_payload_excludes_photo_refs_and_vectors():
         category="shirt",
         color="light blue",
         local_image_ref="local://wardrobe/private-shirt-photo.jpg",
-        feature_vector_summary={"embedding": [0.1, 0.2, 0.3]},
+        feature_vector_summary={"dominant_color": "light blue", "privacy": "local_only"},
         style_tags=["formal"],
         occasion_tags=["office"],
     )
@@ -66,3 +66,20 @@ def test_apply_llm_explanations_preserves_item_ids_and_scores():
     assert enhanced.score == 92
     assert enhanced.source == "rule_engine+llm_explanation"
     assert "blue shirt" in enhanced.why
+
+
+def test_wardrobe_item_rejects_sensitive_feature_payloads():
+    from pydantic import ValidationError
+
+    try:
+        WardrobeItem(
+            user_id="u1",
+            item_id="bad",
+            category="shirt",
+            color="blue",
+            feature_vector_summary={"raw_image": "base64data"},
+        )
+    except ValidationError as exc:
+        assert "feature_vector_summary" in str(exc)
+    else:
+        raise AssertionError("sensitive feature payload should be rejected")

@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+from collections import defaultdict
+from datetime import date
 from typing import Any, Dict, List, Mapping, Sequence
 
 import httpx
@@ -28,6 +31,9 @@ class LLMOrchestrator:
         self.base_url = os.getenv("BHARATFIT_LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
         self.model = os.getenv("BHARATFIT_LLM_MODEL", "gpt-4o-mini")
         self.timeout = float(os.getenv("BHARATFIT_LLM_TIMEOUT_SECONDS", "20"))
+        self.daily_limit_per_user = int(os.getenv("BHARATFIT_LLM_DAILY_LIMIT_PER_USER", "50"))
+        self._cache: dict[str, Mapping[str, Any]] = {}
+        self._calls_by_user_day: dict[tuple[str, str], int] = defaultdict(int)
 
     def status(self) -> Dict[str, Any]:
         return {
@@ -35,6 +41,8 @@ class LLMOrchestrator:
             "configured": bool(self.api_key),
             "model": self.model,
             "purpose": "explanation_only",
+            "daily_limit_per_user": self.daily_limit_per_user,
+            "cache_entries": len(self._cache),
             "privacy": "LLM receives structured features only; no photos, local image refs, or embeddings.",
         }
 
@@ -65,11 +73,30 @@ class LLMOrchestrator:
             return list(outfits)
 
         try:
+            cache_key = self._cache_key(payload)
+            if cache_key in self._cache:
+                return apply_llm_explanations(outfits, self._cache[cache_key])
+            if not self._reserve_call(profile.user_id):
+                return list(outfits)
             raw = await self._call_llm(payload)
+            self._cache[cache_key] = raw
             return apply_llm_explanations(outfits, raw)
         except Exception:
             # Fallback must be silent and deterministic for user experience.
             return list(outfits)
+
+    def _cache_key(self, payload: Mapping[str, Any]) -> str:
+        text = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+        return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    def _reserve_call(self, user_id: str) -> bool:
+        if self.daily_limit_per_user <= 0:
+            return True
+        key = (user_id, date.today().isoformat())
+        if self._calls_by_user_day[key] >= self.daily_limit_per_user:
+            return False
+        self._calls_by_user_day[key] += 1
+        return True
 
     async def _call_llm(self, payload: Mapping[str, Any]) -> Mapping[str, Any]:
         prompt = USER_PROMPT_TEMPLATE.format(payload=json.dumps(payload, ensure_ascii=False))
