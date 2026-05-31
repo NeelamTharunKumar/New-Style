@@ -15,6 +15,8 @@ from app.models import (
     OutfitGenerateResponse,
     StylistChatRequest,
     StylistChatResponse,
+    UserDataExport,
+    UserDeleteResponse,
     UserProfile,
     WardrobeItem,
     WardrobeItemCreate,
@@ -107,6 +109,40 @@ async def get_profile(
     if not profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="profile not found")
     return profile
+
+
+@app.get("/users/{user_id}/export", response_model=UserDataExport)
+async def export_user_data(
+    user_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
+    exported = store.export_user(user_id)
+    return UserDataExport(
+        user_id=user_id,
+        privacy=PRIVACY_MESSAGE,
+        profile=exported.get("profile"),
+        wardrobe_items=exported.get("wardrobe_items", []),
+        outfit_history=[],
+    )
+
+
+@app.delete("/users/{user_id}", response_model=UserDeleteResponse)
+async def delete_user_data(
+    user_id: str,
+    _auth: None = Depends(require_api_key),
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    ensure_user_access(current_user, user_id)
+    result = store.delete_user(user_id)
+    return UserDeleteResponse(
+        user_id=user_id,
+        deleted=bool(result.get("profile_deleted") or result.get("wardrobe_items_deleted", 0)),
+        profile_deleted=bool(result.get("profile_deleted")),
+        wardrobe_items_deleted=int(result.get("wardrobe_items_deleted", 0)),
+        privacy=PRIVACY_MESSAGE,
+    )
 
 
 @app.post("/wardrobe/items", response_model=WardrobeItem, status_code=status.HTTP_201_CREATED)

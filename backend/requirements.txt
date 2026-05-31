@@ -3,6 +3,7 @@ uvicorn[standard]
 networkx
 pydantic
 sqlalchemy
+alembic
 psycopg[binary]
 pytest
 httpx

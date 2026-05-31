@@ -146,6 +146,24 @@ class OutfitGenerateResponse(BaseModel):
     outfits: List[OutfitRecommendation]
 
 
+
+
+class UserDataExport(BaseModel):
+    user_id: str
+    privacy: str
+    profile: Optional[UserProfile] = None
+    wardrobe_items: List[WardrobeItem] = Field(default_factory=list)
+    outfit_history: List[Dict[str, Any]] = Field(default_factory=list)
+
+
+class UserDeleteResponse(BaseModel):
+    user_id: str
+    deleted: bool
+    profile_deleted: bool
+    wardrobe_items_deleted: int
+    privacy: str
+
+
 class StylistChatRequest(BaseModel):
     user_id: str
     message: str

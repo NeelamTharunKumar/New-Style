@@ -138,6 +138,17 @@ http://localhost:8000/health
 
 See [`AUTH_USER_ISOLATION.md`](AUTH_USER_ISOLATION.md) for Phase 8 user isolation modes.
 
+## Migrations
+
+See [`DATA_LIFECYCLE_AND_MIGRATIONS.md`](DATA_LIFECYCLE_AND_MIGRATIONS.md).
+
+Run:
+
+```bash
+cd backend
+alembic upgrade head
+```
+
 ## Security notes
 
 This is a production foundation, not full enterprise auth.

@@ -66,6 +66,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Android APK and iOS build preparation scripts
 - Optional API-key auth, CORS config, SQL persistence and Docker deployment foundation
 - User-auth modes and per-user backend access checks
+- Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
 
@@ -113,6 +114,7 @@ flutter run
 - [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
 - [`docs/PRODUCTION_HARDENING.md`](docs/PRODUCTION_HARDENING.md)
 - [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
+- [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 
 ## Example backend flow
 
@@ -134,3 +136,4 @@ The backend never needs the actual wardrobe photos.
 7. Phase 6: native Kotlin/Swift ML bridges and Android/iOS build scripts — completed.
 8. Phase 7: Postgres/auth/deployment hardening — completed.
 9. Phase 8: user auth and isolation — completed.
+10. Phase 9: data lifecycle and migrations — completed.

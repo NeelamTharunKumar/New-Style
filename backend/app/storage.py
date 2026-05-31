@@ -33,6 +33,22 @@ class InMemoryStore:
             return True
         return False
 
+
+    def export_user(self, user_id: str) -> dict:
+        return {
+            "profile": self.get_profile(user_id),
+            "wardrobe_items": self.list_items(user_id),
+        }
+
+    def delete_user(self, user_id: str) -> dict:
+        profile_deleted = self._profiles.pop(user_id, None) is not None
+        item_count = len(self._wardrobe[user_id])
+        self._wardrobe.pop(user_id, None)
+        return {
+            "profile_deleted": profile_deleted,
+            "wardrobe_items_deleted": item_count,
+        }
+
     def clear(self) -> None:
         self._profiles.clear()
         self._wardrobe.clear()

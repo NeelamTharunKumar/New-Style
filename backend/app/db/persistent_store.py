@@ -77,6 +77,23 @@ class PersistentStore:
             session.commit()
             return True
 
+
+    def export_user(self, user_id: str) -> dict:
+        return {
+            "profile": self.get_profile(user_id),
+            "wardrobe_items": self.list_items(user_id),
+        }
+
+    def delete_user(self, user_id: str) -> dict:
+        with self._session() as session:
+            item_count = session.query(WardrobeItemRecord).filter(WardrobeItemRecord.user_id == user_id).delete()
+            profile_count = session.query(UserProfileRecord).filter(UserProfileRecord.user_id == user_id).delete()
+            session.commit()
+            return {
+                "profile_deleted": profile_count > 0,
+                "wardrobe_items_deleted": item_count,
+            }
+
     def clear(self) -> None:
         with self._session() as session:
             session.query(WardrobeItemRecord).delete()

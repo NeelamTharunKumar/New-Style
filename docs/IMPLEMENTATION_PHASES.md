@@ -107,3 +107,17 @@ Scope:
 - per-user access checks for profile, wardrobe, outfits and chat
 - Flutter API client support for API key and bearer token dart-defines
 - auth/user-isolation tests
+
+
+## Phase 9 — Data lifecycle and migrations
+
+Status: completed in this commit.
+
+Scope:
+
+- Alembic migration scaffold
+- initial SQL schema migration
+- user data export endpoint
+- user data deletion endpoint
+- store-level export/delete methods
+- auth-protected lifecycle tests

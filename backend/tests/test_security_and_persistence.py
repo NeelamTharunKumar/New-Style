@@ -95,3 +95,61 @@ def test_static_bearer_token_mapping(monkeypatch):
         monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
         monkeypatch.delenv("BHARATFIT_USER_TOKENS", raising=False)
         get_settings.cache_clear()
+
+
+def test_user_export_and_delete_data_lifecycle():
+    store.clear()
+    headers = {}
+    client.post("/users/profile", json={"user_id": "life_user", "style_mode": "menswear"}, headers=headers)
+    client.post(
+        "/wardrobe/items",
+        json={
+            "user_id": "life_user",
+            "item_id": "shirt_001",
+            "category": "shirt",
+            "color": "blue",
+            "style_mode": "menswear",
+        },
+        headers=headers,
+    )
+
+    exported = client.get("/users/life_user/export", headers=headers)
+    assert exported.status_code == 200
+    body = exported.json()
+    assert body["profile"]["user_id"] == "life_user"
+    assert len(body["wardrobe_items"]) == 1
+    assert "No raw" in body["privacy"]
+
+    deleted = client.delete("/users/life_user", headers=headers)
+    assert deleted.status_code == 200
+    delete_body = deleted.json()
+    assert delete_body["deleted"] is True
+    assert delete_body["profile_deleted"] is True
+    assert delete_body["wardrobe_items_deleted"] == 1
+
+    exported_after = client.get("/users/life_user/export", headers=headers)
+    assert exported_after.status_code == 200
+    assert exported_after.json()["profile"] is None
+    assert exported_after.json()["wardrobe_items"] == []
+
+
+def test_user_delete_respects_auth_isolation(monkeypatch):
+    store.clear()
+    monkeypatch.setenv("BHARATFIT_AUTH_MODE", "dev_bearer")
+    get_settings.cache_clear()
+    try:
+        create = client.post(
+            "/users/profile",
+            headers={"Authorization": "Bearer dev:alice"},
+            json={"user_id": "alice", "style_mode": "mixed"},
+        )
+        assert create.status_code == 200
+
+        blocked = client.delete("/users/alice", headers={"Authorization": "Bearer dev:bob"})
+        assert blocked.status_code == 403
+
+        ok = client.delete("/users/alice", headers={"Authorization": "Bearer dev:alice"})
+        assert ok.status_code == 200
+    finally:
+        monkeypatch.delenv("BHARATFIT_AUTH_MODE", raising=False)
+        get_settings.cache_clear()
