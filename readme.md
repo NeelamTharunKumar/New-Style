@@ -72,6 +72,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - UI/UX Pro Max-inspired fashion/lifestyle visual system
 - First-run onboarding, premium UI components, polished home/wardrobe/outfit UX
 - Centralized branding constants, source app icon/splash assets and package/bundle patching script
+- Flutter QA scripts and widget/model tests
 - Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
@@ -126,6 +127,7 @@ flutter run
 - [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
 - [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
 - [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
+- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
 - [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 
@@ -154,3 +156,4 @@ The backend never needs the actual wardrobe photos.
 12. Phase 11: signed Android/iOS release automation and app-store readiness — completed.
 13. Phase 12: product polish and real app UX — completed.
 14. Phase 13: final branding/package cleanup and app assets — completed.
+15. Phase 14: Flutter QA, tests and local build verification — completed.

@@ -208,3 +208,16 @@ Scope:
 - switched app theme from dark tech to light fashion/lifestyle
 - updated premium cards, badges, empty states and major screens
 - documented the design system and remaining UX work
+
+
+## Phase 14 — Flutter QA, tests and local build verification
+
+Status: completed in this commit.
+
+Scope:
+
+- Flutter model/component tests
+- local Flutter verification script
+- combined backend+Flutter verification script
+- Flutter CI test step
+- manual QA checklist

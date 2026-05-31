@@ -426,49 +426,6 @@ class _WardrobeGridCard extends StatelessWidget {
   }
 }
 
-class _WardrobeItemCard extends StatelessWidget {
-  const _WardrobeItemCard({required this.item, required this.onDelete});
-
-  final WardrobeItem item;
-  final VoidCallback onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: LocalWardrobeImage(localImageRef: item.localImageRef, hexColor: item.hexColor, width: 44, height: 44),
-        title: Text(item.displayName, style: const TextStyle(fontWeight: FontWeight.w700)),
-        subtitle: Text([
-          item.category,
-          item.styleMode,
-          if (item.fabric != null) item.fabric!,
-          if (item.occasionTags.isNotEmpty) item.occasionTags.join('/'),
-          if (item.localImageRef != null) item.localImageRef!,
-        ].join(' · ')),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete_outline),
-          onPressed: onDelete,
-        ),
-      ),
-    );
-  }
-}
-
-class _EmptyWardrobe extends StatelessWidget {
-  const _EmptyWardrobe();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(18),
-        child: Text('No wardrobe items yet. Add a demo set or manually enter your first item.'),
-      ),
-    );
-  }
-}
-
 String? _emptyToNull(String value) {
   final trimmed = value.trim();
   return trimmed.isEmpty ? null : trimmed;

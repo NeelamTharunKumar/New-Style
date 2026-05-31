@@ -20,6 +20,9 @@ jobs:
       - name: Analyze
         working-directory: flutter_app
         run: flutter analyze
+      - name: Run Flutter tests
+        working-directory: flutter_app
+        run: flutter test
       - name: Build debug APK smoke test
         working-directory: flutter_app
         run: flutter build apk --debug --dart-define=BHARATFIT_API_BASE_URL=http://10.0.2.2:8000

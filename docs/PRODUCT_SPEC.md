@@ -98,6 +98,7 @@ Implemented in Phase 2:
 - UI/UX Pro Max-inspired Exaggerated Minimalism fashion/lifestyle visual system
 - First-run onboarding, premium UI components and polished wardrobe/outfit UX
 - Centralized branding, source app icon/splash assets and package/bundle ID patching
+- Flutter QA scripts, model/component tests and CI test step
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains
