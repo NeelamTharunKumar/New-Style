@@ -1,4 +1,4 @@
-package com.example.bharatfit_ai
+package com.bharatfit.ai
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

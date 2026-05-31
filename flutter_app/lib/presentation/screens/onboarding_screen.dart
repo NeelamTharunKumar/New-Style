@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../core/branding.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
+import '../widgets/brand_mark.dart';
 import 'home_dashboard.dart';
 import 'login_screen.dart';
 import 'style_profile_screen.dart';
@@ -138,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     }
                   },
                   icon: Icon(_index < pages.length - 1 ? Icons.arrow_forward : Icons.done),
-                  label: Text(_index < pages.length - 1 ? 'Continue' : 'Enter BharatFit'),
+                  label: Text(_index < pages.length - 1 ? 'Continue' : 'Enter ${AppBranding.shortName}'),
                 ),
               ),
               const SizedBox(height: 10),
@@ -188,7 +190,7 @@ class _OnboardingPage extends StatelessWidget {
       children: [
         PremiumCard(
           padding: const EdgeInsets.all(30),
-          child: Icon(icon, size: 84, color: Theme.of(context).colorScheme.primary),
+          child: icon == Icons.checkroom_outlined ? const BrandMark(size: 92) : Icon(icon, size: 84, color: Theme.of(context).colorScheme.primary),
         ),
         const SizedBox(height: 32),
         Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, height: 1.08)),

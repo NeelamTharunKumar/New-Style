@@ -70,6 +70,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - Firebase auth verification plumbing and CI/CD workflows
 - Signed Android AAB/iOS IPA release automation and app store readiness templates
 - First-run onboarding, premium UI components, polished home/wardrobe/outfit UX
+- Centralized branding constants, source app icon/splash assets and package/bundle patching script
 - Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
@@ -123,6 +124,7 @@ flutter run
 - [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
 - [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
 - [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
+- [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 
 ## Example backend flow
@@ -149,3 +151,4 @@ The backend never needs the actual wardrobe photos.
 11. Phase 10: Firebase auth and CI/CD release automation — completed.
 12. Phase 11: signed Android/iOS release automation and app-store readiness — completed.
 13. Phase 12: product polish and real app UX — completed.
+14. Phase 13: final branding/package cleanup and app assets — completed.

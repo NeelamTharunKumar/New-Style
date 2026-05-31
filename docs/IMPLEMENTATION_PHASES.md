@@ -181,3 +181,16 @@ Scope:
 - wardrobe grid cards and empty state
 - outfit card/empty state polish
 - local onboarding completion persistence
+
+
+## Phase 13 — Final branding/package cleanup and app assets
+
+Status: completed in this commit.
+
+Scope:
+
+- centralized brand constants
+- in-app brand mark widget
+- source SVG icon/splash assets
+- Android/iOS package/bundle patching script
+- docs for final branding and asset export

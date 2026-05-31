@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'core/branding.dart';
 import 'data/bharatfit_api_client.dart';
 import 'data/firebase_login_service.dart';
 import 'data/local_store.dart';
@@ -19,7 +20,7 @@ class BharatFitApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BharatFit AI',
+      title: AppBranding.appName,
       theme: ThemeData.dark(useMaterial3: true).copyWith(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6366F1),

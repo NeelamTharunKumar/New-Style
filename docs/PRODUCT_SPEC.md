@@ -96,6 +96,7 @@ Implemented in Phase 2:
 - Firebase auth verification plumbing and CI/CD release workflows
 - Signed Android/iOS release automation, backend Cloud Run deploy workflow and app-store metadata templates
 - First-run onboarding, premium UI components and polished wardrobe/outfit UX
+- Centralized branding, source app icon/splash assets and package/bundle ID patching
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains

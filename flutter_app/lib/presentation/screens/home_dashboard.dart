@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../core/branding.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
+import '../widgets/brand_mark.dart';
 import '../widgets/status_banner.dart';
 import 'ai_stylist_chat.dart';
 import 'login_screen.dart';
@@ -44,7 +46,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
     final state = widget.appState;
     return AppGradientScaffold(
       appBar: AppBar(
-        title: const Text('BharatFit AI'),
+        title: const Text(AppBranding.appName),
         actions: [
           IconButton(
             tooltip: 'Check backend',
@@ -69,7 +71,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     children: [
                       const PrivacyBadge(),
                       const SizedBox(height: 16),
-                      const Text('India-first wardrobe assistant', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, height: 1.05)),
+                      const Row(children: [BrandMark(size: 48), SizedBox(width: 12), Expanded(child: Text(AppBranding.positioning, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, height: 1.05)))],),
                       const SizedBox(height: 10),
                       Text(
                         'Create outfits from your own clothes for college, office, dates, Haldi, Sangeet and weddings.',
