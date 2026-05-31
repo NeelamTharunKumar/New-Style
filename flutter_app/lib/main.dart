@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+
+import 'data/bharatfit_api_client.dart';
 import 'presentation/screens/home_dashboard.dart';
+import 'state/app_state.dart';
 
 void main() {
-  runApp(const BharatFitApp());
+  runApp(BharatFitApp(appState: AppState(BharatFitApiClient())));
 }
 
 class BharatFitApp extends StatelessWidget {
-  const BharatFitApp({super.key});
+  const BharatFitApp({super.key, required this.appState});
+
+  final AppState appState;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BharatFit AI',
-      theme: ThemeData.dark(useMaterial3: true),
-      home: const HomeDashboard(),
+      theme: ThemeData.dark(useMaterial3: true).copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6366F1),
+          brightness: Brightness.dark,
+        ),
+      ),
+      home: HomeDashboard(appState: appState),
       debugShowCheckedModeBanner: false,
     );
   }

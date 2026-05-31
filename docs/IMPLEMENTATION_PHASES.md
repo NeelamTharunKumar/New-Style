@@ -28,7 +28,7 @@ Scope:
 
 ## Phase 2 — Flutter functional MVP
 
-Next recommended phase.
+Status: completed in this commit.
 
 Scope:
 
@@ -40,6 +40,8 @@ Scope:
 - privacy copy in UI
 
 ## Phase 3 — Local storage/privacy layer
+
+Next recommended phase.
 
 Scope:
 

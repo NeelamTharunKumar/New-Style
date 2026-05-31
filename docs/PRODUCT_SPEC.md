@@ -72,13 +72,18 @@ Raw images should not be uploaded to the backend or LLM.
 
 ### Flutter MVP
 
-- Onboarding with style mode
+Implemented in Phase 2:
+
+- Style profile setup with style mode
 - Manual wardrobe item entry
 - Local-only photo path reference
-- Wardrobe grid
+- Wardrobe list
 - Occasion selector
+- Weather/context input
 - Outfit result cards
 - Backend API integration
+- Backend health check
+- Privacy-safe chat stub
 
 ## India-first styling domains
 

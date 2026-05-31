@@ -32,7 +32,7 @@ Generic fashion apps and AI stylist apps already exist. BharatFit AI is focused 
 
 ## Current implementation status
 
-This repo now contains a functional backend MVP and an early Flutter prototype.
+This repo now contains a functional backend MVP and a backend-connected Flutter MVP.
 
 ### Backend implemented
 
@@ -46,9 +46,17 @@ This repo now contains a functional backend MVP and an early Flutter prototype.
 - deterministic explanations and styling tips
 - tests for core API flows
 
-### Flutter status
+### Flutter implemented
 
-The Flutter app is still an early UI prototype. The next phase is to connect it to the backend and add local wardrobe storage/image-reference handling.
+- Backend API client
+- Home dashboard with backend health check
+- Style profile setup
+- Manual structured wardrobe item entry
+- Wardrobe list/delete flow
+- Demo wardrobe seed flow
+- Occasion/weather outfit generation
+- Outfit cards that map returned item IDs to local image references
+- Privacy-safe AI stylist chat stub
 
 ## Backend quickstart
 
@@ -87,6 +95,7 @@ flutter run
 - [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
 - [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
 - [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
+- [`docs/FLUTTER_MVP.md`](docs/FLUTTER_MVP.md)
 
 ## Example backend flow
 
@@ -101,7 +110,7 @@ The backend never needs the actual wardrobe photos.
 
 1. Phase 0: repo cleanup, naming, docs, positioning — completed.
 2. Phase 1: functional structured-data backend MVP — completed.
-3. Phase 2: Flutter functional MVP connected to backend.
+3. Phase 2: Flutter functional MVP connected to backend — completed.
 4. Phase 3: local storage and privacy layer.
 5. Phase 4: LLM explanation adapter with strict JSON/no-photo contract.
 6. Phase 5: local feature extraction.
