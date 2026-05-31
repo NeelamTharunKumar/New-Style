@@ -151,3 +151,19 @@ Scope:
 - Flutter analyze/build CI
 - manual Android release artifact workflow
 - manual iOS no-codesign release workflow
+
+
+## Phase 11 — Signed release automation and app-store readiness
+
+Status: completed in this commit.
+
+Scope:
+
+- signed Android AAB build script
+- iOS IPA export script
+- Android signed release GitHub workflow
+- iOS TestFlight GitHub workflow
+- backend Cloud Run deploy workflow
+- privacy policy template
+- app store metadata drafts
+- release readiness checklist

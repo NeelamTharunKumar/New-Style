@@ -1,0 +1,57 @@
+name: Backend Deploy to Cloud Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: Cloud Run service name
+        required: true
+        default: bharatfit-api
+      region:
+        description: GCP region
+        required: true
+        default: asia-south1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ inputs.region }}-docker.pkg.dev --quiet
+      - name: Build and push image
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          REGION: ${{ inputs.region }}
+          SERVICE: ${{ inputs.service_name }}
+        run: |
+          IMAGE="$REGION-docker.pkg.dev/$GCP_PROJECT_ID/bharatfit/$SERVICE:${{ github.sha }}"
+          gcloud artifacts repositories describe bharatfit --location="$REGION" >/dev/null 2>&1 || \
+            gcloud artifacts repositories create bharatfit --repository-format=docker --location="$REGION"
+          docker build -t "$IMAGE" ./backend
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+      - name: Deploy to Cloud Run
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          REGION: ${{ inputs.region }}
+          SERVICE: ${{ inputs.service_name }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          BHARATFIT_API_KEY: ${{ secrets.BHARATFIT_API_KEY }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE" \
+            --region "$REGION" \
+            --project "$GCP_PROJECT_ID" \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-env-vars "BHARATFIT_ENV=production,BHARATFIT_AUTH_MODE=firebase,FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID" \
+            --set-secrets "DATABASE_URL=DATABASE_URL:latest,BHARATFIT_API_KEY=BHARATFIT_API_KEY:latest"

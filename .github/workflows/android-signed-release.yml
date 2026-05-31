@@ -1,0 +1,51 @@
+name: Android Signed Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: Production API base URL
+        required: true
+        default: https://api.example.com
+      track:
+        description: Google Play track for upload
+        required: true
+        default: internal
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+
+jobs:
+  signed-aab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Build signed Android App Bundle
+        env:
+          BHARATFIT_API_BASE_URL: ${{ inputs.api_base_url }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./scripts/build_android_aab_signed.sh
+      - name: Upload signed AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bharatfit-signed-aab
+          path: flutter_app/build/app/outputs/bundle/release/app-release.aab
+      - name: Upload to Google Play
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON != '' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          releaseFiles: flutter_app/build/app/outputs/bundle/release/app-release.aab
+          track: ${{ inputs.track }}
+          status: draft

@@ -94,6 +94,7 @@ Implemented in Phase 2:
 - User auth modes and per-user data isolation checks
 - Flutter login screen and secure token storage for bearer/API credentials
 - Firebase auth verification plumbing and CI/CD release workflows
+- Signed Android/iOS release automation, backend Cloud Run deploy workflow and app-store metadata templates
 - Alembic migration scaffold and privacy-safe user data export/delete endpoints
 
 ## India-first styling domains

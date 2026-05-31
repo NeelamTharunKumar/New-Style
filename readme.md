@@ -68,6 +68,7 @@ This repo now contains a functional backend MVP and a backend-connected Flutter 
 - User-auth modes and per-user backend access checks
 - Flutter login screen and secure token storage
 - Firebase auth verification plumbing and CI/CD workflows
+- Signed Android AAB/iOS IPA release automation and app store readiness templates
 - Alembic migration scaffold and user export/delete lifecycle endpoints
 
 ## Backend quickstart
@@ -118,6 +119,8 @@ flutter run
 - [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
 - [`docs/LOGIN_SECURE_STORAGE.md`](docs/LOGIN_SECURE_STORAGE.md)
 - [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
+- [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
+- [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
 - [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
 
 ## Example backend flow
@@ -142,3 +145,4 @@ The backend never needs the actual wardrobe photos.
 9. Phase 8: user auth and isolation — completed.
 10. Phase 9: data lifecycle and migrations — completed.
 11. Phase 10: Firebase auth and CI/CD release automation — completed.
+12. Phase 11: signed Android/iOS release automation and app-store readiness — completed.
