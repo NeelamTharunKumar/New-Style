@@ -1,7 +1,7 @@
-name: styledna_ai
-description: AI-powered fashion and wardrobe assistant with on-device intelligence.
+name: drape_ai
+description: Privacy-first India wardrobe assistant for outfit generation from clothes users already own.
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -10,6 +10,16 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
+  http: ^1.2.2
+  shared_preferences: ^2.3.2
+  flutter_secure_storage: ^9.2.2
+  firebase_auth: ^5.3.1
+  firebase_core: ^3.6.0
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  sqflite: ^2.3.3+1
+  image_picker: ^1.1.2
+  image: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +28,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/branding/

@@ -1,83 +1,327 @@
-# StyleDNA AI
+# Drape AI
 
-> **The definitive AI-powered personal fashion operating system.**
+> **Privacy-first, India-first wardrobe assistant that creates visual outfits from clothes users already own.**
 
-StyleDNA AI is not another clothing recommendation app. It is a **wardrobe-native intelligence platform** that understands *your* clothes, *your* body, and *your* style — and generates outfits exclusively from what you already own.
+Drape AI helps users answer:
 
----
+```text
+What should I wear today?
+```
 
-## 🎯 Vision
-
-Existing apps like **Essembl**, **Whering**, and **Acloset** focus on catalog matching or basic tagging. They treat your wardrobe as a passive list.
-
-**StyleDNA AI** flips the model:
-
-- Your wardrobe becomes the **source of truth**
-- AI generates **thousands of outfit combinations** using only the clothes you own
-- Every recommendation respects your personal **Style DNA** (skin tone, body type, fashion personality)
-- Processing happens **on-device first** for maximum privacy and speed
-
-This is the foundation of a true **personal fashion OS**.
+The product is designed for Indian wardrobes and occasions: college, office, dates, travel, festivals, pooja, Haldi, Sangeet, Mehendi, reception and wedding guest looks.
 
 ---
 
-## ✨ Core Differentiator: "Your Outfits"
+## Core privacy promise
 
-This is the heart of the product.
+```text
+Photos stay on the phone.
+Local ML extracts structured clothing features.
+Only item IDs, categories, colors, tags and context go to the backend.
+Backend returns outfit item IDs + explanations.
+The phone displays local wardrobe images and local previews.
+```
 
-Users upload photos of their actual clothing. The AI then intelligently combines those items into context-aware outfits:
-
-- College outfits
-- Office outfits
-- Wedding outfits
-- Date nights
-- Travel packing lists
-
-Each suggestion includes a clear explanation of **why** the combination works — based on color harmony, style consistency, occasion suitability, and the user’s personal Style DNA profile.
-
-No more “what should I wear?” paralysis.
+Raw wardrobe photos, selfies, face images and body images are not required by the backend or LLM.
 
 ---
 
-## 🧠 Technical Philosophy
+## Market-launch loop
 
-We built StyleDNA AI with strict principles:
+The app is now organized around the consumer loop that matters:
 
-| Principle                    | Implementation                              |
-|-----------------------------|---------------------------------------------|
-| **On-Device First**         | MediaPipe, YOLO, CLIP run locally           |
-| **Minimal LLM Usage**       | Only structured features sent to LLMs       |
-| **Privacy by Design**       | Raw images never leave the device           |
-| **Dependency Inversion**    | All ML services behind clean interfaces     |
-| **Production Grade**        | Clean architecture, scalable, testable      |
+```text
+Add photo
+→ local color extraction
+→ 1-tap category/color/occasion correction chips
+→ save wardrobe item
+→ pick occasion
+→ get visual outfits
+→ preview look locally
+→ wear/save/swap/reject
+```
 
-This approach delivers:
-- Blazing fast outfit generation (< 500ms)
-- Extremely low operational cost
-- Maximum user privacy
+### Occasion-first home
+
+Home asks:
+
+```text
+What are you dressing for?
+[College] [Office] [Date] [Haldi] [Sangeet] [Wedding] [Casual] [Travel]
+```
+
+### Outfit result format
+
+```text
+Office-ready look
+
+[Blue shirt] [Charcoal trousers] [Brown loafers]
+
+Why it works:
+Clean blue-charcoal contrast, breathable cotton for warm weather, brown loafers make it polished.
+
+Actions:
+[Preview Look] [Wear today] [Save] [Swap item] [Not my style]
+```
+
+### Local Level 2 try-on preview
+
+Drape includes a privacy-safe **Preview Look** feature:
+
+- mannequin-style local preview
+- board/lookbook preview
+- category-to-body-slot placement
+- local item photos only
+- no image upload
+- no LLM image generation
+
+This is intentionally positioned as a local outfit preview, not a body-accurate virtual try-on.
 
 ---
 
-## 🏗️ Current Implementation
+## Why this product exists
 
-The repository contains a **complete, runnable foundation**.
+Generic fashion apps and AI stylist apps already exist. Drape focuses on Indian wardrobe realities:
 
-### Flutter App (`flutter_app/`)
-- Premium dark-mode UI
-- 5 fully functional screens
-
-### Backend (`backend/`)
-- FastAPI with local graph engine
-
-### Full Specification
-See `StyleDNA_AI_Complete_Specification.md`
+- ethnic + western wardrobe mixing
+- college and office dressing
+- dates and daily casual looks
+- Haldi / Sangeet / Mehendi / Reception / wedding guest outfits
+- saree + blouse combinations
+- kurti + palazzo / leggings / dupatta combinations
+- kurta + chinos / churidar / Nehru jacket combinations
+- hot, humid, monsoon and indoor-AC dressing
+- budget-conscious styling using clothes users already own
+- practical men’s styling: shirts, trousers, sneakers, loafers, belts, watches, grooming and capsule wardrobes
 
 ---
 
-## 🚀 Getting Started
+## Current implementation status
 
-### Flutter App
+This repo contains a backend MVP, a backend-connected Flutter MVP, local-first privacy scaffolding, release automation, and market-launch UX loops.
+
+### Backend implemented
+
+- FastAPI backend
+- India-first taxonomy
+- user profile endpoints
+- wardrobe CRUD endpoints
+- outfit generation endpoint
+- outfit feedback/history endpoints
+- user data export/delete endpoints
+- optional API key guard
+- user auth/isolation modes
+- Firebase token verification plumbing
+- SQLAlchemy persistence with SQLite/Postgres support
+- Alembic migrations
+- rate limiting and security headers
+- privacy-safe audit events
+- optional LLM explanation layer with no-photo contract
+- LLM cache and per-user daily limit
+- feedback-based outfit personalization
+- Docker and Cloud Run deployment scaffolding
+- backend test suite
+
+### Flutter implemented
+
+- UI/UX Pro Max-inspired fashion/lifestyle visual system
+- first-run onboarding
+- occasion-first home
+- photo-first wardrobe add flow
+- local photo copy and dominant color extraction
+- 1-tap category/color/occasion correction chips
+- local-first profile/wardrobe/outfit persistence
+- secure token storage
+- login screen for dev/static/Firebase auth flows
+- style profile setup
+- wardrobe grid
+- wardrobe item detail page
+- outfit generation screen
+- outfit detail page
+- local mannequin/board outfit preview
+- wear/save/swap/reject feedback actions
+- privacy and local data screen
+- local structured data export
+- native Kotlin/Swift ML bridge templates
+- Android/iOS build scripts
+- signed release automation scaffolding
+- app branding constants and source assets
+- Flutter widget/model tests and verification scripts
+
+---
+
+## Important limitations
+
+This is not fully market-launched yet. Remaining work before public release:
+
+- run Flutter locally and fix analyzer/build issues
+- run real device QA
+- replace placeholder Firebase config with `flutterfire configure`
+- add real Google/Apple/email sign-in if needed
+- move local app state fully from SharedPreferences to SQLite/encrypted storage
+- add true garment segmentation/classification models
+- improve recommendation rules with beta feedback
+- generate final app icon, adaptive icon, splash and screenshots
+- configure real Android/iOS signing secrets
+- deploy backend with real Postgres/Firebase credentials
+- legal review of privacy policy and terms
+
+---
+
+## Backend quickstart
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+Open API docs:
+
+```text
+http://localhost:8000/docs
+```
+
+Run backend tests:
+
+```bash
+cd backend
+pytest
+```
+
+Run migrations:
+
+```bash
+cd backend
+alembic upgrade head
+```
+
+---
+
+## Flutter quickstart
+
 ```bash
 cd flutter_app
 flutter pub get
 flutter run
+```
+
+Full local Flutter verification:
+
+```bash
+./scripts/verify_flutter_local.sh
+```
+
+Full backend + Flutter verification:
+
+```bash
+./scripts/verify_all_local.sh
+```
+
+> Flutter SDK is not available in the agent sandbox, so Flutter analyze/build must be run locally or in CI.
+
+---
+
+## Build Android and iOS versions
+
+Prepare generated platform folders and native bridge:
+
+```bash
+./scripts/prepare_flutter_platforms.sh
+```
+
+Build Android APK:
+
+```bash
+./scripts/build_android_apk.sh
+```
+
+Build signed Android AAB:
+
+```bash
+./scripts/build_android_aab_signed.sh
+```
+
+Build iOS release without codesign:
+
+```bash
+./scripts/build_ios_release.sh
+```
+
+Build signed/exported iOS IPA on macOS:
+
+```bash
+./scripts/build_ios_ipa.sh
+```
+
+---
+
+## Key documentation
+
+### Product and architecture
+
+- [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md)
+- [`docs/PRODUCT_POSITIONING.md`](docs/PRODUCT_POSITIONING.md)
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
+- [`docs/MARKET_LAUNCH_LOOP.md`](docs/MARKET_LAUNCH_LOOP.md)
+
+### Privacy and AI
+
+- [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
+- [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
+- [`docs/LOCAL_FEATURE_EXTRACTION.md`](docs/LOCAL_FEATURE_EXTRACTION.md)
+- [`docs/LOCAL_TRY_ON_PREVIEW.md`](docs/LOCAL_TRY_ON_PREVIEW.md)
+- [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
+
+### Backend, auth and deployment
+
+- [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
+- [`docs/PRODUCTION_HARDENING.md`](docs/PRODUCTION_HARDENING.md)
+- [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
+- [`docs/LOGIN_SECURE_STORAGE.md`](docs/LOGIN_SECURE_STORAGE.md)
+- [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
+- [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
+- [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
+- [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
+
+### UI/UX, release and assets
+
+- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
+- [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
+- [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
+- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
+- [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
+
+### Upgrade notes
+
+- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
+- [`docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md`](docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md)
+- [`docs/PHASE_15_21_COMPLETION.md`](docs/PHASE_15_21_COMPLETION.md)
+
+> `docs/PROJECT_LOG.md` is intentionally ignored by git and kept as a local running implementation log.
+
+---
+
+## Roadmap status
+
+Completed foundation phases:
+
+```text
+Phase 0–14: completed
+Phase 15–21 batch: partially implemented/scaffolded
+Market-launch loop: implemented
+Local Level 2 outfit preview: implemented
+```
+
+Next highest-priority work:
+
+```text
+1. Run Flutter locally and fix analyzer/build issues.
+2. Configure real Firebase with FlutterFire.
+3. Complete SQLite/encrypted local storage migration.
+4. Add real garment classifier/segmentation model.
+5. Beta test with 10–20 Indian users.
+6. Improve recommendation quality from feedback.
+7. Finalize store assets and deployment credentials.
+```

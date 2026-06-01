@@ -1,0 +1,12 @@
+.git
+**/__pycache__
+**/.pytest_cache
+**/.venv
+**/build
+**/.dart_tool
+flutter_app/android
+flutter_app/ios
+node_modules
+.env
+.env.*
+docs/PROJECT_LOG.md

@@ -1,0 +1,26 @@
+name: Android Release Artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: Production API base URL
+        required: true
+        default: https://api.example.com
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Build release APK
+        run: ./scripts/build_android_apk.sh --dart-define=DRAPE_API_BASE_URL=${{ inputs.api_base_url }}
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drape-release-apk
+          path: flutter_app/build/app/outputs/flutter-apk/app-release.apk

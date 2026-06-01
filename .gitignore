@@ -1,13 +1,22 @@
-# Flutter
+# Flutter / Dart
 **/build/
 .dart_tool/
 .flutter-plugins
+.flutter-plugins-dependencies
 .packages
 pubspec.lock
 *.log
+
+# Python
 *.pyc
 __pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
 .env
+.env.*
 
 # IDE
 .idea/
@@ -16,3 +25,8 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local agent/project notes
+docs/PROJECT_LOG.md
+!.env.example
+!**/.env.example

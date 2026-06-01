@@ -1,0 +1,21 @@
+name: iOS Release Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: Production API base URL
+        required: true
+        default: https://api.example.com
+
+jobs:
+  build-ios-no-codesign:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Build iOS without codesign
+        run: ./scripts/build_ios_release.sh --dart-define=DRAPE_API_BASE_URL=${{ inputs.api_base_url }}

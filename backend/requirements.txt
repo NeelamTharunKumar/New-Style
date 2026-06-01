@@ -1,4 +1,10 @@
 fastapi
-uvicorn
+uvicorn[standard]
 networkx
 pydantic
+sqlalchemy
+alembic
+psycopg[binary]
+firebase-admin
+pytest
+httpx
