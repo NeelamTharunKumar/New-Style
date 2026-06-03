@@ -125,6 +125,9 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 ### Flutter implemented
 
 - UI/UX Pro Max-inspired fashion/lifestyle visual system
+- **Full Dark Mode and Theme support** (`DrapeColors` system)
+- **AppShell with Bottom Navigation** for intuitive core flows
+- **Branded animated Splash Screen** with hydrating state
 - first-run onboarding
 - occasion-first home
 - photo-first wardrobe add flow
@@ -134,7 +137,7 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 - secure token storage
 - login screen for dev/static/Firebase auth flows
 - style profile setup
-- wardrobe grid
+- wardrobe grid with **safety deletion dialogs**
 - wardrobe item detail page
 - outfit generation screen
 - outfit detail page
@@ -142,6 +145,7 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 - wear/save/swap/reject feedback actions
 - privacy and local data screen
 - local structured data export
+- **Upgraded AI Stylist Chat UI** with avatars and animated typing indicators
 - native Kotlin/Swift ML bridge templates
 - Android/iOS build scripts
 - signed release automation scaffolding
@@ -317,11 +321,10 @@ Local Level 2 outfit preview: implemented
 Next highest-priority work:
 
 ```text
-1. Run Flutter locally and fix analyzer/build issues.
-2. Configure real Firebase with FlutterFire.
-3. Complete SQLite/encrypted local storage migration.
-4. Add real garment classifier/segmentation model.
-5. Beta test with 10–20 Indian users.
-6. Improve recommendation quality from feedback.
-7. Finalize store assets and deployment credentials.
+1. Configure real Firebase with FlutterFire.
+2. Complete SQLite/encrypted local storage migration.
+3. Add real garment classifier/segmentation model.
+4. Beta test with 10–20 Indian users.
+5. Improve recommendation quality from feedback.
+6. Finalize store assets and deployment credentials.
 ```
