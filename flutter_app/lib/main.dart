@@ -115,7 +115,7 @@ class _DrapeAppState extends State<DrapeApp> {
         thumbColor: WidgetStatePropertyAll(palette.primary),
         trackColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return palette.primary.withOpacity(0.4);
+            return palette.primary.withValues(alpha: 0.4);
           }
           return palette.border;
         }),

@@ -165,7 +165,7 @@ class _Score extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: DrapeColors.of(context).accent.withOpacity(0.14), borderRadius: BorderRadius.circular(99)),
+      decoration: BoxDecoration(color: DrapeColors.of(context).accent.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(99)),
       child: Text(score.toStringAsFixed(0), style: TextStyle(color: DrapeColors.of(context).accent, fontWeight: FontWeight.w900)),
     );
   }

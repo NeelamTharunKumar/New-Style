@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     borderRadius: BorderRadius.circular(32),
                     boxShadow: [
                       BoxShadow(
-                        color: colors.primary.withOpacity(0.3),
+                        color: colors.primary.withValues(alpha: 0.3),
                         blurRadius: 40,
                         spreadRadius: 8,
                       ),
@@ -140,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 height: 28,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  color: colors.primary.withOpacity(0.6),
+                  color: colors.primary.withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 14),
@@ -148,7 +148,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 'Loading your wardrobe...',
                 style: TextStyle(
                   fontSize: 13,
-                  color: colors.mutedForeground.withOpacity(0.7),
+                  color: colors.mutedForeground.withValues(alpha: 0.7),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -161,13 +161,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.lock_outline, size: 14, color: colors.success.withOpacity(0.7)),
+                    Icon(Icons.lock_outline, size: 14, color: colors.success.withValues(alpha: 0.7)),
                     const SizedBox(width: 6),
                     Text(
                       AppBranding.privacyPromise,
                       style: TextStyle(
                         fontSize: 12,
-                        color: colors.success.withOpacity(0.7),
+                        color: colors.success.withValues(alpha: 0.7),
                         fontWeight: FontWeight.w700,
                       ),
                     ),

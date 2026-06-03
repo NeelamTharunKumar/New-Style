@@ -21,9 +21,9 @@ class StatusBanner extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: base.withOpacity(0.08),
+        color: base.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: base.withOpacity(0.22)),
+        border: Border.all(color: base.withValues(alpha: 0.22)),
       ),
       child: Row(
         children: [

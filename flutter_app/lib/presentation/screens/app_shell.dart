@@ -59,7 +59,7 @@ class _AppShellState extends State<AppShell> {
           border: Border(top: BorderSide(color: colors.border, width: 1)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
               blurRadius: 16,
               offset: const Offset(0, -4),
             ),
@@ -185,16 +185,6 @@ class _SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = DrapeColors.of(context);
-    final themeIcon = switch (appState.themeMode) {
-      ThemeMode.dark => Icons.dark_mode,
-      ThemeMode.light => Icons.light_mode,
-      ThemeMode.system => Icons.brightness_auto,
-    };
-    final themeLabel = switch (appState.themeMode) {
-      ThemeMode.dark => 'Dark',
-      ThemeMode.light => 'Light',
-      ThemeMode.system => 'System',
-    };
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),

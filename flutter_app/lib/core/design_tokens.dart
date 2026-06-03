@@ -201,12 +201,12 @@ class AppShadows {
 
   static List<BoxShadow> card = [
     BoxShadow(
-      color: AppColors.primary.withOpacity(0.08),
+      color: AppColors.primary.withValues(alpha: 0.08),
       blurRadius: 28,
       offset: const Offset(0, 14),
     ),
     BoxShadow(
-      color: Colors.black.withOpacity(0.04),
+      color: Colors.black.withValues(alpha: 0.04),
       blurRadius: 8,
       offset: const Offset(0, 2),
     ),
@@ -214,12 +214,12 @@ class AppShadows {
 
   static List<BoxShadow> cardDark = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.28),
+      color: Colors.black.withValues(alpha: 0.28),
       blurRadius: 28,
       offset: const Offset(0, 14),
     ),
     BoxShadow(
-      color: Colors.black.withOpacity(0.18),
+      color: Colors.black.withValues(alpha: 0.18),
       blurRadius: 8,
       offset: const Offset(0, 2),
     ),
@@ -227,7 +227,7 @@ class AppShadows {
 
   static List<BoxShadow> accent = [
     BoxShadow(
-      color: AppColors.accent.withOpacity(0.24),
+      color: AppColors.accent.withValues(alpha: 0.24),
       blurRadius: 22,
       offset: const Offset(0, 10),
     ),

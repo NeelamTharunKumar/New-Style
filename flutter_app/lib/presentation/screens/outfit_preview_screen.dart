@@ -166,7 +166,7 @@ class _MannequinPreview extends StatelessWidget {
                   child: Text(
                     'Preview uses local item images and approximate slots — not an exact fit simulation.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: DrapeColors.of(context).mutedForeground.withOpacity(0.9), fontSize: 12),
+                    style: TextStyle(color: DrapeColors.of(context).mutedForeground.withValues(alpha: 0.9), fontSize: 12),
                   ),
                 ),
               ],
@@ -244,7 +244,7 @@ class _PreviewGarment extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: DrapeColors.of(context).surface.withOpacity(0.82),
+          color: DrapeColors.of(context).surface.withValues(alpha: 0.82),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: DrapeColors.of(context).border),
           boxShadow: AppShadows.cardFor(context),
@@ -300,10 +300,10 @@ class _MannequinPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.primary.withOpacity(0.08)
+      ..color = AppColors.primary.withValues(alpha: 0.08)
       ..style = PaintingStyle.fill;
     final stroke = Paint()
-      ..color = AppColors.primary.withOpacity(0.18)
+      ..color = AppColors.primary.withValues(alpha: 0.18)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 

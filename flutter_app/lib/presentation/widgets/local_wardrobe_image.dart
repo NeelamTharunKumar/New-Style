@@ -44,7 +44,7 @@ class LocalWardrobeImage extends StatelessWidget {
   }
 
   Widget _fallback(BuildContext context) {
-    final color = _parseHex(hexColor) ?? DrapeColors.of(context).primary.withOpacity(0.4);
+    final color = _parseHex(hexColor) ?? DrapeColors.of(context).primary.withValues(alpha: 0.4);
     return Container(
       width: width,
       height: height,
@@ -53,7 +53,7 @@ class LocalWardrobeImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(color: DrapeColors.of(context).border),
       ),
-      child: Icon(icon, size: 22, color: DrapeColors.of(context).foreground.withOpacity(0.6)),
+      child: Icon(icon, size: 22, color: DrapeColors.of(context).foreground.withValues(alpha: 0.6)),
     );
   }
 }

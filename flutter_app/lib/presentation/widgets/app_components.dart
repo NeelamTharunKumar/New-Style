@@ -170,9 +170,9 @@ class PrivacyBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: colors.success.withOpacity(0.10),
+        color: colors.success.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: colors.success.withOpacity(0.24)),
+        border: Border.all(color: colors.success.withValues(alpha: 0.24)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
