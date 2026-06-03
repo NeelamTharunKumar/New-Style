@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_FILE="${1:-$ROOT_DIR/flutter_app/ios/ExportOptions.plist}"
 METHOD="${IOS_EXPORT_METHOD:-app-store}"
 TEAM_ID="${APPLE_TEAM_ID:-}"
