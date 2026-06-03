@@ -366,7 +366,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     title: const Text('Advanced details', style: TextStyle(fontWeight: FontWeight.w900)),
                     children: [
                   DropdownButtonFormField<String>(
-                    value: _styleMode,
+                    initialValue: _styleMode,
                     decoration: const InputDecoration(labelText: 'Style mode', border: OutlineInputBorder()),
                     items: const [
                       DropdownMenuItem(value: 'menswear', child: Text('Menswear')),
