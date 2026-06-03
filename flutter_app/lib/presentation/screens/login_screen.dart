@@ -97,10 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 12),
                 TextField(
                   controller: _userIdController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'User ID',
                     hintText: _mode == 'firebase' ? 'Firebase UID is filled after login' : 'demo_user',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 12),
