@@ -14,7 +14,7 @@ cd "$APP_DIR"
 flutter create --platforms=android,ios .
 flutter pub get
 
-"$ROOT_DIR/_project_assets/scripts/apply_branding.sh"
+bash "$ROOT_DIR/_project_assets/scripts/apply_branding.sh"
 
 if [ -d "$IOS_RUNNER_DIR" ]; then
   cp "$ROOT_DIR/native_bridge/ios/AppDelegate.swift" "$IOS_RUNNER_DIR/AppDelegate.swift"

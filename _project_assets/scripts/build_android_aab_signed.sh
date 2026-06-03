@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 API_BASE_URL="${DRAPE_API_BASE_URL:-https://api.example.com}"
 
-"$ROOT_DIR/_project_assets/scripts/prepare_flutter_platforms.sh"
-"$ROOT_DIR/_project_assets/scripts/configure_android_signing.sh"
+bash "$ROOT_DIR/_project_assets/scripts/prepare_flutter_platforms.sh"
+bash "$ROOT_DIR/_project_assets/scripts/configure_android_signing.sh"
 
 cd "$ROOT_DIR/flutter_app"
 flutter build appbundle --release --dart-define=DRAPE_API_BASE_URL="$API_BASE_URL" "$@"
