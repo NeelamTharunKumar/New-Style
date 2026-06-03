@@ -4,6 +4,7 @@ import '../../core/design_tokens.dart';
 import 'package:flutter/services.dart';
 
 import '../../state/app_state.dart';
+import '../widgets/app_components.dart';
 import '../widgets/status_banner.dart';
 
 class PrivacySettingsScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(title: const Text('Privacy & Local Data')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
@@ -90,7 +91,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Phase 3 makes the Flutter app local-first. Profile, wardrobe features and generated outfit results are persisted on this device. Backend calls use structured data only.',
-                  style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
+                  style: TextStyle(color: DrapeColors.of(context).mutedForeground, height: 1.4),
                 ),
                 const SizedBox(height: 16),
                 const _PrivacyRuleCard(),
@@ -213,7 +214,7 @@ class _ActionCard extends StatelessWidget {
           children: [
             Row(children: [Icon(icon), const SizedBox(width: 8), Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)))]),
             const SizedBox(height: 8),
-            Text(subtitle, style: TextStyle(color: AppColors.mutedForeground)),
+            Text(subtitle, style: TextStyle(color: DrapeColors.of(context).mutedForeground)),
             const SizedBox(height: 12),
             Align(
               alignment: Alignment.centerRight,

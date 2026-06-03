@@ -20,17 +20,18 @@ class AppGradientScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return Scaffold(
       extendBodyBehindAppBar: false,
       appBar: appBar,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppColors.background, AppColors.backgroundAlt, AppColors.accentSoft],
+            colors: [colors.gradientStart, colors.gradientMid, colors.gradientEnd],
           ),
         ),
         child: body ?? child ?? const SizedBox.shrink(),
@@ -48,14 +49,15 @@ class PremiumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return Container(
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: AppColors.border, width: 1.4),
-        boxShadow: AppShadows.card,
+        border: Border.all(color: colors.border, width: 1.4),
+        boxShadow: AppShadows.cardFor(context),
       ),
       child: child,
     );
@@ -71,6 +73,7 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -78,10 +81,10 @@ class SectionHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w900, letterSpacing: -0.5)),
+              Text(title, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900, letterSpacing: -0.5, color: colors.foreground)),
               if (subtitle != null) ...[
                 const SizedBox(height: 5),
-                Text(subtitle!, style: const TextStyle(color: AppColors.mutedForeground, height: 1.35)),
+                Text(subtitle!, style: TextStyle(color: colors.mutedForeground, height: 1.35)),
               ],
             ],
           ),
@@ -101,20 +104,21 @@ class StatPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.primarySoft,
+        color: colors.primarySoft,
         borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[Icon(icon, size: 16, color: AppColors.primary), const SizedBox(width: 6)],
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w900, color: AppColors.primary)),
+          if (icon != null) ...[Icon(icon, size: 16, color: colors.primary), const SizedBox(width: 6)],
+          Text(value, style: TextStyle(fontWeight: FontWeight.w900, color: colors.primary)),
           const SizedBox(width: 4),
-          Text(label, style: const TextStyle(color: AppColors.mutedForeground)),
+          Text(label, style: TextStyle(color: colors.mutedForeground)),
         ],
       ),
     );
@@ -131,6 +135,7 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return PremiumCard(
       child: Column(
         children: [
@@ -138,15 +143,15 @@ class EmptyState extends StatelessWidget {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: colors.primarySoft,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: Icon(icon, size: 38, color: AppColors.primary),
+            child: Icon(icon, size: 38, color: colors.primary),
           ),
           const SizedBox(height: 14),
-          Text(title, style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w900), textAlign: TextAlign.center),
+          Text(title, style: TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: colors.foreground), textAlign: TextAlign.center),
           const SizedBox(height: 7),
-          Text(subtitle, style: const TextStyle(color: AppColors.mutedForeground, height: 1.35), textAlign: TextAlign.center),
+          Text(subtitle, style: TextStyle(color: colors.mutedForeground, height: 1.35), textAlign: TextAlign.center),
           if (action != null) ...[const SizedBox(height: 16), action!],
         ],
       ),
@@ -161,19 +166,20 @@ class PrivacyBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: AppColors.success.withOpacity(0.10),
+        color: colors.success.withOpacity(0.10),
         borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: AppColors.success.withOpacity(0.24)),
+        border: Border.all(color: colors.success.withOpacity(0.24)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.lock_outline, size: 15, color: AppColors.success),
+          Icon(Icons.lock_outline, size: 15, color: colors.success),
           const SizedBox(width: 6),
-          Text(label, style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w800, fontSize: 12)),
+          Text(label, style: TextStyle(color: colors.success, fontWeight: FontWeight.w800, fontSize: 12)),
         ],
       ),
     );

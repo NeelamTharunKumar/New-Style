@@ -144,14 +144,14 @@ class _ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(18), border: Border.all(color: AppColors.border)),
+      decoration: BoxDecoration(color: DrapeColors.of(context).surface, borderRadius: BorderRadius.circular(18), border: Border.all(color: DrapeColors.of(context).border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: LocalWardrobeImage(localImageRef: item.localImageRef, hexColor: item.hexColor, borderRadius: 14)),
           const SizedBox(height: 8),
           Text(item.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
-          Text(item.category, style: const TextStyle(color: AppColors.mutedForeground, fontSize: 12)),
+          Text(item.category, style: TextStyle(color: DrapeColors.of(context).mutedForeground, fontSize: 12)),
         ],
       ),
     );
@@ -165,8 +165,8 @@ class _Score extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: AppColors.accent.withOpacity(0.14), borderRadius: BorderRadius.circular(99)),
-      child: Text(score.toStringAsFixed(0), style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.w900)),
+      decoration: BoxDecoration(color: DrapeColors.of(context).accent.withOpacity(0.14), borderRadius: BorderRadius.circular(99)),
+      child: Text(score.toStringAsFixed(0), style: TextStyle(color: DrapeColors.of(context).accent, fontWeight: FontWeight.w900)),
     );
   }
 }

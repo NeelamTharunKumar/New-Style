@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Tokens are stored with flutter_secure_storage. For production, replace dev/static tokens with Firebase/Auth0/Supabase login.',
-                  style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
+                  style: TextStyle(color: DrapeColors.of(context).mutedForeground, height: 1.4),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.all(16),
                       child: Text(
                         'Firebase mode requires replacing flutter_app/lib/firebase_options.dart with FlutterFire config and backend DRAPE_AUTH_MODE=firebase.',
-                        style: TextStyle(color: Colors.orange.shade200),
+                        style: TextStyle(color: DrapeColors.of(context).accent),
                       ),
                     ),
                   ),

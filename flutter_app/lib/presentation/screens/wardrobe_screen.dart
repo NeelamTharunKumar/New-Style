@@ -445,7 +445,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     const SizedBox(height: 8),
                     Text(
                       "Local extraction: ${_featureSummary['dominant_color_name']} ${_featureSummary['dominant_hex_color']} · ${_featureSummary['pattern_hint']} · confidence ${((_featureSummary['confidence'] as num?)?.toDouble() ?? 0).toStringAsFixed(2)}",
-                      style: TextStyle(color: Colors.green.shade300),
+                      style: TextStyle(color: DrapeColors.of(context).success),
                     ),
                   ],
                     ],
@@ -518,7 +518,7 @@ class _WardrobeGridCard extends StatelessWidget {
               [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: AppColors.mutedForeground, fontSize: 12),
+              style: TextStyle(color: DrapeColors.of(context).mutedForeground, fontSize: 12),
             ),
           ],
         ),

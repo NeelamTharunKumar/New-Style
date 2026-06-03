@@ -41,7 +41,7 @@ class WardrobeItemDetailScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   const Text('Local feature summary', style: TextStyle(fontWeight: FontWeight.w900)),
                   const SizedBox(height: 6),
-                  Text(item.featureVectorSummary.toString(), style: const TextStyle(color: AppColors.mutedForeground)),
+                  Text(item.featureVectorSummary.toString(), style: TextStyle(color: DrapeColors.of(context).mutedForeground)),
                 ],
               ],
             ),
@@ -70,7 +70,7 @@ class _Info extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 96, child: Text(label, style: const TextStyle(color: AppColors.mutedForeground))),
+          SizedBox(width: 96, child: Text(label, style: TextStyle(color: DrapeColors.of(context).mutedForeground))),
           Expanded(child: Text(value, style: const TextStyle(fontWeight: FontWeight.w700))),
         ],
       ),

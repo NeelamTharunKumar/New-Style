@@ -6,7 +6,7 @@ import '../../core/branding.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/brand_mark.dart';
-import 'home_dashboard.dart';
+import 'app_shell.dart';
 import 'login_screen.dart';
 import 'style_profile_screen.dart';
 import 'wardrobe_screen.dart';
@@ -47,7 +47,7 @@ class _OnboardingGateState extends State<OnboardingGate> {
     if (!state.hasCompletedOnboarding) {
       return OnboardingScreen(appState: state);
     }
-    return HomeDashboard(appState: state);
+    return AppShell(appState: state);
   }
 }
 
@@ -124,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     height: 8,
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
-                      color: i == _index ? Theme.of(context).colorScheme.primary : AppColors.border,
+                      color: i == _index ? Theme.of(context).colorScheme.primary : DrapeColors.of(context).border,
                       borderRadius: BorderRadius.circular(99),
                     ),
                   ),
@@ -197,7 +197,7 @@ class _OnboardingPage extends StatelessWidget {
         const SizedBox(height: 32),
         Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, height: 1.08)),
         const SizedBox(height: 14),
-        Text(subtitle, textAlign: TextAlign.center, style: TextStyle(color: AppColors.mutedForeground, fontSize: 16, height: 1.45)),
+        Text(subtitle, textAlign: TextAlign.center, style: TextStyle(color: DrapeColors.of(context).mutedForeground, fontSize: 16, height: 1.45)),
       ],
     );
   }

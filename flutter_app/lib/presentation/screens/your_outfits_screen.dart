@@ -314,9 +314,9 @@ class _OutfitItemTile extends StatelessWidget {
       width: 132,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: DrapeColors.of(context).surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: DrapeColors.of(context).border),
         boxShadow: AppShadows.card,
       ),
       child: Column(
@@ -331,7 +331,7 @@ class _OutfitItemTile extends StatelessWidget {
           const SizedBox(height: 8),
           Text(item.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700)),
           const Spacer(),
-          Text(item.localImageRef ?? item.itemId ?? item.category, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 11, color: AppColors.mutedForeground)),
+          Text(item.localImageRef ?? item.itemId ?? item.category, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 11, color: DrapeColors.of(context).mutedForeground)),
         ],
       ),
     );
@@ -347,7 +347,7 @@ class _ScorePill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: Colors.green.shade800, borderRadius: BorderRadius.circular(99)),
+      decoration: BoxDecoration(color: DrapeColors.of(context).success, borderRadius: BorderRadius.circular(99)),
       child: Text(score.toStringAsFixed(0), style: const TextStyle(fontWeight: FontWeight.w800)),
     );
   }

@@ -14,7 +14,8 @@ class StatusBanner extends StatelessWidget {
     final text = error ?? message;
     if (!isBusy && (text == null || text.isEmpty)) return const SizedBox.shrink();
 
-    final base = error != null ? AppColors.destructive : AppColors.primary;
+    final colors = DrapeColors.of(context);
+    final base = error != null ? colors.destructive : colors.primary;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),

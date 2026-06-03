@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/design_tokens.dart';
 import '../../state/app_state.dart';
 import '../widgets/status_banner.dart';
 
@@ -78,10 +79,11 @@ class _AIStylistChatState extends State<AIStylistChat> {
                           padding: const EdgeInsets.all(12),
                           constraints: const BoxConstraints(maxWidth: 320),
                           decoration: BoxDecoration(
-                            color: isUser ? Colors.indigo[700] : Colors.grey[850],
+                            color: isUser ? DrapeColors.of(context).primary : DrapeColors.of(context).surface,
                             borderRadius: BorderRadius.circular(16),
+                            border: isUser ? null : Border.all(color: DrapeColors.of(context).border),
                           ),
-                          child: Text(msg['text']!),
+                          child: Text(msg['text']!, style: TextStyle(color: isUser ? Colors.white : DrapeColors.of(context).foreground)),
                         ),
                       );
                     },
