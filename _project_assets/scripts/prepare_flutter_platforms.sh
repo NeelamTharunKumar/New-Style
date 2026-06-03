@@ -14,6 +14,15 @@ cd "$APP_DIR"
 flutter create --platforms=android,ios .
 flutter pub get
 
+# Cleanup legacy Groovy gradle files if Kotlin DSL versions exist
+if [ -f "android/app/build.gradle.kts" ] && [ -f "android/app/build.gradle" ]; then
+  rm "android/app/build.gradle"
+fi
+if [ -f "android/build.gradle.kts" ] && [ -f "android/build.gradle" ]; then
+  rm "android/build.gradle"
+fi
+
+
 bash "$ROOT_DIR/_project_assets/scripts/apply_branding.sh"
 
 if [ -d "$IOS_RUNNER_DIR" ]; then
