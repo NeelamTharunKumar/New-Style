@@ -39,7 +39,7 @@ jobs:
           IOS_BUNDLE_ID: ${{ secrets.IOS_BUNDLE_ID }}
           IOS_PROVISIONING_PROFILE_NAME: ${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}
           IOS_EXPORT_METHOD: app-store
-        run: ./scripts/build_ios_ipa.sh
+        run: bash ./_project_assets/scripts/build_ios_ipa.sh
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:

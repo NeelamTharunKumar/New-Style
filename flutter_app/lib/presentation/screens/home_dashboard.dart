@@ -7,11 +7,6 @@ import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/brand_mark.dart';
 import '../widgets/status_banner.dart';
-import 'ai_stylist_chat.dart';
-import 'login_screen.dart';
-import 'privacy_settings_screen.dart';
-import 'style_profile_screen.dart';
-import 'wardrobe_screen.dart';
 import 'your_outfits_screen.dart';
 
 class HomeDashboard extends StatefulWidget {
@@ -77,7 +72,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       const SizedBox(height: 10),
                       Text(
                         'Create outfits from your own clothes for college, office, dates, Haldi, Sangeet and weddings.',
-                        style: TextStyle(color: AppColors.mutedForeground, height: 1.4),
+                        style: TextStyle(color: DrapeColors.of(context).mutedForeground, height: 1.4),
                       ),
                       const SizedBox(height: 16),
                       Wrap(
@@ -125,24 +120,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                _HomeAction(
-                  icon: Icons.login_outlined,
-                  title: '0. Login & Secure Tokens',
-                  subtitle: '${state.authCredentials.authMode} · bearer ${state.authCredentials.hasBearerToken ? 'saved' : 'not set'}',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen(appState: state))),
-                ),
-                _HomeAction(
-                  icon: Icons.person_outline,
-                  title: '1. Style Profile',
-                  subtitle: '${state.profile.userId} · ${state.profile.styleMode} · ${state.profile.skinTone ?? 'skin tone not set'}',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => StyleProfileScreen(appState: state))),
-                ),
-                _HomeAction(
-                  icon: Icons.checkroom_outlined,
-                  title: '2. Your Wardrobe',
-                  subtitle: '${state.wardrobeItems.length} structured items saved',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WardrobeScreen(appState: state))),
-                ),
                 PremiumCard(
                   margin: const EdgeInsets.only(bottom: 12),
                   child: Column(
@@ -169,29 +146,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ],
                   ),
-                ),
-                _HomeAction(
-                  icon: Icons.auto_awesome_outlined,
-                  title: '3. Generate Outfits',
-                  subtitle: 'Office, college, date, Haldi, Sangeet, wedding guest and more',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => YourOutfitsScreen(appState: state))),
-                ),
-                _HomeAction(
-                  icon: Icons.privacy_tip_outlined,
-                  title: 'Privacy & Local Data',
-                  subtitle: 'Export, sync or clear local structured wardrobe data',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PrivacySettingsScreen(appState: state))),
-                ),
-                _HomeAction(
-                  icon: Icons.chat_bubble_outline,
-                  title: 'AI Stylist Chat',
-                  subtitle: 'Backend chat stub now uses the same privacy-safe API layer',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AIStylistChat(appState: state))),
-                ),
-                TextButton.icon(
-                  onPressed: state.resetOnboarding,
-                  icon: const Icon(Icons.restart_alt),
-                  label: const Text('Replay onboarding'),
                 ),
               ],
             ),
@@ -228,7 +182,7 @@ class _PrivacyCard extends StatelessWidget {
             const Text('✓ Outfit result returns exact item IDs to show local images'),
             if (state.backendHealth != null) ...[
               const SizedBox(height: 10),
-              Text('Backend: ${state.backendHealth}', style: TextStyle(color: Colors.green.shade300)),
+              Text('Backend: ${state.backendHealth}', style: TextStyle(color: DrapeColors.of(context).success)),
             ],
           ],
         ),
@@ -257,25 +211,3 @@ class _OccasionButton extends StatelessWidget {
   }
 }
 
-class _HomeAction extends StatelessWidget {
-  const _HomeAction({required this.icon, required this.title, required this.subtitle, required this.onTap});
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: onTap,
-      ),
-    );
-  }
-}

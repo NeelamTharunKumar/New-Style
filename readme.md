@@ -125,6 +125,9 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 ### Flutter implemented
 
 - UI/UX Pro Max-inspired fashion/lifestyle visual system
+- **Full Dark Mode and Theme support** (`DrapeColors` system)
+- **AppShell with Bottom Navigation** for intuitive core flows
+- **Branded animated Splash Screen** with hydrating state
 - first-run onboarding
 - occasion-first home
 - photo-first wardrobe add flow
@@ -134,7 +137,7 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 - secure token storage
 - login screen for dev/static/Firebase auth flows
 - style profile setup
-- wardrobe grid
+- wardrobe grid with **safety deletion dialogs**
 - wardrobe item detail page
 - outfit generation screen
 - outfit detail page
@@ -142,6 +145,7 @@ This repo contains a backend MVP, a backend-connected Flutter MVP, local-first p
 - wear/save/swap/reject feedback actions
 - privacy and local data screen
 - local structured data export
+- **Upgraded AI Stylist Chat UI** with avatars and animated typing indicators
 - native Kotlin/Swift ML bridge templates
 - Android/iOS build scripts
 - signed release automation scaffolding
@@ -209,13 +213,13 @@ flutter run
 Full local Flutter verification:
 
 ```bash
-./scripts/verify_flutter_local.sh
+./_project_assets/scripts/verify_flutter_local.sh
 ```
 
 Full backend + Flutter verification:
 
 ```bash
-./scripts/verify_all_local.sh
+./_project_assets/scripts/verify_all_local.sh
 ```
 
 > Flutter SDK is not available in the agent sandbox, so Flutter analyze/build must be run locally or in CI.
@@ -227,31 +231,31 @@ Full backend + Flutter verification:
 Prepare generated platform folders and native bridge:
 
 ```bash
-./scripts/prepare_flutter_platforms.sh
+./_project_assets/scripts/prepare_flutter_platforms.sh
 ```
 
 Build Android APK:
 
 ```bash
-./scripts/build_android_apk.sh
+./_project_assets/scripts/build_android_apk.sh
 ```
 
 Build signed Android AAB:
 
 ```bash
-./scripts/build_android_aab_signed.sh
+./_project_assets/scripts/build_android_aab_signed.sh
 ```
 
 Build iOS release without codesign:
 
 ```bash
-./scripts/build_ios_release.sh
+./_project_assets/scripts/build_ios_release.sh
 ```
 
 Build signed/exported iOS IPA on macOS:
 
 ```bash
-./scripts/build_ios_ipa.sh
+./_project_assets/scripts/build_ios_ipa.sh
 ```
 
 ---
@@ -260,44 +264,44 @@ Build signed/exported iOS IPA on macOS:
 
 ### Product and architecture
 
-- [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md)
-- [`docs/PRODUCT_POSITIONING.md`](docs/PRODUCT_POSITIONING.md)
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-- [`docs/IMPLEMENTATION_PHASES.md`](docs/IMPLEMENTATION_PHASES.md)
-- [`docs/MARKET_LAUNCH_LOOP.md`](docs/MARKET_LAUNCH_LOOP.md)
+- [`docs/PRODUCT_SPEC.md`](_project_assets/docs/PRODUCT_SPEC.md)
+- [`docs/PRODUCT_POSITIONING.md`](_project_assets/docs/PRODUCT_POSITIONING.md)
+- [`docs/ARCHITECTURE.md`](_project_assets/docs/ARCHITECTURE.md)
+- [`docs/IMPLEMENTATION_PHASES.md`](_project_assets/docs/IMPLEMENTATION_PHASES.md)
+- [`docs/MARKET_LAUNCH_LOOP.md`](_project_assets/docs/MARKET_LAUNCH_LOOP.md)
 
 ### Privacy and AI
 
-- [`docs/PRIVACY_ARCHITECTURE.md`](docs/PRIVACY_ARCHITECTURE.md)
-- [`docs/LOCAL_STORAGE_PRIVACY.md`](docs/LOCAL_STORAGE_PRIVACY.md)
-- [`docs/LOCAL_FEATURE_EXTRACTION.md`](docs/LOCAL_FEATURE_EXTRACTION.md)
-- [`docs/LOCAL_TRY_ON_PREVIEW.md`](docs/LOCAL_TRY_ON_PREVIEW.md)
-- [`docs/LLM_EXPLANATION_LAYER.md`](docs/LLM_EXPLANATION_LAYER.md)
+- [`docs/PRIVACY_ARCHITECTURE.md`](_project_assets/docs/PRIVACY_ARCHITECTURE.md)
+- [`docs/LOCAL_STORAGE_PRIVACY.md`](_project_assets/docs/LOCAL_STORAGE_PRIVACY.md)
+- [`docs/LOCAL_FEATURE_EXTRACTION.md`](_project_assets/docs/LOCAL_FEATURE_EXTRACTION.md)
+- [`docs/LOCAL_TRY_ON_PREVIEW.md`](_project_assets/docs/LOCAL_TRY_ON_PREVIEW.md)
+- [`docs/LLM_EXPLANATION_LAYER.md`](_project_assets/docs/LLM_EXPLANATION_LAYER.md)
 
 ### Backend, auth and deployment
 
-- [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md)
-- [`docs/PRODUCTION_HARDENING.md`](docs/PRODUCTION_HARDENING.md)
-- [`docs/AUTH_USER_ISOLATION.md`](docs/AUTH_USER_ISOLATION.md)
-- [`docs/LOGIN_SECURE_STORAGE.md`](docs/LOGIN_SECURE_STORAGE.md)
-- [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
-- [`docs/FIREBASE_AND_CICD.md`](docs/FIREBASE_AND_CICD.md)
-- [`docs/BUILD_RELEASES.md`](docs/BUILD_RELEASES.md)
-- [`docs/SIGNED_RELEASE_AUTOMATION.md`](docs/SIGNED_RELEASE_AUTOMATION.md)
+- [`docs/API_EXAMPLES.md`](_project_assets/docs/API_EXAMPLES.md)
+- [`docs/PRODUCTION_HARDENING.md`](_project_assets/docs/PRODUCTION_HARDENING.md)
+- [`docs/AUTH_USER_ISOLATION.md`](_project_assets/docs/AUTH_USER_ISOLATION.md)
+- [`docs/LOGIN_SECURE_STORAGE.md`](_project_assets/docs/LOGIN_SECURE_STORAGE.md)
+- [`docs/DATA_LIFECYCLE_AND_MIGRATIONS.md`](_project_assets/docs/DATA_LIFECYCLE_AND_MIGRATIONS.md)
+- [`docs/FIREBASE_AND_CICD.md`](_project_assets/docs/FIREBASE_AND_CICD.md)
+- [`docs/BUILD_RELEASES.md`](_project_assets/docs/BUILD_RELEASES.md)
+- [`docs/SIGNED_RELEASE_AUTOMATION.md`](_project_assets/docs/SIGNED_RELEASE_AUTOMATION.md)
 
 ### UI/UX, release and assets
 
-- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](docs/UI_UX_PRO_MAX_APP_DESIGN.md)
-- [`docs/PRODUCT_POLISH_UX.md`](docs/PRODUCT_POLISH_UX.md)
-- [`docs/BRANDING_AND_ASSETS.md`](docs/BRANDING_AND_ASSETS.md)
-- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
-- [`docs/APP_STORE_READINESS.md`](docs/APP_STORE_READINESS.md)
+- [`docs/UI_UX_PRO_MAX_APP_DESIGN.md`](_project_assets/docs/UI_UX_PRO_MAX_APP_DESIGN.md)
+- [`docs/PRODUCT_POLISH_UX.md`](_project_assets/docs/PRODUCT_POLISH_UX.md)
+- [`docs/BRANDING_AND_ASSETS.md`](_project_assets/docs/BRANDING_AND_ASSETS.md)
+- [`docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md`](_project_assets/docs/FLUTTER_QA_AND_BUILD_VERIFICATION.md)
+- [`docs/APP_STORE_READINESS.md`](_project_assets/docs/APP_STORE_READINESS.md)
 
 ### Upgrade notes
 
-- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
-- [`docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md`](docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md)
-- [`docs/PHASE_15_21_COMPLETION.md`](docs/PHASE_15_21_COMPLETION.md)
+- [`docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md`](_project_assets/docs/UPGRADE_BATCH_PRIVACY_ML_PERSONALIZATION.md)
+- [`docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md`](_project_assets/docs/UPGRADE_BATCH_2_SECURITY_PERSONALIZATION.md)
+- [`docs/PHASE_15_21_COMPLETION.md`](_project_assets/docs/PHASE_15_21_COMPLETION.md)
 
 > `docs/PROJECT_LOG.md` is intentionally ignored by git and kept as a local running implementation log.
 
@@ -317,11 +321,10 @@ Local Level 2 outfit preview: implemented
 Next highest-priority work:
 
 ```text
-1. Run Flutter locally and fix analyzer/build issues.
-2. Configure real Firebase with FlutterFire.
-3. Complete SQLite/encrypted local storage migration.
-4. Add real garment classifier/segmentation model.
-5. Beta test with 10–20 Indian users.
-6. Improve recommendation quality from feedback.
-7. Finalize store assets and deployment credentials.
+1. Configure real Firebase with FlutterFire.
+2. Complete SQLite/encrypted local storage migration.
+3. Add real garment classifier/segmentation model.
+4. Beta test with 10–20 Indian users.
+5. Improve recommendation quality from feedback.
+6. Finalize store assets and deployment credentials.
 ```

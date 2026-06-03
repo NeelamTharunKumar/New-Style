@@ -73,9 +73,9 @@ class _OutfitPreviewScreenState extends State<OutfitPreviewScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'A local mannequin-style preview to help you judge the outfit before swapping. This is not a body-accurate try-on.',
-                  style: TextStyle(color: AppColors.mutedForeground, height: 1.35),
+                  style: TextStyle(color: DrapeColors.of(context).mutedForeground, height: 1.35),
                 ),
                 const SizedBox(height: 14),
                 SegmentedButton<bool>(
@@ -151,9 +151,9 @@ class _MannequinPreview extends StatelessWidget {
           final h = constraints.maxHeight;
           return Container(
             decoration: BoxDecoration(
-              color: AppColors.muted,
+              color: DrapeColors.of(context).muted,
               borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: DrapeColors.of(context).border),
             ),
             child: Stack(
               children: [
@@ -166,7 +166,7 @@ class _MannequinPreview extends StatelessWidget {
                   child: Text(
                     'Preview uses local item images and approximate slots — not an exact fit simulation.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.mutedForeground.withOpacity(0.9), fontSize: 12),
+                    style: TextStyle(color: DrapeColors.of(context).mutedForeground.withValues(alpha: 0.9), fontSize: 12),
                   ),
                 ),
               ],
@@ -218,7 +218,7 @@ class _BoardPreview extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(item.displayName, style: const TextStyle(fontWeight: FontWeight.w900)),
-                        Text(item.category, style: const TextStyle(color: AppColors.mutedForeground)),
+                        Text(item.category, style: TextStyle(color: DrapeColors.of(context).mutedForeground)),
                       ],
                     ),
                   ),
@@ -244,10 +244,10 @@ class _PreviewGarment extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.82),
+          color: DrapeColors.of(context).surface.withValues(alpha: 0.82),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.border),
-          boxShadow: AppShadows.card,
+          border: Border.all(color: DrapeColors.of(context).border),
+          boxShadow: AppShadows.cardFor(context),
         ),
         child: Column(
           children: [
@@ -300,10 +300,10 @@ class _MannequinPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.primary.withOpacity(0.08)
+      ..color = AppColors.primary.withValues(alpha: 0.08)
       ..style = PaintingStyle.fill;
     final stroke = Paint()
-      ..color = AppColors.primary.withOpacity(0.18)
+      ..color = AppColors.primary.withValues(alpha: 0.18)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 

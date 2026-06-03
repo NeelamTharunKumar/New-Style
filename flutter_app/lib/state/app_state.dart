@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../data/app_models.dart';
 import '../data/drape_api_client.dart';
@@ -33,6 +33,7 @@ class AppState extends ChangeNotifier {
   String? statusMessage;
   String? backendHealth;
   AuthCredentials authCredentials = const AuthCredentials();
+  ThemeMode themeMode = ThemeMode.system;
 
   bool get isLoggedIn => authCredentials.hasBearerToken || authCredentials.authMode == 'open_dev';
   String get userId => profile.userId;
@@ -50,6 +51,10 @@ class AppState extends ChangeNotifier {
       apiClient.apiKey = authCredentials.apiKey;
       apiClient.authToken = authCredentials.authToken;
       hasCompletedOnboarding = await localStore.loadOnboardingCompleted();
+      final savedTheme = await localStore.loadThemeMode();
+      if (savedTheme == 'light') themeMode = ThemeMode.light;
+      if (savedTheme == 'dark') themeMode = ThemeMode.dark;
+      if (savedTheme == 'system') themeMode = ThemeMode.system;
       profile = await localStore.loadProfile() ?? profile;
       if (authCredentials.userId.isNotEmpty && profile.userId != authCredentials.userId) {
         profile = profile.copyWith(userId: authCredentials.userId);
@@ -163,6 +168,21 @@ class AppState extends ChangeNotifier {
     hasCompletedOnboarding = false;
     await localStore.saveOnboardingCompleted(false);
     notifyListeners();
+  }
+
+  Future<void> setThemeMode(ThemeMode mode) async {
+    themeMode = mode;
+    await localStore.saveThemeMode(mode.name);
+    notifyListeners();
+  }
+
+  Future<void> toggleTheme() async {
+    final next = switch (themeMode) {
+      ThemeMode.system => ThemeMode.light,
+      ThemeMode.light => ThemeMode.dark,
+      ThemeMode.dark => ThemeMode.system,
+    };
+    await setThemeMode(next);
   }
 
   Future<void> updateBaseUrl(String value) async {

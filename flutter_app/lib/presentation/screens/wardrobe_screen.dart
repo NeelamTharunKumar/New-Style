@@ -117,7 +117,29 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                     itemCount: state.wardrobeItems.length,
                     itemBuilder: (context, index) => _WardrobeGridCard(
                       item: state.wardrobeItems[index],
-                      onDelete: () => state.deleteWardrobeItem(state.wardrobeItems[index]),
+                      onDelete: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Delete Item?'),
+                            content: const Text('This will remove the item from your wardrobe and delete its local image. This cannot be undone.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              FilledButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                style: FilledButton.styleFrom(backgroundColor: DrapeColors.of(context).destructive),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true) {
+                          state.deleteWardrobeItem(state.wardrobeItems[index]);
+                        }
+                      },
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => WardrobeItemDetailScreen(appState: state, item: state.wardrobeItems[index])),
@@ -344,6 +366,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     title: const Text('Advanced details', style: TextStyle(fontWeight: FontWeight.w900)),
                     children: [
                   DropdownButtonFormField<String>(
+                    // ignore: deprecated_member_use
                     value: _styleMode,
                     decoration: const InputDecoration(labelText: 'Style mode', border: OutlineInputBorder()),
                     items: const [
@@ -445,7 +468,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
                     const SizedBox(height: 8),
                     Text(
                       "Local extraction: ${_featureSummary['dominant_color_name']} ${_featureSummary['dominant_hex_color']} · ${_featureSummary['pattern_hint']} · confidence ${((_featureSummary['confidence'] as num?)?.toDouble() ?? 0).toStringAsFixed(2)}",
-                      style: TextStyle(color: Colors.green.shade300),
+                      style: TextStyle(color: DrapeColors.of(context).success),
                     ),
                   ],
                     ],
@@ -518,7 +541,7 @@ class _WardrobeGridCard extends StatelessWidget {
               [item.category, if (item.occasionTags.isNotEmpty) item.occasionTags.first].join(' · '),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: AppColors.mutedForeground, fontSize: 12),
+              style: TextStyle(color: DrapeColors.of(context).mutedForeground, fontSize: 12),
             ),
           ],
         ),

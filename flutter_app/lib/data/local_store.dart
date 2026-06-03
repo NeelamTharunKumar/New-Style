@@ -10,6 +10,7 @@ class LocalStore {
   static const _outfitsKey = 'drape.outfits.v1';
   static const _baseUrlKey = 'drape.apiBaseUrl.v1';
   static const _onboardingKey = 'drape.onboarding.completed.v1';
+  static const _themeModeKey = 'drape.themeMode.v1';
 
   Future<UserProfile?> loadProfile() async {
     final prefs = await SharedPreferences.getInstance();
@@ -67,6 +68,16 @@ class LocalStore {
   Future<void> saveOnboardingCompleted(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_onboardingKey, value);
+  }
+
+  Future<String?> loadThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_themeModeKey);
+  }
+
+  Future<void> saveThemeMode(String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_themeModeKey, mode);
   }
 
   Future<String> exportJson({

@@ -4,6 +4,7 @@ import '../../core/design_tokens.dart';
 
 import '../../data/app_models.dart';
 import '../../state/app_state.dart';
+import '../widgets/app_components.dart';
 import '../widgets/status_banner.dart';
 
 class StyleProfileScreen extends StatefulWidget {
@@ -70,7 +71,7 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
-    return Scaffold(
+    return AppGradientScaffold(
       appBar: AppBar(title: const Text('Style Profile')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
@@ -85,7 +86,7 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Phase 2 uses manual structured fields. Later phases will extract many of these locally from photos.',
-                  style: TextStyle(color: AppColors.mutedForeground),
+                  style: TextStyle(color: DrapeColors.of(context).mutedForeground),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -94,6 +95,7 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
                   value: _styleMode,
                   decoration: const InputDecoration(labelText: 'Style mode', border: OutlineInputBorder()),
                   items: const [
@@ -119,6 +121,7 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
                   value: _climate,
                   decoration: const InputDecoration(labelText: 'Primary climate', border: OutlineInputBorder()),
                   items: const [

@@ -35,25 +35,25 @@ class LocalWardrobeImage extends StatelessWidget {
             width: width,
             height: height,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _fallback(),
+            errorBuilder: (_, __, ___) => _fallback(context),
           ),
         );
       }
     }
-    return _fallback();
+    return _fallback(context);
   }
 
-  Widget _fallback() {
-    final color = _parseHex(hexColor) ?? Colors.indigo.shade400;
+  Widget _fallback(BuildContext context) {
+    final color = _parseHex(hexColor) ?? DrapeColors.of(context).primary.withValues(alpha: 0.4);
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: DrapeColors.of(context).border),
       ),
-      child: Icon(icon, size: 22),
+      child: Icon(icon, size: 22, color: DrapeColors.of(context).foreground.withValues(alpha: 0.6)),
     );
   }
 }
