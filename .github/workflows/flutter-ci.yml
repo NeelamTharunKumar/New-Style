@@ -16,7 +16,7 @@ jobs:
           channel: stable
           cache: true
       - name: Prepare platforms
-        run: ./scripts/prepare_flutter_platforms.sh
+        run: ./_project_assets/scripts/prepare_flutter_platforms.sh
       - name: Analyze
         working-directory: flutter_app
         run: flutter analyze
