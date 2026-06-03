@@ -28,6 +28,7 @@ path=Path(sys.argv[1]); app_id=sys.argv[2]
 s=path.read_text()
 s=re.sub(r'namespace\s+["\'][^"\']+["\']', f'namespace "{app_id}"', s)
 s=re.sub(r'applicationId\s+["\'][^"\']+["\']', f'applicationId "{app_id}"', s)
+s=re.sub(r'minSdk\s*=\s*(?:flutter\.minSdkVersion|\d+)', 'minSdk = 23', s)
 path.write_text(s)
 PY
   elif [ -f "$GRADLE_KTS" ]; then
@@ -38,6 +39,7 @@ path=Path(sys.argv[1]); app_id=sys.argv[2]
 s=path.read_text()
 s=re.sub(r'namespace\s*=\s*["\'][^"\']+["\']', f'namespace = "{app_id}"', s)
 s=re.sub(r'applicationId\s*=\s*["\'][^"\']+["\']', f'applicationId = "{app_id}"', s)
+s=re.sub(r'minSdk\s*=\s*(?:flutter\.minSdkVersion|\d+)', 'minSdk = 23', s)
 path.write_text(s)
 PY
   fi

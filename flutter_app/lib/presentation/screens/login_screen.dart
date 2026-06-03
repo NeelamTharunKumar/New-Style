@@ -85,7 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  initialValue: _mode,
+                  // ignore: deprecated_member_use
+                  value: _mode,
                   decoration: const InputDecoration(labelText: 'Login mode', border: OutlineInputBorder()),
                   items: const [
                     DropdownMenuItem(value: 'dev_bearer', child: Text('Dev bearer: dev:<user_id>')),

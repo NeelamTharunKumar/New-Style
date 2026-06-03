@@ -96,7 +96,8 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  initialValue: _occasion,
+                  // ignore: deprecated_member_use
+                  value: _occasion,
                   decoration: const InputDecoration(labelText: 'More occasions', border: OutlineInputBorder()),
                   items: _occasions.map((occasion) => DropdownMenuItem(value: occasion, child: Text(_labelForOccasion(occasion)))).toList(),
                   onChanged: (value) => setState(() => _occasion = value ?? 'office'),
@@ -114,7 +115,8 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        initialValue: _weatherCondition,
+                        // ignore: deprecated_member_use
+                        value: _weatherCondition,
                         decoration: const InputDecoration(labelText: 'Weather', border: OutlineInputBorder()),
                         items: const [
                           DropdownMenuItem(value: 'hot_humid', child: Text('Hot humid')),

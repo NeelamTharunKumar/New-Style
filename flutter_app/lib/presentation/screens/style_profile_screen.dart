@@ -95,7 +95,8 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  initialValue: _styleMode,
+                  // ignore: deprecated_member_use
+                  value: _styleMode,
                   decoration: const InputDecoration(labelText: 'Style mode', border: OutlineInputBorder()),
                   items: const [
                     DropdownMenuItem(value: 'menswear', child: Text('Menswear')),
@@ -120,7 +121,8 @@ class _StyleProfileScreenState extends State<StyleProfileScreen> {
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  initialValue: _climate,
+                  // ignore: deprecated_member_use
+                  value: _climate,
                   decoration: const InputDecoration(labelText: 'Primary climate', border: OutlineInputBorder()),
                   items: const [
                     DropdownMenuItem(value: 'hot_humid', child: Text('Hot + humid')),
