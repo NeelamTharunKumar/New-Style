@@ -117,7 +117,29 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                     itemCount: state.wardrobeItems.length,
                     itemBuilder: (context, index) => _WardrobeGridCard(
                       item: state.wardrobeItems[index],
-                      onDelete: () => state.deleteWardrobeItem(state.wardrobeItems[index]),
+                      onDelete: () async {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Delete Item?'),
+                            content: const Text('This will remove the item from your wardrobe and delete its local image. This cannot be undone.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              FilledButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                style: FilledButton.styleFrom(backgroundColor: DrapeColors.of(context).destructive),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirm == true) {
+                          state.deleteWardrobeItem(state.wardrobeItems[index]);
+                        }
+                      },
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => WardrobeItemDetailScreen(appState: state, item: state.wardrobeItems[index])),

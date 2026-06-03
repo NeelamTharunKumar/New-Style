@@ -48,7 +48,31 @@ class WardrobeItemDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           OutlinedButton.icon(
-            onPressed: () => appState.deleteWardrobeItem(item).then((_) => Navigator.pop(context)),
+            onPressed: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Delete Item?'),
+                  content: const Text('This will remove the item from your wardrobe and delete its local image. This cannot be undone.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    FilledButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      style: FilledButton.styleFrom(backgroundColor: DrapeColors.of(context).destructive),
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
+              );
+              if (confirm == true) {
+                appState.deleteWardrobeItem(item).then((_) {
+                  if (context.mounted) Navigator.pop(context);
+                });
+              }
+            },
             icon: const Icon(Icons.delete_outline),
             label: const Text('Delete item and local image'),
           ),
