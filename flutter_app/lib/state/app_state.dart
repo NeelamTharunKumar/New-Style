@@ -6,6 +6,7 @@ import '../data/firebase_login_service.dart';
 import '../data/local_image_service.dart';
 import '../data/local_store.dart';
 import '../data/secure_auth_store.dart';
+import '../data/weather_service.dart';
 
 class AppState extends ChangeNotifier {
   AppState(this.apiClient, this.localStore, this.secureAuthStore, this.firebaseLoginService);
@@ -34,6 +35,8 @@ class AppState extends ChangeNotifier {
   String? backendHealth;
   AuthCredentials authCredentials = const AuthCredentials();
   ThemeMode themeMode = ThemeMode.system;
+  WeatherData? currentWeather;
+  bool isWeatherLoading = false;
 
   bool get isLoggedIn => authCredentials.hasBearerToken || authCredentials.authMode == 'open_dev';
   String get userId => profile.userId;
@@ -69,6 +72,8 @@ class AppState extends ChangeNotifier {
       isBusy = false;
       notifyListeners();
     }
+    // Non-blocking: fetch weather in background after hydration.
+    fetchWeather();
   }
 
 
@@ -201,6 +206,20 @@ class AppState extends ChangeNotifier {
     return null;
   }
 
+  Future<void> fetchWeather() async {
+    isWeatherLoading = true;
+    notifyListeners();
+    try {
+      final weatherService = WeatherService(backendBaseUrl: apiClient.baseUrl);
+      currentWeather = await weatherService.fetchCurrentWeather();
+    } catch (_) {
+      // Weather is optional — never block the app.
+    } finally {
+      isWeatherLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> checkHealth() async {
     await _run(() async {
       final response = await apiClient.health();
@@ -289,14 +308,18 @@ class AppState extends ChangeNotifier {
     String? weatherCondition,
   }) async {
     await _run(() async {
+      // Auto-fill from live weather if not manually provided.
+      final effectiveTemp = temperatureC ?? currentWeather?.temperatureC;
+      final effectiveCondition = weatherCondition ?? currentWeather?.condition;
+
       outfits = await apiClient.generateOutfits(
         userId: userId,
         occasion: occasion,
         styleMode: profile.styleMode,
         profile: profile,
         wardrobeItems: wardrobeItems,
-        temperatureC: temperatureC,
-        weatherCondition: weatherCondition,
+        temperatureC: effectiveTemp,
+        weatherCondition: effectiveCondition,
       );
       await localStore.saveOutfits(outfits);
       statusMessage = outfits.isEmpty ? 'No outfit combinations found yet' : 'Generated and saved ${outfits.length} outfits locally';
