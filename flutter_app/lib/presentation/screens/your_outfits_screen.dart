@@ -6,6 +6,7 @@ import '../../data/app_models.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
+import '../widgets/shimmer_loading.dart';
 import '../widgets/status_banner.dart';
 import 'outfit_detail_screen.dart';
 import 'outfit_preview_screen.dart';
@@ -161,7 +162,9 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (state.outfits.isEmpty)
+                if (state.isBusy)
+                  const ShimmerOutfitList(count: 3)
+                else if (state.outfits.isEmpty)
                   const EmptyState(
                     icon: Icons.auto_awesome_outlined,
                     title: 'No generated outfits yet',

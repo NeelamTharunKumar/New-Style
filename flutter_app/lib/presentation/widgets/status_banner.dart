@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
+import 'shimmer_loading.dart';
 
 class StatusBanner extends StatelessWidget {
   const StatusBanner({super.key, this.error, this.message, this.isBusy = false});
@@ -28,16 +29,12 @@ class StatusBanner extends StatelessWidget {
       child: Row(
         children: [
           if (isBusy) ...[
-            const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
+            ShimmerPulseIndicator(size: 18, color: base),
             const SizedBox(width: 10),
           ],
           Expanded(
             child: Text(
-              isBusy ? 'Working...' : text!,
+              isBusy ? 'Working on it…' : text!,
               style: TextStyle(color: base, fontWeight: FontWeight.w700),
             ),
           ),
@@ -46,3 +43,4 @@ class StatusBanner extends StatelessWidget {
     );
   }
 }
+

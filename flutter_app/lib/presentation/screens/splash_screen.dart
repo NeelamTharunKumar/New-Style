@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/branding.dart';
 import '../../core/design_tokens.dart';
 import '../widgets/brand_mark.dart';
+import '../widgets/shimmer_loading.dart';
 
 /// Branded splash screen shown while the app hydrates local state.
 /// Displays the Drape AI logo with a pulsing glow animation, the app name,
@@ -135,17 +136,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               const Spacer(flex: 2),
 
               // ── Loading indicator ──
-              SizedBox(
-                width: 28,
-                height: 28,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  color: colors.primary.withValues(alpha: 0.6),
+              ShimmerEffect(
+                child: Container(
+                  width: 120,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: colors.primary.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
               Text(
-                'Loading your wardrobe...',
+                'Loading your wardrobe…',
                 style: TextStyle(
                   fontSize: 13,
                   color: colors.mutedForeground.withValues(alpha: 0.7),

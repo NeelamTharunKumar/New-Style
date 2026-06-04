@@ -8,6 +8,7 @@ import '../../data/local_image_service.dart';
 import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
+import '../widgets/shimmer_loading.dart';
 import '../widgets/status_banner.dart';
 import 'wardrobe_item_detail_screen.dart';
 
@@ -93,7 +94,9 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                if (state.wardrobeItems.isEmpty)
+                if (state.isBusy && state.wardrobeItems.isEmpty)
+                  const ShimmerWardrobeGrid(count: 4)
+                else if (state.wardrobeItems.isEmpty)
                   EmptyState(
                     icon: Icons.checkroom_outlined,
                     title: 'No wardrobe items yet',
