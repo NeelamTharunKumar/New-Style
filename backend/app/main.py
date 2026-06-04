@@ -301,3 +301,70 @@ async def stylist_chat(
         ),
         privacy=PRIVACY_MESSAGE,
     )
+
+
+# ── Weather proxy (avoids CORS issues on web) ────────────────────────────────
+
+import httpx  # noqa: E402
+
+
+@app.get("/weather/current")
+async def weather_current(lat: float | None = None, lon: float | None = None):
+    """Proxy weather data via wttr.in. If no lat/lon provided, uses IP-based geolocation."""
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(15.0), follow_redirects=True) as client:
+            # If no coordinates, try IP geolocation
+            if lat is None or lon is None:
+                ip_resp = await client.get("http://ip-api.com/json/?fields=status,city,lat,lon")
+                if ip_resp.status_code == 200:
+                    ip_data = ip_resp.json()
+                    if ip_data.get("status") == "success":
+                        lat = ip_data.get("lat")
+                        lon = ip_data.get("lon")
+                        city = ip_data.get("city", "Unknown")
+                    else:
+                        raise HTTPException(status_code=502, detail="IP geolocation failed")
+                else:
+                    raise HTTPException(status_code=502, detail="IP geolocation unavailable")
+            else:
+                city = None
+
+            # Fetch weather from wttr.in (HTTP, no API key needed)
+            wttr_resp = await client.get(
+                f"http://wttr.in/{lat},{lon}?format=j1",
+                headers={"Accept": "application/json"},
+            )
+            if wttr_resp.status_code != 200:
+                raise HTTPException(status_code=502, detail=f"wttr.in returned {wttr_resp.status_code}")
+
+            wttr_data = wttr_resp.json()
+            current = wttr_data.get("current_condition", [{}])[0]
+
+            # Map wttr.in fields to our expected format
+            temp_c = float(current.get("temp_C", 0))
+            humidity = int(current.get("humidity", 0))
+            weather_code = int(current.get("weatherCode", 0))
+
+            # wttr.in weather codes → WMO-like mapping
+            # wttr.in codes: 113=sunny, 116=partly cloudy, 119=cloudy, 122=overcast,
+            # 143=fog, 176/293/296/299/302/305/308/311/314=rain variants,
+            # 227/230/260/263/266=snow/drizzle, 200/386/389=thunder
+            is_day = 1  # wttr.in doesn't reliably give is_day, default to day
+
+            result = {
+                "temperature_2m": temp_c,
+                "relative_humidity_2m": humidity,
+                "weather_code": weather_code,
+                "is_day": is_day,
+                "city": city,
+                "latitude": lat,
+                "longitude": lon,
+                "weather_desc": current.get("weatherDesc", [{}])[0].get("value", ""),
+            }
+            return result
+
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.warning("Weather proxy error: %s", exc)
+        raise HTTPException(status_code=502, detail=f"Weather service error: {exc}")

@@ -8,6 +8,7 @@ import '../widgets/app_components.dart';
 import '../widgets/local_wardrobe_image.dart';
 import '../widgets/shimmer_loading.dart';
 import '../widgets/status_banner.dart';
+import '../../data/weather_service.dart';
 import 'outfit_detail_screen.dart';
 import 'outfit_preview_screen.dart';
 import 'wardrobe_screen.dart';
@@ -48,7 +49,16 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
   void initState() {
     super.initState();
     _occasion = widget.initialOccasion ?? 'office';
+    _autoPopulateWeather();
     widget.appState.addListener(_refresh);
+  }
+
+  void _autoPopulateWeather() {
+    final weather = widget.appState.currentWeather;
+    if (weather != null) {
+      _temperatureController.text = weather.temperatureC.round().toString();
+      _weatherCondition = weather.condition;
+    }
   }
 
   @override
@@ -96,6 +106,12 @@ class _YourOutfitsScreenState extends State<YourOutfitsScreen> {
                       .toList(),
                 ),
                 const SizedBox(height: 12),
+                // Weather auto-detect chip
+                if (widget.appState.currentWeather != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: _WeatherChip(weather: widget.appState.currentWeather!),
+                  ),
                 DropdownButtonFormField<String>(
                   // ignore: deprecated_member_use
                   value: _occasion,
@@ -354,6 +370,49 @@ class _ScorePill extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(color: DrapeColors.of(context).success, borderRadius: BorderRadius.circular(99)),
       child: Text(score.toStringAsFixed(0), style: const TextStyle(fontWeight: FontWeight.w800)),
+    );
+  }
+}
+
+class _WeatherChip extends StatelessWidget {
+  const _WeatherChip({required this.weather});
+
+  final WeatherData weather;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = DrapeColors.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: colors.primarySoft.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(99),
+        border: Border.all(color: colors.primary.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(weather.icon, style: const TextStyle(fontSize: 16)),
+          const SizedBox(width: 6),
+          Text(
+            '${weather.temperatureC.round()}°C ${weather.description}',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: colors.primary,
+            ),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            '· auto-detected',
+            style: TextStyle(
+              fontSize: 11,
+              color: colors.mutedForeground,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

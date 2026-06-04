@@ -7,6 +7,7 @@ import '../../state/app_state.dart';
 import '../widgets/app_components.dart';
 import '../widgets/brand_mark.dart';
 import '../widgets/status_banner.dart';
+import '../widgets/weather_widget.dart';
 import 'your_outfits_screen.dart';
 
 class HomeDashboard extends StatefulWidget {
@@ -87,6 +88,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 20),
+                WeatherWidget(appState: state),
                 const SizedBox(height: 20),
                 _PrivacyCard(state: state),
                 const SizedBox(height: 20),
