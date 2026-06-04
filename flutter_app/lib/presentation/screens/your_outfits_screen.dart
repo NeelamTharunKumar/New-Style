@@ -395,7 +395,7 @@ class _WeatherChip extends StatelessWidget {
           Text(weather.icon, style: const TextStyle(fontSize: 16)),
           const SizedBox(width: 6),
           Text(
-            '${weather.temperatureC.round()}°C ${weather.description}',
+            '${weather.temperatureC.round()}°C${weather.description.isNotEmpty ? ' ${weather.description}' : ''}',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,

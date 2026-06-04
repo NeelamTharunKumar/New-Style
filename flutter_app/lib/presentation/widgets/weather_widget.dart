@@ -115,7 +115,9 @@ class _LiveWeatherCard extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
-                              '${weather.description} · ${weather.humidity}% humidity',
+                              weather.description.isNotEmpty 
+                                  ? '${weather.description} · ${weather.humidity}% humidity'
+                                  : '${weather.humidity}% humidity',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: colors.mutedForeground,

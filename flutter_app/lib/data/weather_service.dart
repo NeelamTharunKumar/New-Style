@@ -251,7 +251,7 @@ class WeatherService {
       71 || 73 || 75 || 77 => (icon: '❄️', description: 'Snowy'),
       80 || 81 || 82 => (icon: '🌧️', description: 'Rain showers'),
       95 || 96 || 99 => (icon: '⛈️', description: 'Thunderstorm'),
-      _ => (icon: '🌡️', description: 'Weather data available'),
+      _ => (icon: '🌡️', description: ''),
     };
   }
 
