@@ -22,6 +22,9 @@ class WardrobeScreen extends StatefulWidget {
 }
 
 class _WardrobeScreenState extends State<WardrobeScreen> {
+  String _sortBy = 'Date Added (Newest)';
+  String? _filterCategory;
+  
   @override
   void initState() {
     super.initState();
@@ -43,10 +46,33 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
       MaterialPageRoute(builder: (_) => AddWardrobeItemScreen(appState: widget.appState)),
     );
   }
+  
+  List<WardrobeItem> get _filteredAndSortedItems {
+    var items = List<WardrobeItem>.from(widget.appState.wardrobeItems);
+    
+    if (_filterCategory != null) {
+      items = items.where((i) => i.category == _filterCategory).toList();
+    }
+    
+    if (_sortBy == 'Date Added (Newest)') {
+      // Assuming original list order is roughly insertion order or we can sort by id string loosely if no date. 
+      // Reversing the default list as a naive 'newest' proxy.
+      items = items.reversed.toList();
+    } else if (_sortBy == 'Category') {
+      items.sort((a, b) => a.category.compareTo(b.category));
+    } else if (_sortBy == 'Color') {
+      items.sort((a, b) => a.color.compareTo(b.color));
+    }
+    
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
     final state = widget.appState;
+    final displayItems = _filteredAndSortedItems;
+    final uniqueCategories = state.wardrobeItems.map((e) => e.category).toSet().toList()..sort();
+    
     return AppGradientScaffold(
       appBar: AppBar(
         title: const Text('Your Wardrobe'),
@@ -93,14 +119,61 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+          if (state.wardrobeItems.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: DropdownMenu<String>(
+                      expandedInsets: EdgeInsets.zero,
+                      menuHeight: 300,
+                      initialSelection: _sortBy,
+                      label: const Text('Sort By'),
+                      onSelected: (val) {
+                        if (val != null) setState(() => _sortBy = val);
+                      },
+                      dropdownMenuEntries: const [
+                        DropdownMenuEntry(value: 'Date Added (Newest)', label: 'Date Added (Newest)'),
+                        DropdownMenuEntry(value: 'Category', label: 'Category'),
+                        DropdownMenuEntry(value: 'Color', label: 'Color'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: DropdownMenu<String?>(
+                      expandedInsets: EdgeInsets.zero,
+                      menuHeight: 300,
+                      initialSelection: _filterCategory,
+                      label: const Text('Filter Category'),
+                      onSelected: (val) {
+                        setState(() => _filterCategory = val);
+                      },
+                      dropdownMenuEntries: [
+                        const DropdownMenuEntry(value: null, label: 'All Categories'),
+                        ...uniqueCategories.map((c) => DropdownMenuEntry(value: c, label: c)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 if (state.isBusy && state.wardrobeItems.isEmpty)
                   const ShimmerWardrobeGrid(count: 4)
-                else if (state.wardrobeItems.isEmpty)
+                else if (displayItems.isEmpty)
                   EmptyState(
                     icon: Icons.checkroom_outlined,
-                    title: 'No wardrobe items yet',
-                    subtitle: 'Add a demo set or create your first local wardrobe item. Photos remain on-device.',
+                    title: state.wardrobeItems.isEmpty ? 'No wardrobe items yet' : 'No items match filter',
+                    subtitle: state.wardrobeItems.isEmpty ? 'Add a demo set or create your first local wardrobe item. Photos remain on-device.' : 'Try changing your category filter.',
                     action: ElevatedButton.icon(
                       onPressed: state.isBusy ? null : () => state.addDemoWardrobe(),
                       icon: const Icon(Icons.auto_fix_high_outlined),
@@ -117,9 +190,9 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                     ),
-                    itemCount: state.wardrobeItems.length,
+                    itemCount: displayItems.length,
                     itemBuilder: (context, index) => _WardrobeGridCard(
-                      item: state.wardrobeItems[index],
+                      item: displayItems[index],
                       onDelete: () async {
                         final confirm = await showDialog<bool>(
                           context: context,
@@ -140,12 +213,12 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                           ),
                         );
                         if (confirm == true) {
-                          state.deleteWardrobeItem(state.wardrobeItems[index]);
+                          state.deleteWardrobeItem(displayItems[index]);
                         }
                       },
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => WardrobeItemDetailScreen(appState: state, item: state.wardrobeItems[index])),
+                        MaterialPageRoute(builder: (_) => WardrobeItemDetailScreen(appState: state, item: displayItems[index])),
                       ),
                     ),
                   ),
