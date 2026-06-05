@@ -1,11 +1,18 @@
 from __future__ import annotations
 
 from itertools import product
-from typing import Dict, Iterable, List, Optional, Sequence
+from typing import Dict, Iterable, List, Optional, Sequence, TypedDict
 from uuid import uuid4
 
 from app.models import OutfitRecommendation, ScoreBreakdown, StyleMode, UserProfile, WardrobeItem, WeatherContext
 from app.services.color_rules import color_harmony_score, is_festive, skin_tone_score
+
+
+class OccasionRule(TypedDict, total=False):
+    formality: tuple[int, int]
+    preferred: set[str]
+    style: set[str]
+    colors: set[str]
 
 TOPS = {"shirt", "t-shirt", "tee", "polo", "top", "kurti", "kurta", "blouse", "dress", "anarkali", "kurta set"}
 BOTTOMS = {"jeans", "chinos", "trousers", "trouser", "palazzo", "leggings", "skirt", "salwar", "churidar", "dhoti"}
@@ -26,7 +33,7 @@ OCCASION_ALIASES = {
     "daily": "daily casual",
 }
 
-OCCASION_RULES: Dict[str, Dict[str, object]] = {
+OCCASION_RULES: dict[str, OccasionRule] = {
     "college": {"formality": (2, 6), "preferred": {"t-shirt", "shirt", "kurti", "jeans", "palazzo", "sneakers", "juttis", "sandals"}, "style": {"casual", "smart casual", "budget-conscious"}},
     "office": {"formality": (6, 9), "preferred": {"shirt", "polo", "trousers", "chinos", "kurti", "palazzo", "blazer", "loafers", "formal shoes"}, "style": {"formal", "smart casual", "minimal"}},
     "interview": {"formality": (7, 10), "preferred": {"shirt", "blazer", "trousers", "formal shoes", "kurti", "saree", "loafers"}, "style": {"formal", "minimal"}},
@@ -239,7 +246,7 @@ class OutfitEngine:
         return min(score, 20.0)
 
     def _formality_fit(self, combo: Sequence[WardrobeItem], rules: Dict[str, object]) -> float:
-        low, high = rules.get("formality", (1, 10))  # type: ignore[assignment]
+        low, high = rules.get("formality", (1, 10))
         avg = sum(item.formality for item in combo) / max(len(combo), 1)
         if low <= avg <= high:
             return 15.0
