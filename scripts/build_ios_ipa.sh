@@ -6,7 +6,7 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
   exit 1
 fi
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 API_BASE_URL="${DRAPE_API_BASE_URL:-https://api.example.com}"
 EXPORT_OPTIONS="$ROOT_DIR/flutter_app/ios/ExportOptions.plist"
 

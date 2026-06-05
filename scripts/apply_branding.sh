@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_DIR="$ROOT_DIR/flutter_app"
 ANDROID_APP_ID="${ANDROID_APP_ID:-com.drape.ai}"
 IOS_BUNDLE_ID="${IOS_BUNDLE_ID:-com.drape.ai}"
