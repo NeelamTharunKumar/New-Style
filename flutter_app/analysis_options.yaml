@@ -25,7 +25,7 @@ linter:
     prefer_const_declarations: true
     avoid_print: true
     prefer_final_locals: true
-    unused_import: true
+    unnecessary_import: true
     prefer_single_quotes: true
 
 # Additional information about this file can be found at
