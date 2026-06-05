@@ -18,4 +18,4 @@ jobs:
           channel: stable
           cache: true
       - name: Build iOS without codesign
-        run: bash ./_project_assets/scripts/build_ios_release.sh --dart-define=DRAPE_API_BASE_URL=${{ inputs.api_base_url }}
+        run: bash ./scripts/build_ios_release.sh --dart-define=DRAPE_API_BASE_URL=${{ inputs.api_base_url }}

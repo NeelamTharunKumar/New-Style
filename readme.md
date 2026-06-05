@@ -213,13 +213,13 @@ flutter run
 Full local Flutter verification:
 
 ```bash
-./_project_assets/scripts/verify_flutter_local.sh
+./scripts/verify_flutter_local.sh
 ```
 
 Full backend + Flutter verification:
 
 ```bash
-./_project_assets/scripts/verify_all_local.sh
+./scripts/verify_all_local.sh
 ```
 
 > Flutter SDK is not available in the agent sandbox, so Flutter analyze/build must be run locally or in CI.
@@ -231,31 +231,31 @@ Full backend + Flutter verification:
 Prepare generated platform folders and native bridge:
 
 ```bash
-./_project_assets/scripts/prepare_flutter_platforms.sh
+./scripts/prepare_flutter_platforms.sh
 ```
 
 Build Android APK:
 
 ```bash
-./_project_assets/scripts/build_android_apk.sh
+./scripts/build_android_apk.sh
 ```
 
 Build signed Android AAB:
 
 ```bash
-./_project_assets/scripts/build_android_aab_signed.sh
+./scripts/build_android_aab_signed.sh
 ```
 
 Build iOS release without codesign:
 
 ```bash
-./_project_assets/scripts/build_ios_release.sh
+./scripts/build_ios_release.sh
 ```
 
 Build signed/exported iOS IPA on macOS:
 
 ```bash
-./_project_assets/scripts/build_ios_ipa.sh
+./scripts/build_ios_ipa.sh
 ```
 
 ---

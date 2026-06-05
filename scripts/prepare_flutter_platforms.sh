@@ -23,7 +23,7 @@ if [ -f "android/build.gradle.kts" ] && [ -f "android/build.gradle" ]; then
 fi
 
 
-bash "$ROOT_DIR/_project_assets/scripts/apply_branding.sh"
+bash "$ROOT_DIR/scripts/apply_branding.sh"
 
 if [ -d "$IOS_RUNNER_DIR" ]; then
   cp "$ROOT_DIR/native_bridge/ios/AppDelegate.swift" "$IOS_RUNNER_DIR/AppDelegate.swift"
