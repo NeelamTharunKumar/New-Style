@@ -363,7 +363,7 @@ class _AddWardrobeItemScreenState extends State<AddWardrobeItemScreen> {
       styleTags: splitTags(_styleTagsController.text),
       occasionTags: splitTags(_occasionTagsController.text),
       climateTags: splitTags(_climateTagsController.text),
-      indiaTags: splitTags(_occasionTagsController.text),
+      indiaTags: const [],
       localImageRef: _emptyToNull(_localRefController.text) ??
           _localImageService.wardrobeRefForItem(_emptyToNull(_itemIdController.text) ?? 'new_item'),
       featureVectorSummary: _featureSummary,

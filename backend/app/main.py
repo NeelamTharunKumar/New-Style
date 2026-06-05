@@ -31,6 +31,8 @@ from app.services.personalization import apply_feedback_personalization
 from app.services.taxonomy import TAXONOMY
 from app.storage_factory import create_store
 
+import httpx
+
 settings = get_settings()
 logger = logging.getLogger("drape.api")
 logging.basicConfig(level=logging.INFO)
@@ -83,7 +85,7 @@ async def health():
         "environment": settings.app_env,
         "store_backend": settings.store_backend,
         "api_key_mode": "enabled" if settings.api_key else "open_dev",
-        "user_auth_mode": get_settings().auth_mode,
+        "user_auth_mode": settings.auth_mode,
         "ml_mode": "on_device_feature_extraction_first",
         "privacy": PRIVACY_MESSAGE,
     }
@@ -305,9 +307,6 @@ async def stylist_chat(
 
 # ── Weather proxy (avoids CORS issues on web) ────────────────────────────────
 
-import httpx  # noqa: E402
-
-
 @app.get("/weather/current")
 async def weather_current(lat: float | None = None, lon: float | None = None):
     """Proxy weather data via wttr.in. If no lat/lon provided, uses IP-based geolocation."""
@@ -315,7 +314,7 @@ async def weather_current(lat: float | None = None, lon: float | None = None):
         async with httpx.AsyncClient(timeout=httpx.Timeout(15.0), follow_redirects=True) as client:
             # If no coordinates, try IP geolocation
             if lat is None or lon is None:
-                ip_resp = await client.get("http://ip-api.com/json/?fields=status,city,lat,lon")
+                ip_resp = await client.get("https://ip-api.com/json/?fields=status,city,lat,lon")
                 if ip_resp.status_code == 200:
                     ip_data = ip_resp.json()
                     if ip_data.get("status") == "success":
@@ -329,9 +328,9 @@ async def weather_current(lat: float | None = None, lon: float | None = None):
             else:
                 city = None
 
-            # Fetch weather from wttr.in (HTTP, no API key needed)
+            # Fetch weather from wttr.in (no API key needed)
             wttr_resp = await client.get(
-                f"http://wttr.in/{lat},{lon}?format=j1",
+                f"https://wttr.in/{lat},{lon}?format=j1",
                 headers={"Accept": "application/json"},
             )
             if wttr_resp.status_code != 200:

@@ -39,10 +39,13 @@ class InMemoryStore:
 
 
     def add_feedback(self, payload: OutfitFeedbackRequest) -> OutfitFeedback:
+        data = payload.model_dump()
+        data.pop("feedback_id", None)
+        data.pop("created_at", None)
         feedback = OutfitFeedback(
             feedback_id=f"feedback_{uuid4().hex[:10]}",
             created_at=datetime.now(timezone.utc).isoformat(),
-            **payload.model_dump(),
+            **data,
         )
         self._feedback[payload.user_id][feedback.feedback_id] = feedback
         return feedback

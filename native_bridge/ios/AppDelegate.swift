@@ -9,7 +9,9 @@ import UIKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    let controller = window?.rootViewController as! FlutterViewController
+    guard let controller = window?.rootViewController as? FlutterViewController else {
+      return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
     let channel = FlutterMethodChannel(name: channelName, binaryMessenger: controller.binaryMessenger)
 
     channel.setMethodCallHandler { call, result in

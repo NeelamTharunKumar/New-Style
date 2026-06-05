@@ -26,13 +26,13 @@ class LLMOrchestrator:
     """
 
     def __init__(self) -> None:
-        enabled_value = os.getenv("DRAPE_LLM_ENABLED") or os.getenv("BHARATFIT_LLM_ENABLED", "false")
+        enabled_value = os.getenv("DRAPE_LLM_ENABLED", "false")
         self.enabled = enabled_value.lower() in {"1", "true", "yes"}
-        self.api_key = os.getenv("OPENAI_API_KEY") or os.getenv("DRAPE_LLM_API_KEY") or os.getenv("BHARATFIT_LLM_API_KEY")
-        self.base_url = os.getenv("DRAPE_LLM_BASE_URL") or os.getenv("BHARATFIT_LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
-        self.model = os.getenv("DRAPE_LLM_MODEL") or os.getenv("BHARATFIT_LLM_MODEL", "gpt-4o-mini")
-        self.timeout = float(os.getenv("DRAPE_LLM_TIMEOUT_SECONDS") or os.getenv("BHARATFIT_LLM_TIMEOUT_SECONDS", "20"))
-        self.daily_limit_per_user = int(os.getenv("DRAPE_LLM_DAILY_LIMIT_PER_USER") or os.getenv("BHARATFIT_LLM_DAILY_LIMIT_PER_USER", "50"))
+        self.api_key = os.getenv("OPENAI_API_KEY") or os.getenv("DRAPE_LLM_API_KEY")
+        self.base_url = os.getenv("DRAPE_LLM_BASE_URL", "https://api.openai.com/v1/chat/completions")
+        self.model = os.getenv("DRAPE_LLM_MODEL", "gpt-4o-mini")
+        self.timeout = float(os.getenv("DRAPE_LLM_TIMEOUT_SECONDS", "20"))
+        self.daily_limit_per_user = int(os.getenv("DRAPE_LLM_DAILY_LIMIT_PER_USER", "50"))
         self._cache: dict[str, Mapping[str, Any]] = {}
         self._calls_by_user_day: dict[tuple[str, str], int] = defaultdict(int)
 
@@ -80,15 +80,21 @@ class LLMOrchestrator:
             if not self._reserve_call(profile.user_id):
                 return list(outfits)
             raw = await self._call_llm(payload)
+            self._trim_cache()
             self._cache[cache_key] = raw
             return apply_llm_explanations(outfits, raw)
-        except Exception:
-            # Fallback must be silent and deterministic for user experience.
+        except Exception as exc:
+            logger = __import__("logging").getLogger("drape.llm")
+            logger.warning("LLM explanation failed: %s", exc, exc_info=True)
             return list(outfits)
 
     def _cache_key(self, payload: Mapping[str, Any]) -> str:
         text = json.dumps(payload, sort_keys=True, ensure_ascii=False)
         return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+    def _trim_cache(self) -> None:
+        if len(self._cache) > 500:
+            self._cache.clear()
 
     def _reserve_call(self, user_id: str) -> bool:
         if self.daily_limit_per_user <= 0:
@@ -100,7 +106,7 @@ class LLMOrchestrator:
         return True
 
     async def _call_llm(self, payload: Mapping[str, Any]) -> Mapping[str, Any]:
-        prompt = USER_PROMPT_TEMPLATE.format(payload=json.dumps(payload, ensure_ascii=False))
+        prompt = USER_PROMPT_TEMPLATE.replace("{payload}", json.dumps(payload, ensure_ascii=False))
         request_body = {
             "model": self.model,
             "response_format": {"type": "json_object"},

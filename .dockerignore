@@ -9,4 +9,4 @@ flutter_app/ios
 node_modules
 .env
 .env.*
-docs/PROJECT_LOG.md
+_project_assets/docs/PROJECT_LOG.md

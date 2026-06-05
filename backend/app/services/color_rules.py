@@ -44,8 +44,16 @@ def color_tokens(color: Optional[str]) -> set[str]:
     return {token for token in normalized.split() if token}
 
 
+import re
+
+_HEX_RE = re.compile(r"^#?([0-9A-Fa-f]{6})$")
+
+
 def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
-    value = hex_color.strip().lstrip("#")
+    value = hex_color.strip()
+    if not _HEX_RE.match(value):
+        raise ValueError(f"Invalid hex color: {hex_color!r}")
+    value = value.lstrip("#")
     return int(value[0:2], 16), int(value[2:4], 16), int(value[4:6], 16)
 
 
@@ -94,7 +102,7 @@ def color_harmony_score(colors: list[str], hex_colors: Optional[list[str]] = Non
             for h2 in hex_colors[i + 1 :]:
                 try:
                     distances.append(rgb_distance(h1, h2))
-                except Exception:
+                except ValueError:
                     pass
         if distances:
             avg = sum(distances) / len(distances)

@@ -39,7 +39,11 @@ def _ensure_firebase_app() -> None:
 
 def verify_firebase_token(id_token: str) -> Dict[str, Any]:
     _ensure_firebase_app()
-    assert firebase_auth is not None
+    if firebase_auth is None:
+        raise HTTPException(
+            status_code=status.HTTP_501_NOT_IMPLEMENTED,
+            detail="firebase-admin dependency is not installed",
+        )
     try:
         return firebase_auth.verify_id_token(id_token, check_revoked=True)
     except Exception as exc:

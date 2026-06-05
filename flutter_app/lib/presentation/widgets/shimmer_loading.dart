@@ -278,59 +278,6 @@ class _ShimmerWardrobeGridCard extends StatelessWidget {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Skeleton: Chat typing bubble — replaces the dot indicator with shimmer
-// ────────────────────────────────────────────────────────────────────────────
-
-class ShimmerChatBubble extends StatelessWidget {
-  const ShimmerChatBubble({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = DrapeColors.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          CircleAvatar(
-            radius: 16,
-            backgroundColor: colors.primarySoft,
-            child: Icon(Icons.auto_awesome, size: 16, color: colors.primary),
-          ),
-          const SizedBox(width: 8),
-          ShimmerEffect(
-            child: Container(
-              width: 200,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: colors.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(16),
-                ),
-                border: Border.all(color: colors.border),
-              ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ShimmerBone(width: 160, height: 12),
-                  SizedBox(height: 8),
-                  ShimmerBone(width: 130, height: 12),
-                  SizedBox(height: 8),
-                  ShimmerBone(width: 80, height: 12),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
 // Shimmer status banner — replaces CircularProgressIndicator in StatusBanner
 // ────────────────────────────────────────────────────────────────────────────
 

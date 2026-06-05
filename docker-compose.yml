@@ -2,11 +2,10 @@ services:
   api:
     build:
       context: ./backend
+    env_file:
+      - .env
     environment:
-      DRAPE_ENV: production
-      DRAPE_API_KEY: change-me
-      DRAPE_CORS_ORIGINS: http://localhost:3000,http://localhost:8080
-      DATABASE_URL: postgresql+psycopg://drape:drape@postgres:5432/drape
+      DRAPE_ENV: ${DRAPE_ENV:-development}
     ports:
       - "8000:8000"
     depends_on:
@@ -15,10 +14,11 @@ services:
 
   postgres:
     image: postgres:16-alpine
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: drape
-      POSTGRES_PASSWORD: drape
-      POSTGRES_DB: drape
+      POSTGRES_USER: ${POSTGRES_USER:-drape}
+      POSTGRES_DB: ${POSTGRES_DB:-drape}
     ports:
       - "5432:5432"
     volumes:

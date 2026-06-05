@@ -32,9 +32,9 @@ fi
 echo "Flutter Android/iOS platform folders prepared with Drape branding and native ML bridge."
 
 # Enforce Flutter 3.29+ AGP, KGP and Gradle versions to fix CI build errors
-python3 - <<'PY'
+python3 <<PY
 import os, re
-app_dir = os.path.join(os.path.dirname(__file__), '../../flutter_app')
+app_dir = "$ROOT_DIR/flutter_app"
 
 # Update settings.gradle / settings.gradle.kts
 for sf in ['android/settings.gradle', 'android/settings.gradle.kts']:

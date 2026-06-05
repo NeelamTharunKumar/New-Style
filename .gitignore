@@ -4,7 +4,6 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
-pubspec.lock
 *.log
 
 # Python
@@ -27,6 +26,6 @@ venv/
 Thumbs.db
 
 # Local agent/project notes
-docs/PROJECT_LOG.md
+_project_assets/docs/PROJECT_LOG.md
 !.env.example
 !**/.env.example

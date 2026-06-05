@@ -26,19 +26,16 @@ class LocalWardrobeImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final path = _pathFromRef(localImageRef);
     if (path != null) {
-      final file = File(path);
-      if (file.existsSync()) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(borderRadius),
-          child: Image.file(
-            file,
-            width: width,
-            height: height,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _fallback(context),
-          ),
-        );
-      }
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Image.file(
+          File(path),
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _fallback(context),
+        ),
+      );
     }
     return _fallback(context);
   }

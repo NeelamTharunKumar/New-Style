@@ -45,26 +45,31 @@ class MainActivity : FlutterActivity() {
             Bitmap.createScaledBitmap(bitmap, 320, max(1, (bitmap.height * ratio).toInt()), true)
         } else bitmap
 
-        val stats = dominantColorStats(scaled)
-        val hex = rgbToHex(stats.r, stats.g, stats.b)
-        return mapOf(
-            "localImageRef" to localImageRef,
-            "hexColor" to hex,
-            "colorName" to nameColor(stats.r, stats.g, stats.b),
-            "patternHint" to patternHint(stats.luminanceVariance),
-            "brightness" to stats.averageLuminance,
-            "confidence" to confidence(stats.sampleCount, stats.clusterShare, stats.luminanceVariance),
-            "width" to bitmap.width,
-            "height" to bitmap.height,
-            "nativeEngine" to "android_kotlin_bitmap",
-            "privacy" to "computed on-device; raw image not uploaded"
-        )
+        try {
+            val stats = dominantColorStats(scaled)
+            val hex = rgbToHex(stats.r, stats.g, stats.b)
+            return mapOf(
+                "localImageRef" to localImageRef,
+                "hexColor" to hex,
+                "colorName" to nameColor(stats.r, stats.g, stats.b),
+                "patternHint" to patternHint(stats.luminanceVariance),
+                "brightness" to stats.averageLuminance,
+                "confidence" to confidence(stats.sampleCount, stats.clusterShare, stats.luminanceVariance),
+                "width" to bitmap.width,
+                "height" to bitmap.height,
+                "nativeEngine" to "android_kotlin_bitmap",
+                "privacy" to "computed on-device; raw image not uploaded"
+            )
+        } finally {
+            if (scaled !== bitmap) scaled.recycle()
+            bitmap.recycle()
+        }
     }
 
     private fun dominantColorStats(bitmap: Bitmap): ColorStats {
         val buckets = mutableMapOf<Int, Bucket>()
         val luminanceValues = mutableListOf<Double>()
-        val step = max(1, sqrt((bitmap.width * bitmap.height / 5000.0)).toInt())
+        val step = max(1, sqrt((bitmap.width.toLong() * bitmap.height / 5000.0)).toInt())
 
         var y = 0
         while (y < bitmap.height) {

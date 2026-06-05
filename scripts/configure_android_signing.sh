@@ -19,7 +19,7 @@ fi
 : "${ANDROID_KEY_PASSWORD:?ANDROID_KEY_PASSWORD is required}"
 
 mkdir -p "$APP_ANDROID_DIR"
-printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$KEYSTORE_PATH"
 
 cat > "$KEY_PROPERTIES" <<PROPS
 storePassword=$ANDROID_KEYSTORE_PASSWORD

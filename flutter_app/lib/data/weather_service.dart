@@ -192,7 +192,7 @@ class WeatherService {
   Future<({double lat, double lng, String? city})?> _ipGeolocate() async {
     try {
       final response = await http.get(
-        Uri.parse('http://ip-api.com/json/?fields=status,city,lat,lon'),
+        Uri.parse('https://ip-api.com/json/?fields=status,city,lat,lon'),
       );
       if (response.statusCode != 200) return null;
       final data = jsonDecode(response.body) as Map<String, dynamic>;
